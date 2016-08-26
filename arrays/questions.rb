@@ -1,10 +1,10 @@
 # Questions for reviewing array chapter
 
-# What is an array?
+# 1. What is an array?
 
-# How do you define an array in ruby?
+# 2.  How do you define an array in ruby?
 
-# How do you grab the first element onf an array?
+# 3.  How do you grab the first element of an array?
 
 # How about the last element?
 
