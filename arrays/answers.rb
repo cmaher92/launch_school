@@ -81,4 +81,41 @@ nested_array.flatten
 
 # 23.
 numbers.each_index { |index| "This is the index #{index}" }
-# => 
+# =>
+
+# 24.
+unsorted_array = [2, 3, 6, 1, 3]
+unsorted_array.sort
+# => [1, 2, 3, 3, 6]
+
+# 25.
+# no
+
+# 26.
+foo = [1, 2, 3]
+bar = [a, b, c]
+
+foo.product(bar)
+# => [[1, "a"], [1, "b"], [1, "c"], [2, "a"], [2, "b"], [2, "c"], [3, "a"],
+# [3, "b"], [3, "c"]]
+
+# 27.
+foo = [1, 2, 3, 4, 5]
+bar = []
+foo.each do |n|
+  bar << n*2
+end
+p bar
+# Not mutating
+
+# 28.
+array.each
+
+# 29.
+array.map
+
+# 30
+# .index("connor") returns the index at the value
+foo = ["alex", "connor", "derek", "matt"]
+foo.index("connor")
+# => 1

@@ -51,17 +51,17 @@
 # 23. Which method iterates through an array and passes the index not it's value
 # into the block?
 
-# Which method can be used to return a sorted array?
+# 24. Which method can be used to return a sorted array?
 
-# Is the above method destructive?
+# 25. Is the above method destructive?
 
-# Which method combines two arrays that are a combination of all elements?
+# 26. Which method combines two arrays that are a combination of all elements?
 
-# Which method provides an easy way of iterating over a collection in ruby and
+# 27. Which method provides an easy way of iterating over a collection in ruby and
 # is more preferred to using the for loop?
 
-# What is used for iteration?
+# 28. What is used for iteration?
 
-# What is used for transformation?
+# 29. What is used for transformation?
 
-# What's the difference between .index() and .index[]
+# 30. What's the difference between .index() and .index[]
