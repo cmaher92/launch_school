@@ -6,49 +6,49 @@
 
 # 3.  How do you grab the first element of an array?
 
-# How about the last element?
+# 4. How about the last element?
 
-# What is an indexed list?
+# 5. What is an indexed list?
 
-# How would you remove the last item from an array?
+# 6. How would you remove the last item from an array?
 
-# Does the above method mutate the caller?
+# 7. Does the above method mutate the caller?
 
-# How do you add an item to an array?
+# 8. How do you add an item to an array?
 
-# What's another method to add to an array?
+# 9. What's another method to add to an array?
 
-# Square all the numbers in an array
+# 10. Square all the numbers in an array
 
-# Which method can you use to delete an item at a specific index?
+# 11. Which method can you use to delete an item at a specific index?
 
-# What method would you use if you wanted to delete all instances of a provided
-# value?
+# 12. What method would you use if you wanted to delete all instances of a
+# provided value?
 
-# What method would you use to iterate over an array and delete all of the
+# 13. What method would you use to iterate over an array and delete all of the
 # existing duplicates, returning the results as a new array?
 
-# How would you force this method to destructively modify the array?
+# 14. How would you force this method to destructively modify the array?
 
-# What does destrucively mean in the above sentence?
+# 15. What does destrucively mean in the above sentence?
 
-# What method iterates over an array and returns a new array with the items that
-# return true to the expression provided?
+# 16. What method iterates over an array and returns a new array with the items
+# that return true to the expression provided?
 
-# Does this method mutate the caller?
+# 17. Does this method mutate the caller?
 
-# How do you add the item you specify to the front of the list?
+# 18. How do you add the item you specify to the front of the list?
 
-# What method checks to see if the arg given is included in the array?
+# 19. What method checks to see if the arg given is included in the array?
 
-# What does it return?
+# 20. What does it return?
 
-# What method can be used to take an array with nested arrays as elements and
-# return a one-dimensional array
+# 21. What method can be used to take an array with nested arrays as elements
+# and return a one-dimensional array
 
-# Is the above method mutating?
+# 22. Is the above method mutating?
 
-# Which method iterates through an array and passes the index not it's value
+# 23. Which method iterates through an array and passes the index not it's value
 # into the block?
 
 # Which method can be used to return a sorted array?
