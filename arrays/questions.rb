@@ -1,29 +1,42 @@
 # Questions for reviewing array chapter
 
 # 1. What is an array?
+An array is an indexed list of items
 
 # 2.  How do you define an array in ruby?
+array = []
 
 # 3.  How do you grab the first element of an array?
+array.first
 
 # 4. How about the last element?
+array.last
 
 # 5. What is an indexed list?
+A list where each slot of the array is numbered
 
 # 6. How would you remove the last item from an array?
+array.pop
 
 # 7. Does the above method mutate the caller?
+Yes
 
 # 8. How do you add an item to an array?
+array.push
 
 # 9. What's another method to add to an array?
+<<
 
 # 10. Square all the numbers in an array
+foo = [1, 2, 3, 4, 5]
+foo.each { |n| n**2 }
 
 # 11. Which method can you use to delete an item at a specific index?
+foo.delete_at(0)
 
 # 12. What method would you use if you wanted to delete all instances of a
 # provided value?
+foo.delete(1)
 
 # 13. What method would you use to iterate over an array and delete all of the
 # existing duplicates, returning the results as a new array?
