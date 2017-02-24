@@ -2,7 +2,7 @@
 
 # Include 'Pry"
 
-  def wedding_number number
+  def english_number number
   if number < 0
     return 'Please enter a number that isn\'t negative.'
   end
@@ -24,7 +24,7 @@
   left = left - write*1000
   
   if write > 0
-  	thousands = wedding_number write
+  	thousands = english_number write
   	num_string = num_string + thousands + ' thousand'
   	if left > 0
   		num_string = num_string + ' '
@@ -34,7 +34,7 @@
   write = left/100
   left = left - write*100
   if write > 0
-  	hundreds = wedding_number write
+  	hundreds = english_number write
   	num_string = num_string + hundreds + ' hundred'
   	if left > 0
   		num_string = num_string + ' '
@@ -66,4 +66,3 @@ end
 return num_string
 end
 
-puts wedding_number 1000
