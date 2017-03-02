@@ -23,6 +23,9 @@ class Dragon
     @stuff_in_intestine = 0 # he doesn't need to go
     puts "#{name} is born."
   end
+  def name
+    @name
+  end
   def feed
     puts "You feed #{@name}."
     @stuff_in_belly = 10
@@ -105,14 +108,3 @@ class Dragon
     end
   end
 end
-
-pet = Dragon.new 'Norbert'
-pet.feed
-pet.toss
-pet.walk
-pet.put_to_bed
-pet.rock
-pet.put_to_bed
-pet.put_to_bed
-pet.put_to_bed
-pet.put_to_bed
