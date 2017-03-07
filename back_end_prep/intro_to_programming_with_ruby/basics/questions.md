@@ -10,7 +10,7 @@
 
 6. What is a more complex form of a number, containing a decimal point?
 
-7. How do you expressing "nothing" in Ruby?
+7. How do you express "nothing" in Ruby?
 
 8. How do you check if somthing is a nill type?
 
@@ -18,7 +18,10 @@
 
 10. Are false and nil equivalent? 
 
-11. Combine two string using string concatenation
+11. Combine two strings using string concatenation.
+string1 = 'hello'
+string2 = ', how are you?'
+# combine these
 
 12. What happens if you try to concatenate a string with a number?
 
@@ -31,3 +34,19 @@
 16. Do ruby expressions always return a value?
 
 17. What is the difference between puts and return?
+
+18. In order to get a more accurate calculation then if you were to divide '13 / 4' which would return '3', what could you do?
+
+19. What happens when you type the following command in irb? 
+# irb: 001 > '4' == 4
+# => false
+
+20. What is a FixNum?
+
+21. What is a key in a hash typically represented as?
+
+22. Create a hash with three keys, [:dog, :cat, :pig] and three values ['barks', 'meows', 'oinks']
+
+23. With the created hash, retrieve the value for the :dog
+
+24. An expression is anything that can be what?
