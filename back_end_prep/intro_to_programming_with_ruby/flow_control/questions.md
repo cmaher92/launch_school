@@ -17,3 +17,7 @@
 8. What are the reserved words for a case statement?
 
 9. Define a case statement for the variable a, when it has the value 5 have it print out "a is 5", same with the value 6, otherwise have it print out "a is neither 5, nor 6".
+
+10. What is a fork in the road for your data?
+
+11. What do comparison operators always return?
