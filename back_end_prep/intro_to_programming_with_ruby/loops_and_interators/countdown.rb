@@ -1,15 +1,15 @@
-# countdown.rb
+# Countdown
+# Ruby Loops and Iterators
 
-x = gets.chomp.to_i
+# Countdown from any number given by the user and print to the screen each number it counts
 
-while x >= 0
-  puts x
-  x -= 1
+puts 'Please enter a number'
+number = gets.chomp
+number = number.to_i
+
+while number > 0
+	puts number
+	number = number - 1
 end
 
-until x < 0
-    puts x
-    x -= 1
-end
-
-puts "Done!"
+puts 'done'
