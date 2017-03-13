@@ -4,7 +4,7 @@
 Create a loop that asks for a number between 1 and 10, if the number is not between 1 and 10 repeat.
 Explain the loop that is ideal, and give reasoning to backup your selection.
 
-Create a loop that counts down from 100. 
+Create a loop that counts down from 100.
 Explain the loop that is ideal, and given reasoning to backup your selection.
 
 Create a loop that counts from 0 to the number the user gives.
@@ -14,7 +14,7 @@ Iterate over an array of ages, print the total number of people that are over 21
 What is the benefit in using the array methods opposed to a for loop?
 people = [21, 36, 43, 66, 22, 14, 12, 8, 6, 5, 4, 3, 21, 24, 25, 26]
 
-Given an array of people, each index represents their seat numnber at a dinner and each item represents their age, print a list
+Given an array of people, each index represents their seat number at a dinner and each item represents their age, print a list
 of people and their seat numbers of people that are old enough to drink.
 people = [21, 36, 43, 66, 22, 14, 12, 8, 6, 5, 4, 3, 21, 24, 25, 26]
 
@@ -25,7 +25,7 @@ Given both a list of interviewees and interviewers create an array that assigns 
 names = ['connor', 'megan', 'avery', 'john', 'cassie', 'erin', 'geyliah', 'chris']
 interviewers = ['sarah', 'alex', 'derek']
 
-Given a list of names, return the index of the value 'cassie'. 
+Given a list of names, return the index of the value 'cassie'.
 names = ['connor', 'megan', 'avery', 'john', 'cassie', 'erin', 'geyliah', 'chris']
 
 Given the same list of names, return the item located at the fifth position.
@@ -35,7 +35,7 @@ Given two arrays --names and ages-- create a hash with the names as the keys and
 names = ['connor', 'megan', 'avery', 'john', 'cassie', 'erin', 'geyliah', 'chris']
 ages = [25, 20, 17, 46, 46, 23, 23, 22]
 
-Using the hash created above please add 'kyle' who is 24. 
+Using the hash created above please add 'kyle' who is 24.
 
 Using the same hash as above remove 'megan'.
 
@@ -57,5 +57,4 @@ After the scout dropped off the paperwork he said that the assists totals were n
 
 A new user has just signed up to your application and you want to given him a personalized greeting based on the information he has provided on sign-up. Given that some of the information is optional create a method that greets the user by email if no name is given, but if a name and place are given please greet him by name and comment on what a nice place it is that he lives at.
 
-if only the name is provided but the location is not just welcome him by name. (This is a good way to check the hash deeply opposed to just checking if its empty like in the examples). 
-
+if only the name is provided but the location is not just welcome him by name. (This is a good way to check the hash deeply opposed to just checking if its empty like in the examples).
