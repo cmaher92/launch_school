@@ -15,13 +15,13 @@ What is the benefit in using the array methods opposed to a for loop?
 people = [21, 36, 43, 66, 22, 14, 12, 8, 6, 5, 4, 3, 21, 24, 25, 26]
 
 Given an array of people, each index represents their seat number at a dinner and each item represents their age, print a list
-of people and their seat numbers of people that are old enough to drink.
+of people and their seat numbers of people that are old enough to drink. Print out the seat numbers of the people that are able to drink.
 people = [21, 36, 43, 66, 22, 14, 12, 8, 6, 5, 4, 3, 21, 24, 25, 26]
 
 Given an array of names, each name representing the name of a guest that has RSVPed ahead of time, how can you quickly check the list to see if a guest is on the list.
 guests = ['connor', 'megan', 'avery', 'john', 'cassie', 'erin', 'geyliah', 'chris']
 
-Given both a list of interviewees and interviewers create an array that assigns each interviewee with an interviewer shuffled. Expain how and why.
+Given both a list of interviewees and interviewers create an array that assigns each interviewee with an interviewer shuffled. Explain how and why.
 names = ['connor', 'megan', 'avery', 'john', 'cassie', 'erin', 'geyliah', 'chris']
 interviewers = ['sarah', 'alex', 'derek']
 
@@ -39,21 +39,21 @@ Using the hash created above please add 'kyle' who is 24.
 
 Using the same hash as above remove 'megan'.
 
-Check if erin is on the list.
+Check if Erin is on the list.
 
 Retrieve the age of Erin from the hash.
 
-Quickly retrieve Cassies age.
+Quickly retrieve Cassie's age.
 
 Return the keys for the hash.
 
-Select both avery and megan from the hash, what is returned? What is returned when avery, megan and charles is selected from the list when charles isnt currently on the list?
+Select both avery and megan from the hash, what is returned? What is returned when avery, megan and charles is selected from the list when charles isn't currently on the list?
 
-You are a coach for a soccer team and each player is represented as a hash, recently your scout just reported additonal information about your player. Given two hashes, please add the new information to the players hash without having to create a new hash for the player.
-derek = { age: 24, height: '74 inches', goals: 22, assists: 17 }
+You are a coach for a soccer team and each player is represented as a hash, recently your scout just reported additional information about your player. Given two hashes, please add the new information to the players hash without having to create a new hash for the player.
+player = { name: 'Derek', age: 24, height: '74 inches', goals: 22, assists: 17 }
 new_information = { recruited: true, state: 'MA', rating: 8 }
 
-After the scout dropped off the paperwork he said that the assists totals were not accurate and he was going to do some more research, please remove the assits from the players hash.
+After the scout dropped off the paperwork he said that the assists totals were not accurate and he was going to do some more research, please remove the assists from the players hash.
 
 A new user has just signed up to your application and you want to given him a personalized greeting based on the information he has provided on sign-up. Given that some of the information is optional create a method that greets the user by email if no name is given, but if a name and place are given please greet him by name and comment on what a nice place it is that he lives at.
 
