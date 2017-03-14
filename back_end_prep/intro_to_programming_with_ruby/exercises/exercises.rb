@@ -47,7 +47,7 @@ h[:b]
 # Add to this hash the key:value pair '{e:5}'
 h[:e] = 5
 # Remove all the key:value pairs whose value is less than 3.5
-h.delete_if { |key, value| v < 3.5 }
+h.delete_if { |key, value| value < 3.5 }
 
 # Exercise 10
 # Hash value as arrays
@@ -55,3 +55,24 @@ team = { names: ['connor', 'derek', 'clinton'] }
 
 # Array of hashes
 array = [{name: 'connor'}, {name: 'sam'}, {name: 'dave'}]
+
+contact_data = [["joe@email.com", "123 Main st.", "555-123-4567"],
+            ["sally@email.com", "404 Not Found Dr.", "123-234-3454"]]
+
+# Exercise 12
+contacts = {"Joe Smith" => {}, "Sally Johnson" => {}}
+
+# contacts['Joe Smith'][:email] = contact_data[0][0]
+# contacts['Joe Smith'][:address] = contact_data[0][1]
+# contacts['Joe Smith'][:phone] = contact_data[0][2]
+# contacts['Sally Johnson'][:email] = contact_data[1][0]
+# contacts['Sally Johnson'][:address] = contact_data[1][1]
+# contacts['Sally Johnson'][:phone] = contact_data[1][2]
+#
+# p contacts
+
+# Exercise 13
+# joes_email = contacts['Joe Smith'][:email]
+# sallys_phone = contacts['Sally Johnson'][:phone]
+
+# Exercise 14
