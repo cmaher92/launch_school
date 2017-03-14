@@ -1,5 +1,7 @@
 # Exercise 1
 
+require 'pry'
+
 numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9, 10]
 
 # numbers.each { |num| puts num }
@@ -76,3 +78,30 @@ contacts = {"Joe Smith" => {}, "Sally Johnson" => {}}
 # sallys_phone = contacts['Sally Johnson'][:phone]
 
 # Exercise 14
+# contacts.each do |key, value|
+#   # set email, address, and phone
+#   value[:phone] = contact_data[0].pop
+#   value[:address] = contact_data[0].pop
+#   value[:email] = contact_data[0].pop
+#   contact_data.shift
+# end
+#
+# p contacts
+
+
+# Exercise 15
+# arr = ['snow', 'winter', 'ice', 'slippery', 'salted roads', 'white trees']
+# arr.delete_if do |word|
+#   word.start_with?('s') || word.start_with?('w')
+# end
+# p arr
+
+# Exercise 16
+a = ['white snow', 'winter wonderland', 'melting ice',
+     'slippery sidewalk', 'salted roads', 'white trees']
+# Use map, flatten and split
+a.map! { |word| word.split(/ /) }
+p a.flatten
+
+# Exercise 17
+true
