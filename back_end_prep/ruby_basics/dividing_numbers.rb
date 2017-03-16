@@ -8,6 +8,7 @@ numerator = nil
 loop do
   puts '>> Please enter the numerator'
   numerator = gets.chomp
+
   break if valid_number?(numerator)
   puts '>> Please enter a valid numerator. Only integers are allowed.'
 end
@@ -16,7 +17,8 @@ denominator = nil
 loop do
   puts '>> Please enter the denominator'
   denominator = gets.chomp
-  break if valid_number?(denominator)
+
+  break if valid_number?(denominator) && denominator != '0'
   puts '>> Please enter a valid denominator. Only integers are allowed.'
 end
 
