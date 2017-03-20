@@ -8,20 +8,22 @@ world = [
   [o,o,o,M,o,o,o,o,o,M,o],
   [o,o,o,M,o,M,M,o,o,o,o],
   [o,o,o,o,M,M,M,M,o,o,o],
-  [o,o,o,M,M,M,M,M,M,M,o],
-  [o,o,o,M,M,o,M,M,M,o,o],
+  [o,o,o,M,M,M,M,M,M,M,M],
+  [M,M,M,M,M,o,M,M,M,o,o],
   [o,o,o,o,o,o,M,M,o,o,o],
   [o,M,o,o,o,M,M,o,o,o,o],
   [o,o,o,o,o,M,o,o,o,o,o],
 ]
 
 def continent_size(world, x, y)
-  if world[y][x].nil?
-    # Either it's water or we already counted it
-    # but either way, we don't want to count it now.
+
+  if world[y].nil?
+    return 0
+  elsif world[y][x].nil?
     return 0
   end
-  if world[y][x] == nil
+
+  if world[y][x] != 'land'
     return 0
   end
   # So first let's count this tile
