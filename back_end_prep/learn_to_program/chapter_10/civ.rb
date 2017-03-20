@@ -16,13 +16,13 @@ world = [
 ]
 
 def continent_size(world, x, y)
-
+  # y, x because with an array of arrays you have to move vertically
+  # before you can move horizontally
   if world[y].nil?
     return 0
   elsif world[y][x].nil?
     return 0
   end
-
   if world[y][x] != 'land'
     return 0
   end
