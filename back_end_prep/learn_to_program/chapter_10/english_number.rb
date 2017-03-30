@@ -19,34 +19,34 @@ def english_number(number)
     return 'one hundred'
   end
 
-  write = left/10
-  left = left - write*10
+  write = left/10 # 3
+  left = left - write*10 # 2
   if write > 0
-    if write == 1
-      # since we can't write 'tenty-two'
-      # instead of 'twelve', we have to
-      # make a special exception for these
-      if    left == 0
-        num_string = num_string + 'ten'
-      elsif left == 1
-        num_string = num_string + 'eleven'
-      elsif left == 2
-        num_string = num_string + 'twelve'
-      elsif left == 3
-        num_string = num_string + 'thirteen'
-      elsif left == 4
-        num_string = num_string + 'fourteen'
-      elsif left == 5
-        num_string = num_string + 'fifteen'
-      elsif left == 6
-        num_string = num_string + 'sixteen'
-      elsif left == 7
-        num_string = num_string + 'seventeen'
-      elsif left == 8
-        num_string = num_string + 'eighteen'
-      elsif left == 9
-        num_string = num_string + 'nineteen'
-      end
+      if write == 1
+        # since we can't write 'tenty-two'
+        # instead of 'twelve', we have to
+        # make a special exception for these
+        if    left == 0
+          num_string = num_string + 'ten'
+        elsif left == 1
+          num_string = num_string + 'eleven'
+        elsif left == 2
+          num_string = num_string + 'twelve'
+        elsif left == 3
+          num_string = num_string + 'thirteen'
+        elsif left == 4
+          num_string = num_string + 'fourteen'
+        elsif left == 5
+          num_string = num_string + 'fifteen'
+        elsif left == 6
+          num_string = num_string + 'sixteen'
+        elsif left == 7
+          num_string = num_string + 'seventeen'
+        elsif left == 8
+          num_string = num_string + 'eighteen'
+        elsif left == 9
+          num_string = num_string + 'nineteen'
+        end
       # Since we took care of the digit in the ones place
       # we have nothing left to write
       left = 0
@@ -67,7 +67,7 @@ def english_number(number)
     elsif write == 9
       num_string = num_string + 'ninety'
     end
-    if left < 0
+    if left > 0
       num_string = num_string + '-'
     end
   end
@@ -96,15 +96,18 @@ def english_number(number)
   end
   if num_string == ''
     # the only way 'num_string' could be empty is if 'number' is 0
-    return 0
+    return 'zero'
   end
   # If we got this far, then we had a number between 0 and 100
   # so we need to return 'num_string'
   return num_string
 end
-puts english_number( 0)
-puts english_number( 9)
-
-
-
-end
+puts english_number(  0)
+puts english_number(  9)
+puts english_number( 10)
+puts english_number( 11)
+puts english_number( 17)
+puts english_number( 32)
+puts english_number( 88)
+puts english_number( 99)
+puts english_number(100)
