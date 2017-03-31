@@ -31,7 +31,7 @@ require 'pry'
 # B = 'Brick'
 # D = 'Desert'
 
-# Generate an array of 19 resources and randomize them
+# Hash representing the resources and their quantity
 resource_options = { W: 4, F: 4, S: 4, O: 3, B: 3, D: 1 }
 
 def randomize_resource_order(resource_options)
