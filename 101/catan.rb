@@ -34,7 +34,7 @@ require 'pry'
 # Generate an array of 19 resources and randomize them
 resource_options = { W: 4, F: 4, S: 4, O: 3, B: 3, D: 1 }
 
-def randomize_order(resource_options)
+def randomize_resource_order(resource_options)
   # Creates an array with 19 elements randomized
   total_count = 19
 
@@ -46,9 +46,9 @@ def randomize_order(resource_options)
     rand_resource = resource_options_arr[rand_index].first
 
     if resource_options[rand_resource] > 0
-        resources.push rand_resource
-        resource_options[rand_resource] -= 1
-        total_count -= 1
+      resources.push rand_resource
+      resource_options[rand_resource] -= 1
+      total_count -= 1
     end
   end
 
@@ -56,18 +56,18 @@ def randomize_order(resource_options)
 end
 
 def create_map(rand_list_of_resources)
-    map = [
-    [],
-    [],
-    [],
-    [],
-    [],
-  ]
+  map = [
+  [],
+  [],
+  [],
+  [],
+  []
+        ]
 
   height = 0
 
   while height <= 4
-    if height == 0
+    if height.zero?
       3.times { map[0] << rand_list_of_resources.pop }
       height += 1
     elsif height == 1
@@ -87,16 +87,32 @@ def create_map(rand_list_of_resources)
   map
 end
 
-# Randomizes the resources
-p rand_list_of_resources = randomize_order(resource_options)
-# Builds the map
-p create_map(rand_list_of_resources)
+def randomize_roll_order(resources)
+  odds = [2, 12, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11]
+  shuffled_odds = odds.shuffle
+  resources_and_odds = Array.new(19, [])
+  
+  resources_and_odds.map! do |hex|
+    resource = resources.pop
+    odd = shuffled_odds.pop
+    if resource == :D
+      shuffled_odds << odd
+      hex = [resource, 0]
+    else
+      hex = [resource, odd]
+    end
+  end
+  
+  resources_and_odds
+end
 
-# function that assigns roll numbers to each resource, takes an array, returns a hash
-# turn array into hash
-# create a list of all the rolls, rolls = [ 2, 3, 3, 4, 4,  ]
-# TODO: will need to adjust the create_map function to handle a hash instead of an array
-# randomize the list of rolls
-#
-# iterate through the hash of
-# assign each roll to a resource unless the resource is a Desert, then skip
+def print_map(map)
+  map.each do |row|
+    p row
+  end
+end
+
+random_resources = randomize_resource_order(resource_options)
+resources_and_odds = randomize_roll_order(random_resources)
+map = create_map(resources_and_odds)
+print_map(map)
