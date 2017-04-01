@@ -1,7 +1,4 @@
-# .rubocop.yml for 101 Lessons 2-5 (13 Mar 2017)
-
 AllCops:
-  # Display cop names
   DisplayCopNames: true
   # Display Extra details
   ExtraDetails: true
