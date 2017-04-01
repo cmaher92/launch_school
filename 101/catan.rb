@@ -42,7 +42,7 @@ def create_randomized_resources(resource_options)
       quantity -= 1
     end
   end
- randomized_resources.shuffle
+  randomized_resources.shuffle
 end
 
 def create_map(rand_list_of_resources)
@@ -52,24 +52,24 @@ def create_map(rand_list_of_resources)
   [],
   [],
   []
-        ]
-
+  ]
   height = 0
-
+  
   while height <= 4
-    if height.zero?
+    case height
+    when height.zero?
       3.times { map[0] << rand_list_of_resources.pop }
       height += 1
-    elsif height == 1
+    when height == 1
       4.times { map[1] << rand_list_of_resources.pop }
       height += 1
-    elsif height == 2
+    when height == 2
       5.times { map[2] << rand_list_of_resources.pop }
       height += 1
-    elsif height == 3
+    when height == 3
       4.times { map[3] << rand_list_of_resources.pop }
       height += 1
-    elsif height == 4
+    when height == 4
       3.times { map[4] << rand_list_of_resources.pop }
       height += 1
     end
