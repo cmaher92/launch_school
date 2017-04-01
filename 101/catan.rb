@@ -34,25 +34,15 @@ require 'pry'
 # Hash representing the resources and their quantity
 resource_options = { W: 4, F: 4, S: 4, O: 3, B: 3, D: 1 }
 
-def randomize_resource_order(resource_options)
-  # Creates an array with 19 elements randomized
-  total_count = 19
-
-  resources = []
-
-  while total_count > 0
-    resource_options_arr = resource_options.to_a
-    rand_index = rand(resource_options_arr.length)
-    rand_resource = resource_options_arr[rand_index].first
-
-    if resource_options[rand_resource] > 0
-      resources.push rand_resource
-      resource_options[rand_resource] -= 1
-      total_count -= 1
+def create_randomized_resources(resource_options)
+  randomized_resources = []
+  resource_options.each do |resource, quantity|
+    while quantity > 0
+      randomized_resources.push resource
+      quantity -= 1
     end
   end
-
-  resources
+ randomized_resources.shuffle
 end
 
 def create_map(rand_list_of_resources)
@@ -112,7 +102,7 @@ def print_map(map)
   end
 end
 
-random_resources = randomize_resource_order(resource_options)
+random_resources = create_randomized_resources(resource_options)
 resources_and_odds = randomize_roll_order(random_resources)
 map = create_map(resources_and_odds)
 print_map(map)

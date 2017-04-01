@@ -28,49 +28,42 @@ def operation_to_message(operator)
   end
 end
 
-
 prompt('Welcome to the calculator!')
 prompt('Enter your name:')
 
 name = ''
 loop do
   name = gets.chomp
-  
-  if name.empty?
-    prompt('Make sure you use a valid name')
-  else
-    break
-  end
+  break unless name.empty?('Make sure you use a valid name')
 end
 
 prompt("Hi #{name}")
 
 loop do # main loop
-  
   number1 = ''
   loop do
     prompt("What's the first number?")
     number1 = gets.chomp
-    
+
     if valid_number?(number1)
       break
     else
       prompt("Hmm... that doesn't look like a valid number")
     end
   end
-  
+
   number2 = ''
   loop do
     prompt("What's the second number?")
-    number2 = Kernel.gets().chomp()
-    
+    number2 = gets.chomp
+
     if valid_number?(number2)
       break
     else
       prompt("Hmm... that doesn't look like a valid number")
     end
   end
-                
+
   operator_prompt = <<-MSG
     What operation would you like to perform
     1) add
@@ -78,23 +71,22 @@ loop do # main loop
     3) multiply
     4) divide
   MSG
-  
+
   prompt(operator_prompt)
-          
-  
-  operator = ''     
+
+  operator = ''
   loop do
     operator = gets.chomp
-    
+
     if %w(1 2 3 4).include?(operator)
       break
     else
       prompt 'Please be 1, 2, 3, 4'
     end
   end
-  
+
   prompt("#{operation_to_message(operator)} the two numbers...")
-  
+
   result = case operator
            when '1'
              number1.to_i + number2.to_i
@@ -104,14 +96,13 @@ loop do # main loop
              number1.to_i * number2.to_i
            when '4'
              number1.to_f / number2.to_f
-  end
-  
+           end
+
   prompt("The result is #{result}")
-  
+
   prompt('do you want to perform another calculation? (Y to calcuate again)')
   answer = gets.chomp
-  break unless answer.downcase.start_with?('y') 
- 
+  break unless answer.downcase.start_with?('y')
 end
 
 prompt('Thank you for using the calculator. Good Bye!')
