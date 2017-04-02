@@ -23,6 +23,16 @@ def prompt(message)
     puts("=> #{message}")
 end
 
+def calc_monthly_interest(apr)
+    apr = apr.to_f
+    apr / 12
+end
+
+def loan_duration_in_months(loan_duration)
+    loan_duration = loan_duration.to_i
+    loan_duration * 12
+end
+
 prompt('Welcome to a simple loan calculator')
 
 # Request the loan amount
@@ -49,18 +59,15 @@ loop do
        prompt('Please try again')
     end
 end
+
 # Request the loan duration
-
-# Calculate APR to monthly 
-# method that takes APR as an String
-# converts to float
-# divide by 12
-# return monthly interest rate
-
-# Calculate the loan duration in months, make sure to convert to int
-# given a loan duration in years
-# divide that loan duration by 12
-# return loan duration in months as int
-
-# integer? 
-# float?
+loan_duration = ''
+loop do
+    prompt('Can you please enter the duration of your loan in years')
+    prompt('Example: 10')
+    if valid_number?(apr)
+        break
+    else
+       prompt('Please try again')
+    end
+end
