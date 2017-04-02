@@ -9,6 +9,7 @@ en:
     incorrect_operator: 'Please be 1, 2, 3, 4'
     another_calculation: 'do you want to perform another calculation? (Y to calcuate again)'
     goodbye: 'Thank you for using the calculator. Good Bye!'
+    processing: "#{operation_to_message(operator)} the two numbers..."
     
 es:
     welcome: "Welcome to Calculator! Enter your name:"

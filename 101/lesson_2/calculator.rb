@@ -107,7 +107,7 @@ loop do # main loop
   end
 
   prompt("#{operation_to_message(operator)} the two numbers...")
-
+  
   result = case operator
            when '1'
              number1.to_f + number2.to_f
