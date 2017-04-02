@@ -31,78 +31,68 @@ require 'pry'
 # B = 'Brick'
 # D = 'Desert'
 
-# Hash representing the resources and their quantity
-resource_options = { W: 4, F: 4, S: 4, O: 3, B: 3, D: 1 }
-
-def create_randomized_resources(resource_options)
-  randomized_resources = []
+# High level
+# Create an random array of resources
+def create_random_resources
+  resource_options = { W: 4, F: 4, S: 4, O: 3, B: 3, D: 1 }
+  resources = []
   resource_options.each do |resource, quantity|
     while quantity > 0
-      randomized_resources.push resource
+      resources.push resource
       quantity -= 1
     end
   end
-  randomized_resources.shuffle
+  resources.shuffle
 end
 
-def create_map(rand_list_of_resources)
-  map = [
-  [],
-  [],
-  [],
-  [],
-  []
-  ]
-  height = 0
-  
-  while height <= 4
-    case height
-    when height.zero?
-      3.times { map[0] << rand_list_of_resources.pop }
-      height += 1
-    when height == 1
-      4.times { map[1] << rand_list_of_resources.pop }
-      height += 1
-    when height == 2
-      5.times { map[2] << rand_list_of_resources.pop }
-      height += 1
-    when height == 3
-      4.times { map[3] << rand_list_of_resources.pop }
-      height += 1
-    when height == 4
-      3.times { map[4] << rand_list_of_resources.pop }
-      height += 1
-    end
-  end
-  map
-end
-
-def randomize_roll_order(resources)
+# Create an random array of odds
+def create_random_odds
   odds = [2, 12, 3, 3, 4, 4, 5, 5, 6, 6, 8, 8, 9, 9, 10, 10, 11, 11]
-  shuffled_odds = odds.shuffle
-  resources_and_odds = Array.new(19, [])
-  
-  resources_and_odds.map! do |hex|
-    resource = resources.pop
-    odd = shuffled_odds.pop
-    if resource == :D
-      shuffled_odds << odd
-      hex = [resource, 0]
-    else
-      hex = [resource, odd]
-    end
-  end
-  
-  resources_and_odds
+  odds.shuffle
 end
 
-def print_map(map)
-  map.each do |row|
+# Combine the resources and odds arrays
+def combine_resources_odds(resources, odds)
+  resources_odds = Array.new(19, [])
+  resources_odds.map! do |tile|
+    resource = resources.pop
+    odd = odds.pop
+    if resource == :D
+      odds << odd
+      tile = [resource, 0]
+    else
+      tile = [resource, odd]
+    end
+  end
+  resources_odds
+end
+
+# Create the board
+def create_board(resources_and_odds)
+  board = []
+  board.push create_row(3, resources_and_odds)
+  board.push create_row(4, resources_and_odds)
+  board.push create_row(5, resources_and_odds)
+  board.push create_row(4, resources_and_odds)
+  board.push create_row(3, resources_and_odds)
+  board
+end
+
+# Print the board
+def print_board(board)
+  board.each do |row|
     p row
   end
 end
 
-random_resources = create_randomized_resources(resource_options)
-resources_and_odds = randomize_roll_order(random_resources)
-map = create_map(resources_and_odds)
-print_map(map)
+# Private functions
+def create_row(size, array)
+  # function is only called by another function
+  Array.new(size) { array.pop }
+end
+
+resources = create_random_resources
+odds = create_random_odds
+resources_odds = combine_resources_odds(resources, odds)
+board = create_board(resources_odds)
+print_board(board)
