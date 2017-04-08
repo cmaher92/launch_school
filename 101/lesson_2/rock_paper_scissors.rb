@@ -9,6 +9,9 @@ WHO_BEATS_WHO = {
   spock: ['scissors', 'rock']
 }.freeze
 
+player_win_total = 0
+computer_win_total = 0
+
 def prompt(message)
   puts("=> #{message}")
   # interpolated
@@ -19,19 +22,17 @@ def win?(first, second)
 end
 
 def display_scores(player, computer)
-  prompt("You have #{player} wins and the computer has 
-         #{computer} wins")
+  prompt("You have #{player} wins and the computer has #{computer} wins")
 end
 
 
-def display_results(player, computer)
-  # Note the usage of 'display' clearly describing that this method will print
+def calculate_winner(player, computer)
   if win?(player, computer)
-    prompt('You won!')
+    'player'
   elsif win?(computer, player)
-    prompt('Computer won!')
+   'computer'
   else
-    prompt("It's a tie!")
+    'tie'
   end
 end
 
@@ -61,9 +62,9 @@ def scissors_or_spock
 end
 
 loop do
-  player_win_total = 0
-  computer_win_total = 0
+  round_winner = ''
   choice = ''
+  
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     choice = gets.chomp
@@ -74,11 +75,20 @@ loop do
   end
 
   computer_choice = VALID_CHOICES.sample
-
   prompt("You chose #{choice} and the computer chose #{computer_choice}")
-
-  display_results(choice, computer_choice)
-
+  
+  round_winner = calculate_winner(choice, computer_choice)
+  
+  if round_winner == 'player'
+    prompt('You won')
+    player_win_total += 1
+  elsif round_winner == 'computer'
+    prompt('The computer won')
+    computer_win_total += 1
+  else
+    prompt("It's a tie!")
+  end
+  
   display_scores(player_win_total, computer_win_total)
   
   prompt('Do you want to play again? (y/n)')
