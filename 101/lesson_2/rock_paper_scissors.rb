@@ -9,9 +9,6 @@ WHO_BEATS_WHO = {
   spock: ['scissors', 'rock']
 }.freeze
 
-PLAYER_WIN_TOTAL = 0
-COMPUTER_WIN_TOTAL = 0
-
 def prompt(message)
   puts("=> #{message}")
   # interpolated
@@ -21,43 +18,18 @@ def win?(first, second)
   WHO_BEATS_WHO[first.to_sym].include?(second)
 end
 
-def add_player_win
-  PLAYER_WIN_TOTAL += 1
-  declare_winner('player') if player_win_total == 5
+def display_scores(player, computer)
+  prompt("You have #{player} wins and the computer has 
+         #{computer} wins")
 end
 
-def add_computer_win
-  COMPUTER_WIN_TOTAL += 1
-  declare_winner('computer') if computer_win_total == 5
-end
-
-def declare_winner(winner)
-  display_winner(winner)
-  reset_scores
-end
-
-def display_winner(winner)
-  prompt("#{winner} is the first one to 5 wins! #{winner} wins")
-end
-
-def display_scores
-  prompt("You have #{player_win_total} wins and the computer has 
-         #{computer_win_total} wins")
-end
-
-def reset_scores
-  player_win_total = 0
-  computer_win_total = 0
-end
 
 def display_results(player, computer)
   # Note the usage of 'display' clearly describing that this method will print
   if win?(player, computer)
     prompt('You won!')
-    add_player_win
   elsif win?(computer, player)
     prompt('Computer won!')
-    add_computer_win
   else
     prompt("It's a tie!")
   end
@@ -73,6 +45,8 @@ def map_choice(choice)
     scissors_or_spock
   when 'l'
     'lizard'
+  else
+    choice
   end
 end
 
@@ -87,6 +61,8 @@ def scissors_or_spock
 end
 
 loop do
+  player_win_total = 0
+  computer_win_total = 0
   choice = ''
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
@@ -103,7 +79,8 @@ loop do
 
   display_results(choice, computer_choice)
 
-  display_scores
+  display_scores(player_win_total, computer_win_total)
+  
   prompt('Do you want to play again? (y/n)')
   play_again = gets.chomp.downcase
   break if play_again == 'n' || play_again == 'no'
