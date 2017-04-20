@@ -28,12 +28,11 @@ def display_scores(player, computer)
   prompt("You have #{player} wins and the computer has #{computer} wins")
 end
 
-
 def calculate_winner(player, computer)
   if win?(player, computer)
     'player'
   elsif win?(computer, player)
-   'computer'
+    'computer'
   else
     'tie'
   end
@@ -65,16 +64,26 @@ def scissors_or_spock
 end
 
 def check_winner?(win_count)
-  win_count <= 5
+  win_count >= 5
+end
+
+def announce_match_winner(winner_wins, loser_wins, winner_name)
+  puts "#{winner_name} won the match with #{winner_wins} to opponents
+        #{loser_wins} wins"
+end
+
+def play_again?
+  prompt('Do you want to play again? (y/n)')
+  play_again = gets.chomp.downcase
+  if play_again == 'n' || play_again == 'no'
+    false
+  else
+    true
+  end
 end
 
 # Game flow begins here
 loop do
-  # player_win_total = 0
-  # computer_win_total = 0
-  # round_winner = ''
-  # choice = ''
-
   # Ask player to choose an option
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
@@ -105,13 +114,20 @@ loop do
   # Display scores
   display_scores(player_win_total, computer_win_total)
 
-  # Checks to see if either the player or the computer have five wins
-  check_winner?(player_win_total)
-  check_winner?(computer_win_total)
+  # checks for winner
+  # if there is a winner it announces the winner and resets scores
+  play_again = nil
+  if check_winner?(player_win_total) == true
+    announce_match_winner(player_win_total, computer_win_total, 'you')
+    player_win_total = 0
+    computer_win_total = 0
+    play_again = play_again?
+  elsif check_winner?(computer_win_total) == true
+    announce_match_winner(computer_win_total, player_win_total, 'computer')
+    player_win_total = 0
+    computer_win_total = 0
+    play_again = play_again?
+  end
 
-  # Ask the user if they want to either play a new match or new round
-  # based on if the match is over or not
-  # prompt('Do you want to play again? (y/n)')
-  # play_again = gets.chomp.downcase
-  # break if play_again == 'n' || play_again == 'no'
+  break if play_again == false
 end
