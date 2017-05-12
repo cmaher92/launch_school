@@ -7,6 +7,23 @@ with methods and blocks.
 
 ## Blocks
 
+Example of how to define a block
+```ruby
+  def random_method
+    yield
+    puts 'test passed'
+  end
+  
+  random_method do
+    puts 'define block test passed'
+  end
+  
+# => define block test passed
+# => test passed
+# => nil 
+
+```
+
 This is a method that is passed a block
 ```ruby
 [1, 2, 3].each do |num|
@@ -87,3 +104,94 @@ word = 'hello'
 
 say_hi(word) # => hello
 ```
+
+# Methods, Blocks, how they inter-relate, and how local variable scope fits in the picture
+
+## Method definition
+```ruby
+def greeting
+ puts 'hello'
+end
+```
+
+Method definition is..
+responsible for defining a certain scope for any local variables in terms of the
+parameters the method has.
+responsible for defining the interaction with these parameters.
+responsible for how the method interacts with the block (if at all).
+
+## Method invocation
+```ruby
+def greeting
+ puts 'hello'
+end
+
+greeting # this is an example of invoking a method
+```
+
+```ruby
+def greeting
+ puts 'hello'
+end
+
+greeting { puts 'block' } # invoking method with a block
+```
+# How method arguments are used
+Parameter not used
+```ruby
+def greeting(str)
+  puts 'Goodbye'
+end
+
+word = 'hello'
+greeting(word)
+```
+Parameter used
+```ruby
+def greeting(str)
+  puts str
+  puts 'Goodbye'
+end
+
+word = 'hello'
+greeting(word)
+```
+
+Block not executed
+```ruby
+def greeting
+  puts 'goodbye'
+end
+
+word = 'hello'
+
+greeting do
+  puts word
+end
+```
+
+Block executed
+```ruby
+def greeting
+  yield
+  puts 'goodbye'
+end
+
+word = 'hello'
+
+greetings do
+  puts word
+end
+```
+
+# Scope manipulation
+When invoking a method with a block the method can use the return value of the
+block
+
+```ruby
+a = 'hello'
+[1, 2, 3].map { |num| a } # => ['hello', 'hello', 'hello']
+
+```
+This demonstrates that methods can access local variables through interactions
+with blocks
