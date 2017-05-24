@@ -1,8 +1,10 @@
-# Makes files for 10 questions
+# Makes files for questions
 
 num = 0
 
-10.times do
+6.times do
   num += 1
-  File.new("question_#{num}.rb", "w")
+  file = File.new("question_#{num}.rb", "w")
+  file.puts("# question_#{num}")
+  file.close
 end
