@@ -1,4 +1,5 @@
 # Tip calculator
+require 'pry'
 
 # Create a simple tip calculator. The program should prompt for a bill amount 
 # and a tip rate. The program must compute the tip and then display both the tip 
@@ -26,7 +27,7 @@ def tip_calculator
     tip_percentage = gets.chomp.to_i
     
     tip_rate = tip_percentage / 100.0
-    tip      = (ill_amount * tip_rate).round(2)
+    tip     = format('%.2f', (bill_amount * tip_rate)).to_f
     total    = tip + bill_amount
     
     puts "The tip is $#{tip}"
