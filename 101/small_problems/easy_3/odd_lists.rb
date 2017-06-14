@@ -27,26 +27,58 @@ def oddities(ary)
 end
 
 # test cases
-puts oddities([2, 3, 4, 5, 6]) == [2, 4, 6]
-puts oddities(['abc', 'def']) == ['abc']
-puts oddities([123]) == [123]
-puts oddities([]) == []
+puts "pass" if oddities([2, 3, 4, 5, 6]) == [2, 4, 6]
+puts "pass" if oddities(['abc', 'def']) == ['abc']
+puts "pass" if oddities([123]) == [123]
+puts "pass" if oddities([]) == []
 
+# understanding
+# input
+#   arr with n number of elements
+# output
+#   arr with only the even elements from the original array
+
+# algorithm
+# evens array
+# index
+# remove odd elements
+#   loop over array while the original arrays length is not 0
+#     if index is even, remove element
+#     if index is odd, add to evens array
+#     increment index
+# return evens array
+
+# def evens(arr)
+#   evens = []
+#   index = 0
+#   while arr.length > 0
+#     arr.shift if index.even?
+#     evens << arr.shift if index.odd?
+#     index += 1
+#   end
+#   evens
+# end
+
+# algorithm
+# evens array
+# index
+# while index is less than the size of the original array
+#   add element from the array at the specified index
+# return array
 
 def evens(arr)
-  index = 0
-  evens = []
-  while index < arr.size # this loop is wrong, its exiting early! 
-    arr.shift if index.even?
-    binding.pry
-    evens << arr.shift if index.odd?
-    binding.pry
-    index += 1
+  even_elements = []
+  index = 1
+
+  while index < arr.size
+    even_elements << arr[index]
+    index += 2 # this skips every other, so we just get the odd indices
   end
-  p evens
+
+  even_elements
 end
 
-puts evens([2, 3, 4, 5, 6]) == [3, 5]
-puts evens(['abc', 'def']) == ['def']
-puts evens([123]) == []
-puts evens([]) == []
+puts "pass" if evens([2, 3, 4, 5, 6]) == [3, 5]
+puts "pass" if evens(['abc', 'def']) == ['def']
+puts "pass" if evens([123]) == []
+puts "pass" if evens([]) == []
