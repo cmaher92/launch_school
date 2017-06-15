@@ -37,21 +37,21 @@ century_endings = { (4..20) => 'th', 1 => 'st', 2 => 'nd', 3 => 'rd' }
 
 def century(year)
   century = year / 100
-  century += 1 if (year % 100) > 1
+  century += 1 if (year % 100) != 0
 
-  if (4..20).include?(century)
+  if (4..20).include?(century || (century % 10))
     century = century.to_s
     century  << 'th'
-  elsif century % 10 == 0
+  elsif ((century % 10 == 0) || (century % 100 == 0))
     century = century.to_s
     century << 'th'
-  elsif century % 10 == 1
+  elsif ((century % 10 == 1) || (century % 100 == 1))
     century = century.to_s
     century << 'st'
-  elsif century % 10 == 2
+  elsif ((century % 10 == 2) || (century % 100 == 2))
     century = century.to_s
     century << 'nd'
-  elsif century % 10 == 3
+  elsif ((century % 10 == 3) || (century % 100 == 3))
     century = century.to_s
     century << 'rd'
   end
@@ -59,13 +59,14 @@ def century(year)
   century
 end
 
-
-puts "pass" if century(2000)  == '20th'
-puts "pass" if century(2001)  == '21st'
-puts "pass" if century(1965)  == '20th'
-# puts "pass" if century(256)   == '3rd'
-# puts "pass" if century(5)     == '1st'
-# puts "pass" if century(10103) == '102nd'
-# puts "pass" if century(1052)  == '11th'
-# puts "pass" if century(1127)  == '12th'
-# puts "pass" if century(11201) == '113th'
+progress = 0
+progress += 1 if century(2000)  == '20th'
+progress += 1 if century(2001)  == '21st'
+progress += 1 if century(1965)  == '20th'
+progress += 1 if century(256)   == '3rd'
+progress += 1 if century(5)     == '1st'
+progress += 1 if century(10103) == '102nd'
+progress += 1 if century(1052)  == '11th'
+progress += 1 if century(1127)  == '12th'
+progress += 1 if century(11201) == '113th'
+puts "You passed #{progress} of 8 tests"
