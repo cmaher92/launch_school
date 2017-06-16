@@ -1,5 +1,7 @@
 # leap years
 
+require 'pry'
+
 # in the modern era under the Gregorian Calendar, leap yearas occur in every
 # year that is evenly divisible by 4, unless the year is also divisible by 100.
 # If the year is evenly divisble by 100, then it is not a leap year unless
@@ -23,10 +25,57 @@
 # return true if year is divisble by 4 and not divisble by 100
 # return true if year divisible by 400
 
+# my solution
+# def leap_year?(year)
+#   return true if (year % 4 == 0) && (year % 100 > 1)
+#   return true if year % 400 == 0
+#   false
+# end
+
+# further exploration
+# def leap_year?(year)
+#   if year % 100 == 0
+#     false
+#   elsif year % 400 == 0
+#     true
+#   else
+#     year % 4 == 0
+#   end
+# end
+# fails for 4, 5, 7, 13
+
+# rules
+# leap years occur
+#   any year divisble by 4 unless also divisble by 100
+#   any year that is evenly divisble by 100 unless the year is evenly divisible 400
+
+# algorithm
+#   divisible by 4   unless also divisble by 100
+#   divisible by 100 unless also divisble by 400
+
+# def leap_year?(year)
+#   if year % 4 == 0
+#     return true unless year % 100 == 0
+#   elsif year % 100 == 0
+#     return true unless year % 400 == 0
+#   else
+#     false
+#   end
+# end
+
+# leap year occurs when
+#   divisble by 4 = true
+#   and divisble by 100 = false
+#   divisble by 400 = true
+
 def leap_year?(year)
-  return true if (year % 4 == 0) && (year % 100 > 1)
-  return true if year % 400 == 0
-  false
+  case year
+  when % 4   != 0 then false
+  when % 100 != 0 then true
+  when % 400 == 0 then true
+  else
+    false
+  end
 end
 
 # test cases
