@@ -14,20 +14,36 @@
 # rules
 #   Gregorian calendar from 1752 onwards
 #   Julian calendar used before 1752
-#   Julian calendar leap years occur in any year that is evenly divisible by 4
+#     Julian calendar leap years occur in any year that is evenly divisible by 4
+
+# algorithm
+# which calendar to use
+#   IF year is greater than or equal to 1752, gregorian
+#   ELSE julian
+# gregorian
+#   use function from previous exercise
+# julian
+#   any year that is evenly divisible by 4
+
+def gregorian_leap_year?(year)
+  case 
+  when year % 4   != 0 then false
+  when year % 100 != 0 then true
+  when year % 400 == 0 then true
+  else
+    false
+  end
+end
+
+def julian_leap_year?(year)
+  year % 4 == 0
+end
 
 def leap_year?(year)
-  if year >= 1752 # julian
-    return true if year % 4 == 0
-    false
+  if year >= 1752
+    gregorian_leap_year?(year)
   else
-    case
-    when year % 4   != 0 then false
-    when year % 100 != 0 then true
-    when year % 400 == 0 then true
-    else
-      false
-    end
+    julian_leap_year?(year)
   end
 end
 
