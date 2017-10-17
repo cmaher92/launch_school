@@ -105,7 +105,7 @@ public class ShapeDemo
 
         // TODO - call the sortArray method to sort the array of Shapes.
         // Pass slist and numShapes as parameters.
-        sortArray(slist);
+        sortArray(slist, numShapes);
 
         // Print the sorted list of shapes.
         System.out.println("\nThe sorted list of shapes...");
@@ -123,23 +123,21 @@ public class ShapeDemo
     // TODO - add the sortArray method to sort the array of Shapes into
     // ascending order.  The array and number of shapes in it must be passed
     // as parameters.
- public static void sortArray(Shape[] array) {
+ public static void sortArray(Shape[] array, int numShapes) {
    boolean swapped = false;
-
-  do {
+   do {
     // iterates over the array until there are no more swaps made
      swapped = false;
-      for (int x=0; x+1 < array.length; x++) {
+      for (int x=0; x+1 < numShapes; x++) {
         // if the current item bigger than the next item?
-        // if ((array[x]).area() > (array[x+1]).area()) {
-        //   // swap current item for the next item
-        //   Shape temp = array[x];
-        //   array[x] = array[x+1];
-        //   array[x+1] = temp;
-        //   swapped = true;
-        // }
-      }
+        if (array[x].area() > array[x+1].area()) {
+          // swap current item for the next item
+          Shape temp = array[x];
+          array[x] = array[x+1];
+          array[x+1] = temp;
+          swapped = true;
+        }
+        }
     }while (swapped);
-
-}
+  }
 }
