@@ -1,7 +1,7 @@
 import java.util.*;
 
 public class ArrayUtils {
-    
+
     // public methods
     public static int minValue(int[] list) throws BadArrayException {
         if (list == null || list.length == 0) {
@@ -16,39 +16,34 @@ public class ArrayUtils {
             return min;
         }
     }
-    
-    public static int[] copyRange(int[] list, int startIndex) {
+
+    public static int[] copyRange(int[] list, int startIndex) throws
+    ArrayIndexOutOfBoundsException, BadArrayException {
+
         //  create a new array with the length of list.length - startIndex
         int[] newList = new int[list.length - startIndex];
 
-        
+        // check to make sure startIndex is between 0 and length of list
+        // if it's outside, use the ArrayIndexOutOfBoundsException
+        if (startIndex < 0 || startIndex >= list.length) {
+          throw ArrayIndexOutOfBoundsException;
+        }
+
+        // BadArrayException("Array is null")
+        if (list == null) {
+          throw BadArrayException("Array is null");
+        }
+
+        // iterate over the list array starting at startIndex
+        // add the first element to the array and all subsequent elements
         for (int x = startIndex, int y = 0; x < list.length; x += 1, y += 1) {
             newList[y] = list[x];
         }
-        // iterate over the list array starting at startIndex
-        // add the first element to the array and all subsequent elements
-        
+
         // return new array
         return newList;
-        
-        // output
-        // copies specified range of elements, saves to new array, returns
-        
-        // algorithm
-        // startIndex must lie between 0 and list.length inclusive
-        // the value at list[startIndex] placed into new array 
-        // unless startIndex == list.length
-        // the subsequent values in the param array are placed into subsequent
-        // elements of new array
-        // lengt of new array should be list.length - startIndex
-        
-        // rules
-        // BadArrayException("Array is null")
-        // ArrayIndexOutOfBoundsException with startIndex as the exception 
-        // object param
-        // not alter any paramter contents
     }
-    
+
     // public static int indexOf(int[] list, int searchValue) {
         // searchces its parameter array to locat the first occurence of the perameter searchValue
         // return
@@ -61,7 +56,7 @@ public class ArrayUtils {
         // doesn't read or print anything
         // must use search and copy logic for the above methods
     // }
-    
+
     // public static int lastIndexOf(int[] list, int searchValue) {
         // searches its parameter array to locate the last occurance of the searchValue
         // returns its index position if found, -1 if not
@@ -71,6 +66,6 @@ public class ArrayUtils {
         // must not alter the array param contents
         // only can search once
     // }
-    
-    
+
+
 }
