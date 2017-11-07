@@ -2,6 +2,12 @@ import java.util.*;
 import java.lang.Exception;
 
 public class ArrayUtilDemo {
+    // Observations
+    // Could abstract this try/catch login into priv function to DRY the code
+    // up
+    // When using cloud IDE remember to default the spaces to 2, this is
+    // improperly formatted
+    
 
   public static void main(String[] args) {
     int[] list = {3, 2, 1, 3, 2};
@@ -87,6 +93,31 @@ public class ArrayUtilDemo {
     
     System.out.print("\n");
     System.out.println("Testing lastIndexOf");
-    // Validates
+    // Validates that a null param array is handled properly
+    try {
+        System.out.println(ArrayUtils.lastIndexOf(nullList, 3));
+    } catch (BadArrayException e) {
+        System.out.println(e);
+    }
+    
+    // Validates that -1 is returned if param array length is 0
+    try {
+        System.out.println(ArrayUtils.lastIndexOf(emptyList, 5));
+    } catch (BadArrayException e) {
+        System.out.println(e);
+    }
+    
+    // Validates that -1 is returned if searchValue is not present in array
+    try {
+        System.out.println(ArrayUtils.lastIndexOf(list, 7));
+    } catch (BadArrayException e) {
+        System.out.println(e);
+    }
+    // validate that serachValue returns index of value if found
+    try {
+        System.out.println(ArrayUtils.lastIndexOf(list, 3));
+    } catch(BadArrayException e) {
+        System.out.println(e);
+    }
   }
 }

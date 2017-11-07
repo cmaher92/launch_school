@@ -22,8 +22,15 @@ public class ArrayUtils {
     ArrayIndexOutOfBoundsException, BadArrayException {
         
         // BadArrayException("Array is null")
-        if (list == null || list.length == 0) {
+        if (list == null) {
           throw new BadArrayException("Array is empty!");
+        }
+        
+        // Returns empty array if param array is empty and looks for 
+        // startIndex of 0
+        if (startIndex == list.length) {
+            int[] newList = new int[0];
+            return newList;
         }
         
         // check to make sure startIndex is between 0 and length of list
