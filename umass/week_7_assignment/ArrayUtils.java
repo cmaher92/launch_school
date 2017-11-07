@@ -1,4 +1,5 @@
 import java.util.*;
+import java.lang.Exception;
 
 public class ArrayUtils {
 
@@ -26,17 +27,17 @@ public class ArrayUtils {
         // check to make sure startIndex is between 0 and length of list
         // if it's outside, use the ArrayIndexOutOfBoundsException
         if (startIndex < 0 || startIndex >= list.length) {
-          throw ArrayIndexOutOfBoundsException;
+          throw new ArrayIndexOutOfBoundsException();
         }
 
         // BadArrayException("Array is null")
         if (list == null) {
-          throw BadArrayException("Array is null");
+          throw new BadArrayException("Array is null");
         }
 
         // iterate over the list array starting at startIndex
         // add the first element to the array and all subsequent elements
-        for (int x = startIndex, int y = 0; x < list.length; x += 1, y += 1) {
+        for(int x = startIndex, y = 0; x < list.length; x += 1, y += 1) {
             newList[y] = list[x];
         }
 
