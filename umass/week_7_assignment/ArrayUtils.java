@@ -20,23 +20,25 @@ public class ArrayUtils {
 
     public static int[] copyRange(int[] list, int startIndex) throws
     ArrayIndexOutOfBoundsException, BadArrayException {
-
-        //  create a new array with the length of list.length - startIndex
-        int[] newList = new int[list.length - startIndex];
-
+        
+        // BadArrayException("Array is null")
+        if (list == null || list.length == 0) {
+          throw new BadArrayException("Array is empty!");
+        }
+        
         // check to make sure startIndex is between 0 and length of list
         // if it's outside, use the ArrayIndexOutOfBoundsException
         if (startIndex < 0 || startIndex >= list.length) {
           throw new ArrayIndexOutOfBoundsException();
         }
 
-        // BadArrayException("Array is null")
-        if (list == null) {
-          throw new BadArrayException("Array is null");
-        }
+        //  create a new array with the length of list.length - startIndex
+        int[] newList = new int[list.length - startIndex];
+
 
         // iterate over the list array starting at startIndex
         // add the first element to the array and all subsequent elements
+        //     int[] list = {3, 2, 1, 3, 2};
         for(int x = startIndex, y = 0; x < list.length; x += 1, y += 1) {
             newList[y] = list[x];
         }
@@ -45,28 +47,67 @@ public class ArrayUtils {
         return newList;
     }
 
-    // public static int indexOf(int[] list, int searchValue) {
-        // searchces its parameter array to locat the first occurence of the perameter searchValue
-        // return
-        // index position if found, or -1 if not found
-        // rules
-        // if array parameter is null, throw BadArrayException with the message "array is full"
-        // if array parameter is length 0, it must return -1
-        // must not alter the array parameter contents, nor copy the entire array contents to another array
-        // only can search through the array once
-        // doesn't read or print anything
-        // must use search and copy logic for the above methods
-    // }
+    public static int indexOf(int[] list, int searchValue) throws BadArrayException {
+        if(list == null) {
+            throw new BadArrayException("Array is null");
+        }
+        
+        if(list.length == 0) {
+            return -1;
+        }
+        
+        // search algorithm
+        // input
+        // int: searchValue, array of ints
+        // output
+        // returns index position if found, -1 if not
+        
+        // algorithm
+        // take the array and iterate over it, if there is a match return index
+        // if there isn't return -1
+        
+        for (int x = 0; x < list.length; x += 1) {
+            if(list[x] == searchValue) {
+                return x;
+            }
+        }
+        return -1;
+    }
 
-    // public static int lastIndexOf(int[] list, int searchValue) {
-        // searches its parameter array to locate the last occurance of the searchValue
-        // returns its index position if found, -1 if not
+    public static int lastIndexOf(int[] list, int searchValue) throws 
+    BadArrayException {
+        // input
+        // int: searchValue, array: list
+        // output
+        // return index if found, -1 if not
         // rules
-        // BadArrayException("Array is null")
+        // BadArrayException("Array is null") if param array is null
         // if param length is 0, return -1
-        // must not alter the array param contents
-        // only can search once
-    // }
+        
+        // algorithm
+        // check if null
+        // check if empty
+        // iterate over array beginning at the end index position
+        // list.length - 1
+        // each iteration subtract 1 from the iterator
+        // end once iterator >= 0
+        
+        if (list == null) {
+            throw new BadArrayException("Array is null");
+        }
+        
+        if (list.length == 0) {
+            return -1;
+        }
+        
+        for (int x = list.length - 1; x >= 0; x -= 1) {
+            if (list[x] == searchValue) {
+                return x;
+            }
+        }
+        
+        return -1;
+    }
 
 
 }
