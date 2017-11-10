@@ -9,8 +9,22 @@ public class JavaFormatter {
     File inputs;
 
     public JavaFormatter() {
-      this.columnWidth = retrieveColumnWidth();
-      this.inputs      = retrieveInputFile();
+      // this.columnWidth = retrieveColumnWidth();
+      // this.inputs      = retrieveInputFile();
+      System.out.println("How wide should the column width be?");
+      System.out.println("Please choose between 30 and 100");
+      Scanner scanner = new Scanner(System.in);
+      this.columnWidth = scanner.nextInt();
+
+      // - Ask for the file
+      // - If so, open for reading
+      System.out.println("Please enter the name of the file to be formatted");
+      String fileName = scanner.nextLine();
+      try {
+        File inputFile = new File(fileName);
+      } catch (NullPointerException e) {
+        System.out.println(e);
+      }
 
     }
 
@@ -42,30 +56,10 @@ public class JavaFormatter {
     }
 
     // retrieve the columnWidth from user
-    private int retrieveColumnWidth() {
-      System.out.println("How wide should the column width be?");
-      System.out.println("Please choose between 30 and 100");
-      Scanner scanner = new Scanner(System.in);
-      int columnWidth = scanner.nextInt();
-      scanner.close();
-      return columnWidth;
-    }
+    // private int retrieveColumnWidth() {
+    // }
 
-    private File retrieveInputFile() {
-      System.out.println("What is the name of the file you wish to format?");
-      Scanner sc = new Scanner(System.in);
-      String fileName = sc.nextLine();
-      boolean fileExists = false;
-        while (!fileExists) {
-          try {
-              File file = new File(fileName);
-              fileExists = file.isFile();
-              return file;
-          } catch (NullPointerException e) {
-              System.out.println("File exists already");
-          }
-        }
-      sc.close();
-    }
+    // private File retrieveInputFile() {
+    // }
 
 }
