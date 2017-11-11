@@ -18,12 +18,47 @@ public class JavaFormatter {
 
       // - Ask for the file
       // - If so, open for reading
-      System.out.println("Please enter the name of the file to be formatted");
-      String fileName = scanner.nextLine();
+      boolean fileExists = false;
+      File file = null;
+      while (fileExists == false) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Please enter the name of the file to be formatted:");
+        String line = sc.nextLine();
+        file = new File(line);
+        fileExists = file.exists();
+        if (fileExists == false) {
+          System.out.println("This file does not exist, please enter a valid file name");
+        }
+      }
+      // open the file for reading using the scanner class
+      Scanner scannedInputFile = null;
       try {
-        File inputFile = new File(fileName);
-      } catch (NullPointerException e) {
-        System.out.println(e);
+        scannedInputFile = new Scanner(file);
+      } catch (FileNotFoundException e) {
+        System.out.println("The file does not exist: " + e);
+      }
+
+      // Prompt for the file name of the output file
+      boolean outputExists = false;
+      File outputFile = null;
+      while (outputExists == false) {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Please enter the name of the file to output:");
+        String newFileName = scan.nextLine();
+        outputFile = new File(newFileName);
+        outputExists = outputFile.exists();
+        if (outputExists) {
+          System.out.println("Is it ok to overwrite the file? Y/N");
+          Scanner overwriteScan = new Scanner(System.in);
+          String writable = overwriteScan.nextLine();
+          if (writable != "Y") {
+            System.out.println("Please choose a file that you can overwrite");
+          }
+          // open file for writing using PrintWriter
+        } else {
+          // create the file
+          // open file for writing using PrintWriter
+        }
       }
 
     }
