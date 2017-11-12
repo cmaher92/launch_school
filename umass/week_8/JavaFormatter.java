@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.Scanner;
+import java.io.PrintWriter;
 
 public class JavaFormatter {
     // read words from an input file and write them to an output file
@@ -41,26 +42,62 @@ public class JavaFormatter {
       // Prompt for the file name of the output file
       boolean outputExists = false;
       File outputFile = null;
+      PrintWriter pw = null;
       while (outputExists == false) {
         Scanner scan = new Scanner(System.in);
         System.out.println("Please enter the name of the file to output:");
         String newFileName = scan.nextLine();
         outputFile = new File(newFileName);
         outputExists = outputFile.exists();
-        if (outputExists) {
+
+        if (outputExists) { // Ask to overwrite existing file
           System.out.println("Is it ok to overwrite the file? Y/N");
           Scanner overwriteScan = new Scanner(System.in);
           String writable = overwriteScan.nextLine();
-          if (writable != "Y") {
+
+          if (writable == "N") {
             System.out.println("Please choose a file that you can overwrite");
+            break;
           }
-          // open file for writing using PrintWriter
-        } else {
-          // create the file
-          // open file for writing using PrintWriter
+
+          try {
+            pw = new PrintWriter(outputFile);
+          } catch (FileNotFoundException e) {
+            System.out.println(e);
+          }
+
+        } else { // Create new file
+          try {
+          outputFile.createNewFile();
+          pw = new PrintWriter(outputFile);
+          outputExists = true;
+        } catch (IOException e) {
+          System.out.println(e);
+        }
         }
       }
 
+      // Write a line of * chars the length of columnWidth
+      String stars = "";
+      for (int x =0; x < columnWidth; x+=1) {
+          stars = stars + "*";
+      }
+      pw.print(stars);
+      // pw.print(stars);
+      // System.out.println(error);
+
+      String formattedLine = "";
+      String currentToken = "";
+      while (scannedInputFile.hasNext()) {
+        currentToken = scannedInputFile.next();
+        if (formattedLine.length() + currentToken.length() >= columnwidth) {
+          pw.print(formattedLine);
+        } else {
+          formattedLine = formattedLine + " " + currentToken;
+        }
+      }
+      pw.print(formattedLine);
+      pw.close();
     }
 
     public static void main(String []args) {
