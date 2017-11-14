@@ -46,7 +46,7 @@
 # 2.4, Ruby used the Numeric#remainder method instead.
 
 def is_odd?(number)
-  number.remainder == 1 || number.remainder == -1
+  number.remainder(2) == 1 || number.remainder(2) == -1
 end
 
 # Test cases
