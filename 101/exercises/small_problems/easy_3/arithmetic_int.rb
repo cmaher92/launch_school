@@ -18,26 +18,33 @@
 # rules
 #   don't validate input
 
-puts "Enter the first number:"
-num = gets.chomp.to_i
-puts "Enter the second number:"
-num2 = gets.chomp.to_i
+def prompt(message)
+  puts "==> #{message}"
+end
 
-puts "#{num} + #{num2} = #{num + num2}"
-puts "#{num} - #{num2} = #{num - num2}"
-puts "#{num} * #{num2} = #{num * num2}"
-puts "#{num} / #{num2} = #{num / num2}"
-puts "#{num} % #{num2} = #{num % num2}"
-puts "#{num} ** #{num2} = #{num ** num2}"
+def validate(num)
+  num != 0
+end
+
+prompt("Enter the first number:")
+num = gets.chomp.to_f
+
+validated = false
+until validated
+  prompt("Enter the second number:")
+  num2 = gets.chomp.to_f
+  validated = validate(num2)
+end
+
+
+prompt("#{num} + #{num2} = #{num + num2}")
+prompt("#{num} - #{num2} = #{num - num2}")
+prompt("#{num} * #{num2} = #{num * num2}")
+prompt("#{num} / #{num2} = #{num / num2}")
+prompt("#{num} % #{num2} = #{num % num2}")
+prompt("#{num} ** #{num2} = #{num ** num2}")
 
 # What if we used floats instead of integers?
-# validate that the second number isn't 0
-
-def validate?(num)
-  if num == 0
-    return false
-  end
-end
 
 #
 # Example
