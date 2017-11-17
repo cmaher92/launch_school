@@ -57,7 +57,7 @@
  # end
 
 # try without looping
-
+# 
 
 def oddities(arr)
 end
