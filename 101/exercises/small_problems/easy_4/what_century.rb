@@ -51,34 +51,46 @@ def century(year)
   century = year / 100
   year % 100 == 0 ? century : century += 1
   # puts "year: #{year}, century: #{century}"
+  
+  num = 0
+  century > 100 ? num = 100 : num = 10
+  suffix = century % 10
   case 
-  when century == 11 then century.to_s + 'th'
-  when century == 12 then century.to_s + 'th'
-  when century == 13 then century.to_s + 'th'
-  when century % 10 == 0 then century.to_s + 'th'
-  when century % 10 == 1 then century.to_s + 'st'
-  when century % 10 == 2 then century.to_s + 'nd'
-  when century % 10 == 3 then century.to_s + 'rd'
-  when century % 10 == 4 then century.to_s + 'th'
-  when century % 10 == 5 then century.to_s + 'th'
-  when century % 10 == 6 then century.to_s + 'th'
-  when century % 10 == 7 then century.to_s + 'th'
-  when century % 10 == 8 then century.to_s + 'th'
-  when century % 10 == 9 then century.to_s + 'th'
-  end
+  when 
+  
 end
+
+# adjust the case statement to handle centuries that are 3 digits
+# for example the 113th century, is being % 10 and returning 3, adding
+# the wrong ending
+
+# num is determined by the number of digits in century
+# if it's only 2 digits use 10
+# otherwise use 100
+
+# case century % num
+# when 0, 4, 5, 6, 7, 8, 9, 11, 12, 13
+  # add 'th'
+# when 1
+  # add 'st'
+# when 2
+  # add 'nd'
+# when 3
+  # add 'rd'
+  
+
   
 
 # Test Cases:
 puts century(2000) == '20th'
 puts century(2001) == '21st'
-century(1965) == '20th'
-century(256) == '3rd'
-century(5) == '1st'
-century(10103) == '102nd'
-century(1052) == '11th'
-century(1127) == '12th'
-century(11201) == '113th'
+puts century(1965) == '20th'
+puts century(256) == '3rd'
+puts century(5) == '1st'
+puts century(10103) == '102nd'
+puts century(1052) == '11th'
+puts century(1127) == '12th'
+puts century(11201)
 
 # Solution and Discussion
 # Solution
