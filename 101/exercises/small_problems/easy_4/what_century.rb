@@ -54,9 +54,22 @@ def century(year)
   
   num = 0
   century > 100 ? num = 100 : num = 10
-  suffix = century % 10
+  if century < 14
+    suffix = century
+  else
+    suffix = century % num
+  end
+  
   case 
-  when 
+  when [0, 4, 5, 6, 7, 8, 9, 11, 12, 13].include?(suffix)
+    century.to_s + 'th'
+  when suffix == 1
+    century.to_s + 'st'
+  when suffix == 2
+    century.to_s + 'nd'
+  when suffix == 3
+    century.to_s + 'rd'
+  end
   
 end
 
@@ -90,7 +103,7 @@ puts century(5) == '1st'
 puts century(10103) == '102nd'
 puts century(1052) == '11th'
 puts century(1127) == '12th'
-puts century(11201)
+puts century(11201) == '113th'
 
 # Solution and Discussion
 # Solution
