@@ -24,7 +24,7 @@ require_relative 'leap_years'
     
 def greg_leap_year?(year)
   if year > 1752
-    leap_year?(year)
+    leap_year?(year)git add
   else
     year % 4 == 0
   end
@@ -75,8 +75,18 @@ puts greg_leap_year?(400) == true
 # end
 # Discussion
 
-# The change to the original leap_year? function is quite small; just one additional if clause at the beginning of the method.
+# The change to the original leap_year? function is quite small; just one 
+# additional if clause at the beginning of the method.
 
 # Further Exploration
 
-# Find a web page that talks about leap years or the different calendar systems, and talk about the interesting information you learned. For instance, how was the change from the Julian calendar to the Gregorian calendar handled in your ancestral lands? Do they even use these calendar systems? If you live someplace that doesn't use the Gregorian calendar, tell us about your calendar system.
+# Find a web page that talks about leap years or the different calendar systems, 
+# and talk about the interesting information you learned. For instance, how was 
+# the change from the Julian calendar to the Gregorian calendar handled in your 
+# ancestral lands? Do they even use these calendar systems? If you live someplace 
+# that doesn't use the Gregorian calendar, tell us about your calendar system.
+
+# I learned the knuckle trick to finally remember how many days are in a month. 
+# Also, the last country to change over to Gregorian calendar was Greece within
+# Europe
+# Most countries will use the Gregorian calendar for civil purposes. 
