@@ -47,31 +47,31 @@
     # if the variable ends in 4-9
     #     return 'th' to the end 
     
-def century(year)
-  century = year / 100
-  year % 100 == 0 ? century : century += 1
-  # puts "year: #{year}, century: #{century}"
+# def century(year)
+#   century = year / 100
+#   year % 100 == 0 ? century : century += 1
+#   # puts "year: #{year}, century: #{century}"
   
-  num = 0
-  century > 100 ? num = 100 : num = 10
-  if century < 14
-    suffix = century
-  else
-    suffix = century % num
-  end
+#   num = 0
+#   century > 100 ? num = 100 : num = 10
+#   if century < 14
+#     suffix = century
+#   else
+#     suffix = century % num
+#   end
   
-  case 
-  when [0, 4, 5, 6, 7, 8, 9, 11, 12, 13].include?(suffix)
-    century.to_s + 'th'
-  when suffix == 1
-    century.to_s + 'st'
-  when suffix == 2
-    century.to_s + 'nd'
-  when suffix == 3
-    century.to_s + 'rd'
-  end
+#   case 
+#   when [0, 4, 5, 6, 7, 8, 9, 11, 12, 13].include?(suffix)
+#     century.to_s + 'th'
+#   when suffix == 1
+#     century.to_s + 'st'
+#   when suffix == 2
+#     century.to_s + 'nd'
+#   when suffix == 3
+#     century.to_s + 'rd'
+#   end
   
-end
+# end
 
 # adjust the case statement to handle centuries that are 3 digits
 # for example the 113th century, is being % 10 and returning 3, adding
@@ -91,7 +91,32 @@ end
 # when 3
   # add 'rd'
   
+# century
+# century is the year / 100 + 1
+# century -= 1 if century % 100 == 0
+# century.to_s + century_suffix(century)
 
+def century(year)
+  century = year / 100 + 1
+  century -= 1 if year % 100 == 0
+  century.to_s + century_suffix(century)
+end
+
+# century_suffix
+# return 'th' if [11, 12, 13].icnlude?(century % 100)
+# find last digit
+# case statement handling each
+
+def century_suffix(century)
+  return 'th' if [11, 12, 13].include?(century % 100)
+  last_digit = century % 10
+  case last_digit
+  when 1 then return 'st'
+  when 2 then return 'nd'
+  when 3 then return 'rd'
+  else 'th'
+  end
+end
   
 
 # Test Cases:
@@ -127,8 +152,16 @@ puts century(11201) == '113th'
 # end
 # Discussion
 
-# First, notice a pattern about a century. It is equal to the current year divided by 100 plus 1. The exception to this is if the year is some multiple of 100. In that case, the century is the current year divided by 100.
+# First, notice a pattern about a century. It is equal to the current year 
+# divided by 100 plus 1. The exception to this is if the year is some multiple of 
+# 100. In that case, the century is the current year divided by 100.
 
-# Next we need to understand which suffix to append for our century, the options being: 'th', 'nd', 'rd', 'st'. We decide which one to use by checking the last digit of the century. Though, before we do that, we do need to do one extra check. If the century's value mod 100 ends in either 11, 12, or 13, then we should return 'th'. Any other time, we can return a suffix determined by our case statement and the value of century % 10.
+# Next we need to understand which suffix to append for our century, the
+# options being: 'th', 'nd', 'rd', 'st'. We decide which one to use by checking 
+# the last digit of the century. Though, before we do that, we do need to do one 
+# extra check. If the century's value mod 100 ends in either 11, 12, or 13, then 
+# we should return 'th'. Any other time, we can return a suffix determined by our 
+# case statement and the value of century % 10.
 
-# Finally, we combine the string representation of the century with the correct suffix, and we have our answer.
+# Finally, we combine the string representation of the century with the correct
+# suffix, and we have our answer.
