@@ -55,9 +55,9 @@ def string_to_integer(str)
    end
    num = num * 10 + int
   end
-  puts num
+  num
 end
 
 # Test cases
-string_to_integer('4321') == 4321
-string_to_integer('570') == 570
+puts string_to_integer('4321') == 4321
+puts string_to_integer('570') == 570
