@@ -10,34 +10,19 @@
 #
 # You may not use ruby's Date and Time classes.
 
-# given an integer that could be positive or negative representing minutes
-#   initialize a local variable representing hour
-#   initialize a local variable representing minutes
-#   calculate total hours and minutes
-#   create an array with the first element representing hours and second mins
-#   case minutes <=> 0
-#   when negative, subtract from array
-#   when posituve, add to array
-#   otherwise, do nothing to array
-#   convert the time into a string in (hh:mm) format
-#     map accordingly
-#
-
 require 'pry'
+
+# 1440 minutes in a day
 def time_of_day(mins)
-  time = [0, 0]
-  hours, minutes = mins.abs.divmod(60)
-  if hours > 24
-    days, hours = hours.divmod(24)
-  end
-  binding.pry
-  case mins <=> 0
-  when -1 then time[0] = 24 - hours && time[1] = 60 - minutes
-  end
-  puts time.inspect
+  # given the mins as either positive or negative
+  # if the mins are more than a day, divmod by the mins in a day
+  # if the mins are negative, convert to positive
+  # now that we have the proper amount of minutes
+  # divmod the minutes by 60
+  # use string interpolation to return the result in hh:mm form
 end
 
-#
+
 # Examples:
 # time_of_day(0) == "00:00"
 time_of_day(-3) == "23:57"
