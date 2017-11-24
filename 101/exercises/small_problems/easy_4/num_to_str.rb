@@ -32,26 +32,28 @@
 # combine the array into a string
 # return the string
 
-def integer_to_string(int)
-  arr_of_ints = []
-  while true
-    if int < 10
-      int = int % 10
-      arr_of_ints << int
-      break
-    end
-    if int >= 10 && int < 100
-      arr_of_ints << int / 10
-      int = int % 10
-      next
-    end
+NUMBERS = {1=> '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5',
+        6=> '6', 7 => '7', 8 => '8', 9 => '9', 0 => '0'}
+
+def integer_to_string(number)
+  result = ''
+  loop do
+    number, rem = number.divmod(10)
+    result.prepend(NUMBERS[rem])
+    break if number == 0
   end
-  arr_of_ints.inspect
+  result
 end
 
-puts integer_to_string(97)
+# the program is breaking after seeing only a single 0
+# change the current program to handle multiple 0's
+
+
+
+# puts integer_to_string(97)
+# puts integer_to_string(997)
 
 # Examples
-# integer_to_string(4321) == '4321'
-# integer_to_string(0) == '0'
-# integer_to_string(5000) == '5000'
+puts integer_to_string(4321) == '4321'
+puts integer_to_string(0) == '0'
+puts integer_to_string(5000) == '5000'
