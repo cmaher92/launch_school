@@ -23,21 +23,41 @@
 
 require_relative 'num_to_str'
 
+# def signed_integer_to_string(number)
+#   # Compare the number using the spaceship operator
+#   # when the result is -1 use string interpolation to prepend the - sign
+#   # when the result is +1 use string interpolation to prepend the + sing
+#   # else just interpolate the result from calling the integer_to_str method
+#   case number <=> 0
+#   when -1 then "-#{integer_to_string(-number)}"
+#   when +1 then "+#{integer_to_string(number)}"
+#   else
+#     integer_to_string(number)
+#   end
+# end
+
+# Refactor our solution to reduce the 3 integer_to_string calls to just one.
+
+# comparing to see if it's -1, 0, or +1
+# calling the integer_to_string method depending on the comparison
+# returning the result
+
+# Now I need to simply call the intger_to_string method once
+# compare and set a local variable to -1, 0, or +1
+# get the absolute value of the number
+# then do a case statement interpolating the result based on the local variable
+
 def signed_integer_to_string(number)
-  result = ''
-  negative = false
-  if number < 0
-    negative = true
-    number = number.abs
-  end
+  sign = number <=> 0
+  number = number.abs
   result = integer_to_string(number)
-  if negative && number != 0
-    result.prepend('-')
-  elsif number != 0
-    result.prepend('+')
+  case sign
+  when -1 then "-#{result}"
+  when +1 then "+#{result}"
+  else result
   end
-  result
 end
+
 
 #
 # Test cases
