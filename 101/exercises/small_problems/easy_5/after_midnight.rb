@@ -11,16 +11,21 @@
 # You may not use ruby's Date and Time classes.
 
 require 'pry'
+require 'date'
 
-MINUTES_PER_HOUR = 60
-HOURS_PER_DAY    = 24
-MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR
-def time_of_day(delta_minutes)
-  # returns the difference between minutes in a day (1440)
-  # and the minutes before or after midnight
-  # so if the function were passed -3, this would return 1437
-  delta_minutes = delta_minutes % MINUTES_PER_DAY
-  hours, minutes = delta_minutes.divmod(MINUTES_PER_HOUR)
+# create a DateTime object of midnight, today
+# adjust the DateTime object based on the minutes passed in
+# retrieve the hours and minutes from the adjusted DateTime object
+# format("%02d:%02d", hours, minutes)
+def time_of_day(mins)
+  date = DateTime.new(2017, 11, 25, 0, 0, 0)
+  case mins <=> 0
+  when -1 then date = date - (mins.abs/1440.0)
+  when +1 then date = date + (mins/1440.0)
+  end
+
+  hours = date.hour
+  minutes = date.minute
   format("%02d:%02d", hours, minutes)
 end
 
@@ -35,7 +40,7 @@ puts time_of_day(800) == "13:20"
 puts time_of_day(-4231) == "01:29"
 
 
-# How would you approach this problem if you were allowed to use ruby's 
+# How would you approach this problem if you were allowed to use ruby's
 # Date and Time classes? Suppose you also needed to consider the day of week?
 # (Assume that delta_minutes is the number of minutes before or after midnight
 # between Saturday and Sunday; in such a method, a delta_minutes value of -4231
