@@ -12,23 +12,31 @@
 
 require 'pry'
 
-# 1440 minutes in a day
-def time_of_day(mins)
-  # given the mins as either positive or negative
-  # if the mins are more than a day, divmod by the mins in a day
-  # if the mins are negative, convert to positive
-  # now that we have the proper amount of minutes
-  # divmod the minutes by 60
-  # use string interpolation to return the result in hh:mm form
+MINUTES_PER_HOUR = 60
+HOURS_PER_DAY    = 24
+MINUTES_PER_DAY = HOURS_PER_DAY * MINUTES_PER_HOUR
+def time_of_day(delta_minutes)
+  # returns the difference between minutes in a day (1440)
+  # and the minutes before or after midnight
+  # so if the function were passed -3, this would return 1437
+  delta_minutes = delta_minutes % MINUTES_PER_DAY
+  hours, minutes = delta_minutes.divmod(MINUTES_PER_HOUR)
+  format("%02d:%02d", hours, minutes)
 end
 
 
 # Examples:
-# time_of_day(0) == "00:00"
-time_of_day(-3) == "23:57"
-# time_of_day(35) == "00:35"
-# time_of_day(-1437) == "00:03"
-# time_of_day(3000) == "02:00"
-# time_of_day(800) == "13:20"
-# time_of_day(-4231) == "01:29"
-# Disregard Daylight Savings and Standard Time and other complications.
+puts time_of_day(0) == "00:00"
+puts time_of_day(-3) == "23:57"
+puts time_of_day(35) == "00:35"
+puts time_of_day(-1437) == "00:03"
+puts time_of_day(3000) == "02:00"
+puts time_of_day(800) == "13:20"
+puts time_of_day(-4231) == "01:29"
+
+
+# How would you approach this problem if you were allowed to use ruby's 
+# Date and Time classes? Suppose you also needed to consider the day of week?
+# (Assume that delta_minutes is the number of minutes before or after midnight
+# between Saturday and Sunday; in such a method, a delta_minutes value of -4231
+# would need to produce a return value of Thursday 01:29.)
