@@ -18,7 +18,7 @@ require 'date'
 # retrieve the hours and minutes from the adjusted DateTime object
 # format("%02d:%02d", hours, minutes)
 def time_of_day(mins)
-  date = DateTime.new(2017, 11, 25, 0, 0, 0)
+  date = DateTime.new(2017, 11, 26, 0, 0, 0)
   case mins <=> 0
   when -1 then date = date - (mins.abs/1440.0)
   when +1 then date = date + (mins/1440.0)
@@ -26,18 +26,19 @@ def time_of_day(mins)
 
   hours = date.hour
   minutes = date.minute
-  format("%02d:%02d", hours, minutes)
+  day_of_week = date.strftime('%A')
+  "#{day_of_week} #{format("%02d:%02d", hours, minutes)}"
 end
 
 
 # Examples:
-puts time_of_day(0) == "00:00"
-puts time_of_day(-3) == "23:57"
-puts time_of_day(35) == "00:35"
-puts time_of_day(-1437) == "00:03"
-puts time_of_day(3000) == "02:00"
-puts time_of_day(800) == "13:20"
-puts time_of_day(-4231) == "01:29"
+puts time_of_day(0) == "Sunday 00:00"
+puts time_of_day(-3) == "Saturday 23:57"
+puts time_of_day(35) == "Sunday 00:35"
+puts time_of_day(-1437) == "Saturday 00:03"
+puts time_of_day(3000) == "Tuesday 02:00"
+puts time_of_day(800) == "Sunday 13:20"
+puts time_of_day(-4231) == "Thursday 01:29"
 
 
 # How would you approach this problem if you were allowed to use ruby's
