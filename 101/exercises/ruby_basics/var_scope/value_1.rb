@@ -1,4 +1,5 @@
-What will the following code print and why? Don't run it until you have tried to answer.
+# What will the following code print and why? 
+# Don't run it until you have tried to answer.
 
 a = 7
 
@@ -8,3 +9,5 @@ end
 
 my_value(a)
 puts a
+
+# 7
