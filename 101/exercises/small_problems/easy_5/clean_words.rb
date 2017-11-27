@@ -11,7 +11,8 @@
 # Examples:
 
 def cleanup(str)
-  str.gsub!(/[^a-z]/, ' ').squeeze(' ')
+  # str.gsub!(/[^a-z]/, ' ').squeeze(' ')
+  str.tr_s(' -/:-@[-`{-~', ' ')
 end
 
 puts cleanup("---what's my +*& line?") == ' what s my line '
