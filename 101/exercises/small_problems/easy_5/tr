@@ -1,0 +1,25 @@
+
+[1mFrom:[0m /home/ubuntu/workspace/101/exercises/small_problems/easy_5/codewars.rb @ line 19 Object#mxdiflg:
+
+     [1;34m6[0m: [32mdef[0m [1;34mmxdiflg[0m(a1, a2)
+     [1;34m7[0m:   [32mreturn[0m [1;34m-1[0m [32mif[0m a1.empty? || a2.empty?
+     [1;34m8[0m: 
+     [1;34m9[0m:  [1;34m# iterate each string from a1 over each string from a2[0m
+    [1;34m10[0m:  x = [1;34m0[0m
+    [1;34m11[0m:  max_diff = [1;34m0[0m
+    [1;34m12[0m:  [32mwhile[0m x < a2.length
+    [1;34m13[0m:   a1.each [32mdo[0m |str|
+    [1;34m14[0m:     [1;34m# current_diff = compare each str to the length of each a2[x][0m
+    [1;34m15[0m:     [1;34m# if current_diff is greater than the max_diff[0m
+    [1;34m16[0m:     [1;34m#   max_diff = current_diff[0m
+    [1;34m17[0m:     [1;34m# otherwise[0m
+    [1;34m18[0m:     [1;34m#   next[0m
+ => [1;34m19[0m:     binding.pry
+    [1;34m20[0m:     current_diff = str.length - a2[x].length
+    [1;34m21[0m:     max_diff > current_diff ? [32mnext[0m : max_diff = current_diff
+    [1;34m22[0m:   [32mend[0m
+    [1;34m23[0m:   x += [1;34m1[0m
+    [1;34m24[0m:  [32mend[0m
+    [1;34m25[0m:  max_diff
+    [1;34m26[0m: [32mend[0m
+
