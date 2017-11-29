@@ -41,40 +41,79 @@
 # split the string onto multiple lines
 # then 
 
-def print_in_box(str)
-  arr = split_lines(str)
-  length = arr.sort[0].length
-  top_border    = "++"
-  inside_lines  = "||"
-  top_border.insert(1, ("-" * (length + 2)))
-  inside_lines.insert(1, " " * (length + 2))
+# def print_in_box(str)
+#   arr = split_lines(str)
+#   length = arr.sort[0].length
+#   top_border    = "++"
+#   inside_lines  = "||"
+#   top_border.insert(1, ("-" * (length + 2)))
+#   inside_lines.insert(1, " " * (length + 2))
   
-  puts top_border
-  puts inside_lines
-  arr.each do |s|
-    puts "| #{s} |"
-  end
-  puts inside_lines
-  puts top_border
-end
+#   puts top_border
+#   puts inside_lines
+#   arr.each do |s|
+#     puts "| #{s} |"
+#   end
+#   puts inside_lines
+#   puts top_border
+# end
 
-def split_lines(str)
-  if str.length < 80
-    return [str]
-  else
-    [str.slice(0, (str.length/2)).strip, str.slice(str.length/2, str.length - 1).strip]
-  end
-end
+# def split_lines(str)
+#   if str.length < 80
+#     return [str]
+#   else
+#     [str.slice(0, (str.length/2)).strip, str.slice(str.length/2, str.length - 1).strip]
+#   end
+# end
+
+require 'pry'
 
 # how can I improve this solution?
-# turn the string into an array
-#   concat each string in the array into a line to be printed
-#   once the line + current_string's length is above 80
-#   print the line 
-#   set line to be printed to the current string
+# split the string into an array
+#   If the array were to be joined the line can be longer than the limit
+#   or it can be less
+#   If the line joined is less, simply assign the string to the line and set the
+#   width
+#   Otherwise, set the width to 80
+#   for each word in the array of words
+#     add each word to the string, unless adding the word would create it to go over the limit
+#     in that case, print the line, and set the current word to the string and continue
 
+def print_in_box(str)
+  str.length < 76 ? less_than_limit(str) : more_than_limit(str)
+end
 
-print_in_box('To boldly go where no one has gone before.')
+def more_than_limit(str)
+  length = 76
+  puts "+#{"-" * (length + 2)}+"
+  puts "|#{" " * (length + 2)}|"
+  line = ""
+  idx  = 0
+  arr = str.split()
+  # binding.pry
+  while idx < arr.length
+    if arr[idx].length + line.length > 76
+      puts    "#{line}"
+      line = "#{arr[idx]} "
+      idx += 1
+    end
+    line << "#{arr[idx]} "
+    idx += 1
+  end
+  puts "#{line}"
+  puts "|#{" " * (length + 2)}|"
+  puts "+#{"-" * (length + 2)}+"
+end
+
+def less_than_limit(str)
+  puts "+#{"-" * (str.length + 2)}+"
+  puts "|#{" " * (str.length + 2)}|"
+  puts "| #{str} |"
+  puts "|#{" " * (str.length + 2)}|"
+  puts "+#{"-" * (str.length + 2)}+"
+end
+
+# print_in_box('To boldly go where no one has gone before.')
 print_in_box("The quick brown fox jumped over the lazy dog The quick brown fox jumped over the lazy dog The quick brown fox jumped over the lazy dog The quick brown fox jumped over the lazy dog")
 
 
