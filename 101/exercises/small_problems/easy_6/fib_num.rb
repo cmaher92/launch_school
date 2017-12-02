@@ -20,7 +20,7 @@ input
 output
   integer that matches the number of digits passed in, return it's index
 
-  create a fibonacci sequence that stops once the digit being appended's
+  create a fibonacci sequence that stops once the digit being appended
     length is equal to the length inputted
 
   current = 0
@@ -31,21 +31,39 @@ output
     fib << current
   end
 
+  first = 1
+  second = 1
+  index = 2
+  create the first and second variables to use for calculating fib
+  loop that creates the fib sequence
+    index += 1
+    fib = first + second
+    break if the current number's size is greater or equal to length
+
+    first = second
+    second = fib
 =end
 
+
 def find_fibonacci_index_by_length(length)
-  fib = [1, 1]
-  current = 0
-  x = 0
-  while current.digits.length < length
-    current = fib[x] + fib[x+1]
-    x += 1
-    fib << current
+  first  = 1
+  second = 1
+  index  = 2
+
+  loop do
+    index += 1
+    fib = first + second
+    break if fib.digits.size >= length
+
+    first = second
+    second = fib
   end
-  fib.index(fib[-1])
+
+  index
 end
-p find_fibonacci_index_by_length(2) #== 7
-p find_fibonacci_index_by_length(10)# == 45
-# find_fibonacci_index_by_length(100) == 476
-# find_fibonacci_index_by_length(1000) == 4782
-# find_fibonacci_index_by_length(10000) == 47847
+
+p find_fibonacci_index_by_length(2) == 7
+p find_fibonacci_index_by_length(10) == 45
+p find_fibonacci_index_by_length(100) == 476
+p find_fibonacci_index_by_length(1000) == 4782
+p find_fibonacci_index_by_length(10000) == 47847
