@@ -34,6 +34,25 @@ def mult_of_three_nums(arr)
   end
   false
 end
+
+# #  list_of_nums.combination(3).each do |sub_array|
+#   until a.eql?(list_of_nums.size - 2)
+
+#     prod = list_of_nums[a] * list_of_nums[b] * list_of_nums[c]
+#     return true if prod.eql?(max)
+#     if b.eql?(list_of_nums.size - 2) && c.eql?(list_of_nums.size - 1)
+#       a += 1
+#       b = a + 1
+#       c = b + 1
+#     elsif c.eql?(list_of_nums.size - 1)
+#       b += 1
+#       c = b + 1
+#     else
+#       c += 1
+#     end
+#   end
+#   false
+# end
 =end
 
 
