@@ -16,29 +16,19 @@ rules
   half of the array
 
 given an array
-  seperate the arrays into halves
-    divide the length of the first array by two, if there is a remainder
-    add one to the variable
-    save from 0 to n –defined above– into the first arr
-    save the second half into the second arr
-    iterate until reaching n
-      each iterate pop an element from inputted arr into new arr
-
-    return two arrays
+  find the halfway point
+    divide the array by 2, if it's odd add + 1 to the quotient
+  return [arr[0..n]], [arr[n+1..-1]]
 =end
+require 'pry'
 
 def halvsies(arr)
-  first_half = []
   arr.length.odd? ? n = (arr.length / 2) + 1 : n = arr.length / 2
-  n.times do |i|
-    first_half << arr[i]
-    arr.delete_at(i)
-  end
-  p [first_half, arr]
+  [arr[0..(n-1)], arr[(n)..-1]]
 end
 
 # Examples:
-halvsies([1, 2, 3, 4]) == [[1, 2], [3, 4]]
-halvsies([1, 5, 2, 4, 3]) == [[1, 5, 2], [4, 3]]
-halvsies([5]) == [[5], []]
-halvsies([]) == [[], []]
+p halvsies([1, 2, 3, 4]) == [[1, 2], [3, 4]]
+p halvsies([1, 5, 2, 4, 3]) == [[1, 5, 2], [4, 3]]
+p halvsies([5]) == [[5], []]
+p halvsies([]) == [[], []]
