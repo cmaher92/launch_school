@@ -1,0 +1,25 @@
+
+[1mFrom:[0m /home/ubuntu/workspace/codewars/best_sum.rb @ line 17 Object#choose_best_sum:
+
+     [1;34m1[0m: [32mdef[0m [1;34mchoose_best_sum[0m(t, k, ls)
+     [1;34m2[0m: [1;34m#     input[0m
+     [1;34m3[0m: [1;34m#       ls - arr, distances[0m
+     [1;34m4[0m: [1;34m#       t  - int, total number of miles willing to drive[0m
+     [1;34m5[0m: [1;34m#       k  - int, number of towns to visit[0m
+     [1;34m6[0m: [1;34m#     result[0m
+     [1;34m7[0m: [1;34m#       nil - if there isn't enough towns to visit[0m
+     [1;34m8[0m: [1;34m#       int - highest sum of the distance between three towns that is also under t[0m
+     [1;34m9[0m: 
+    [1;34m10[0m: [1;34m#       find the combinations of ls by (k)[0m
+    [1;34m11[0m: [1;34m#       now map each subarray as a reduce sum, unless it's over t then remove it[0m
+    [1;34m12[0m: [1;34m#       now return the max sum[0m
+    [1;34m13[0m: 
+    [1;34m14[0m: require [31m[1;31m'[0m[31mpry[1;31m'[0m[31m[0m
+    [1;34m15[0m:   [32mreturn[0m [1;36mnil[0m [32mif[0m ls.size < [1;34m3[0m
+    [1;34m16[0m:   options = ls.combination(k).to_a
+ => [1;34m17[0m:   binding.pry
+    [1;34m18[0m:   options.map! { |subarr| subarr.reduce([33m:+[0m) }
+    [1;34m19[0m:   options.map! { |sum| sum <= t }
+    [1;34m20[0m:   options.max
+    [1;34m21[0m: [32mend[0m
+

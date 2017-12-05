@@ -16,32 +16,29 @@ def gps(s, x)
     #     speed = (3600 * dist) / s
     #
     # find the highest item in the avg_speed arr and return the floor
+    
     require 'pry'
     
     dist_traveled = []
     counter       = 0
-    
+
     loop do
-      break if x.size == counter
-      dist_traveled << x[counter + 1] - x[counter]
+      break if x.size - 1 == counter
+      dist_traveled << x.fetch(counter + 1) - x.fetch(counter)
       counter += 1
     end
     
     dist_traveled.map { |dist| (3600 * dist) / s }.max.floor
 end
 
-x = [0.0, 0.23, 0.46, 0.69, 0.92, 1.15, 1.38, 1.61]
-s = 20
+x = [0.0, 0.11, 0.22, 0.33, 0.44, 0.65, 1.08, 1.26, 1.68, 1.89, 2.1, 2.31, 2.52, 3.25]
+s = 12
+        # u = 219
 p gps(s, x)
-
-# x = [0.0, 0.11, 0.22, 0.33, 0.44, 0.65, 1.08, 1.26, 1.68, 1.89, 2.1, 2.31, 2.52, 3.25]
-#         s = 12
-#         u = 219
-#         testing(gps(s, x), u)
-#         x = [0.0, 0.18, 0.36, 0.54, 0.72, 1.05, 1.26, 1.47, 1.92, 2.16, 2.4, 2.64, 2.88, 3.12, 3.36, 3.6, 3.84]
-#         s = 20
+x = [0.0, 0.18, 0.36, 0.54, 0.72, 1.05, 1.26, 1.47, 1.92, 2.16, 2.4, 2.64, 2.88, 3.12, 3.36, 3.6, 3.84]
+s = 20
 #         u = 80
-#         testing(gps(s, x), u)
+p gps(s, x)
 #         x = [0.0, 0.01, 0.36, 0.6, 0.84, 1.05, 1.26, 1.47, 1.68, 1.89, 2.1, 2.31, 2.52, 2.73, 2.94, 3.15]
 #         s = 14
 #         u = 90
