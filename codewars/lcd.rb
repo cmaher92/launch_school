@@ -2,16 +2,15 @@ require 'pry'
 
 def convert_fracts(arr)
   denominators = []
-  common_found = false
   
   arr.each do |subarr|
     denominators << subarr[1]
   end
   
-  find_lcd(denominators)
+  lcm = find_lcm(denominators)
 end
 
-def find_lcd(arr)
+def find_lcm(arr)
     lcm = 1
     loop do
       results = arr.map do |denom|
