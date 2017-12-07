@@ -12,41 +12,40 @@
     array of arrays
   output
     flattened array with only unique values
-    
-
-  given the array
-  manually the array
-    iterating over the array and adding all values into a new, flattened array
-  remove non-unique values
-    iterate over the array
-    for the current_value I would check to see the count of that value
-    if the value is > 1
-  remove current value from the arr
-
-  # select on the flattened_arr
-  #   only return elements who's count is 1
-    
-  return the array
 
 
+  given an array of arrays
+  take all the elements from inside the subarrays
+  place into an array
+
+  create a hash with a default value of 0
+  iterate over the array
+  iterate over the subarray
+    place each element into the hash
+  turn the hash to keys and return
 =end
 
-# check the flattened_arr to see if item is in it
-# if it's not push to arr
-
 def flat_and_unique(arr)
-  flattened_arr = []
-  # 
-  arr.each do |subarray|
-    subarray.each do |item|
-      flattened_arr << item unless flattened_arr.include?(item)
+  hash = Hash.new(0)
+
+  arr.each do |subarr|
+    subarr.each do |obj|
+      hash[obj] += 1
     end
   end
-  p flattened_arr
-  # flattened_arr.each do |obj|
-  #   results.count(obj) == 0 ? results << obj : next
-  # end
-  # p results
+
+  p hash.keys
 end
+
+# def flat_and_unique(arr)
+#   flattened_arr = []
+#   #
+#   arr.each do |subarray|
+#     subarray.each do |item|
+#       flattened_arr << item unless flattened_arr.include?(item)
+#     end
+#   end
+#   p flattened_arr
+# end
 
 flat_and_unique([[1,2,3], [1,4,5], ['a', 2, 'c'], ['a', 7]])
