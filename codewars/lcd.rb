@@ -23,3 +23,9 @@ def find_lcm(arr)
 end
 
 convert_fracts([[1, 2], [1, 3], [1, 4]]) # [6, 12], [4, 12], [3, 12]
+
+# solution
+def convertFracts(lst)
+  lcm = lst.reduce(1) { |x,y| x.lcm(y[1]) }
+  lst.map { |x| [lcm/x[1]*x[0], lcm] }
+end
