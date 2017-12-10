@@ -21,11 +21,11 @@ reduce the results, return sum
 =end
 
 def sum_of_sums(arr)
-  results = []
-  0.upto(arr.size - 1) do |idx|
-    idx == 0 ? results << arr[idx] : results << arr[0..idx].reduce(:+)
+  result = 0
+  1.upto(arr.size) do |idx|
+    result += arr.slice(0, idx).reduce(:+)
   end
-  results.reduce(:+)
+  result
 end
 
 # Test Cases
