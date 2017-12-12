@@ -11,25 +11,32 @@ In number theory and combinatorics, a partition of a positive integer n, also ca
 1 + 1 + 1 + 1
 =end
 
+def sum(n)
+  # loop up to n
+  # start by creating an array of 1
+end
 
+sum(3)
+# => [[3], [1, 1, 1]]
 
-
-
-
-# Examples
-# Trivial
-sum(-1) # 0
-sum(1) # 1
-
-# Basic
-sum(2) # 2  -> 1+1 , 2
-sum(3) # 3 -> 1+1+1, 1+2, 3
-sum(4) # 5 -> 1+1+1+1, 1+1+2, 1+3, 2+2, 4
-sum(5) # 7 -> 1+1+1+1+1, 1+1+1+2, 1+1+3, 1+2+2, 1+4, 5, 2+3
-
-sum(10) # 42
-
-# Explosive
-sum(50) # 204226
-sum(80) # 15796476
-sum(100) # 190569292
+#
+#
+#
+#
+# # Examples
+# # Trivial
+# sum(-1) # 0
+# sum(1) # 1
+#
+# # Basic
+# sum(2) # 2  -> 1+1 , 2
+# sum(3) # 3 -> 1+1+1, 1+2, 3
+# sum(4) # 5 -> 1+1+1+1, 1+1+2, 1+3, 2+2, 4
+# sum(5) # 7 -> 1+1+1+1+1, 1+1+1+2, 1+1+3, 1+2+2, 1+4, 5, 2+3
+#
+# sum(10) # 42
+#
+# # Explosive
+# sum(50) # 204226
+# sum(80) # 15796476
+# sum(100) # 190569292
