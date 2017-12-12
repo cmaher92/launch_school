@@ -2,7 +2,11 @@
 How many ways can you make the sum of a number?
 From wikipedia: https://en.wikipedia.org/wiki/Partition_(number_theory)#
 
-In number theory and combinatorics, a partition of a positive integer n, also called an integer partition, is a way of writing n as a sum of positive integers. Two sums that differ only in the order of their summands are considered the same partition. If order matters, the sum becomes a composition. For example, 4 can be partitioned in five distinct ways:
+In number theory and combinatorics, a partition of a positive integer n, 
+also called an integer partition, is a way of writing n as a sum of positive 
+integers. Two sums that differ only in the order of their summands are 
+considered the same partition. If order matters, the sum becomes a composition. 
+For example, 4 can be partitioned in five distinct ways:
 
 4
 3 + 1
@@ -12,11 +16,23 @@ In number theory and combinatorics, a partition of a positive integer n, also ca
 =end
 
 def sum(n)
-  # loop up to n
-  # start by creating an array of 1
+  sums = []
+  # find the 2 digit sums
+    # subtract 1 from n, append to array
+    # add what was subtract to the array
+  1.upto(n) do |num|
+    arr = []
+    arr << n - num
+    arr << num
+    sums << arr
+  end
+  sums = sums.map do |sum|
+    sum.sort
+  end
+  sums.uniq
 end
 
-sum(3)
+p sum(4)
 # => [[3], [1, 1, 1]]
 
 #
