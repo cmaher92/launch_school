@@ -41,3 +41,13 @@ p palindromes('hello-madam-did-madam-goodbye') == [
 p palindromes('knitting cassettes') == [
   'nittin', 'itti', 'tt', 'ss', 'settes', 'ette', 'tt'
 ]
+
+=begin
+Further Exploration
+
+Can you modify this method (and/or its predecessors) to ignore non-alphanumeric
+characters and case?
+
+# remove non-alphanumeric characters from passed in string
+
+=end
