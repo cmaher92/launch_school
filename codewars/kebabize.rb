@@ -1,24 +1,17 @@
 def kebabize(str)
-  # given a str that is camel-cased
-  # split the str before each capital letter
-  # init words []
-   # match the capital, which returns the index of the first capital found
-   # slice and append from the 0, to the index of the capital - 1
-   # downcase the returned index from the match
-  # append the remaining str to the arr
-  words = []
-  match = 0
-  loop do
-    match = str =~ /[A-Z]/
-    break if match == nil
-    str[match] = str[match].downcase
-    words << str.slice!(0, match - 1)
+  letters = []
+  str.chars.each_with_index do |char, idx|
+    if char == char.upcase
+      letters << '-'
+      letters << char.downcase
+    else
+      letters << char unless char.match(/[^a-z]/i)
+    end
   end
-  words << str
-  p words
+  letters.join
 end
 
-kebabize('myNameIsConnor')
+p kebabize('myNameIsConnor')
 
 # Modify the kebabize function so that it converts a camel case string into a kebab case.
 # the returned string should only contain lowercase letters

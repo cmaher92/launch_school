@@ -23,85 +23,77 @@ init a constant for the alphabet hash, the key's will be the letter values 1-26
 divide the string into five arrays
 =end
 
-ALPHABET = {
-  ' ' => 0,
-  'a' => 1,
-  'b' => 2,
-  'c' => 3,
-  'd' => 4,
-  'e' => 5,
-  'f' => 6,
-  'g' => 7,
-  'h' => 8,
-  'i' => 9,
-  'j' => 10,
-  'k' => 11,
-  'l' => 12,
-  'm' => 13,
-  'n' => 14,
-  'o' => 15,
-  'p' => 16,
-  'q' => 17,
-  'r' => 18,
-  's' => 19,
-  't' => 20,
-  'u' => 21,
-  'v' => 22,
-  'w' => 23,
-  'x' => 24,
-  'y' => 25,
-  'z' => 26
-}
+ALPHABET = %w(a b c d e f g h i j k l m n o p q r s t u v w x y z)
+
+def shift_arr(characters, shift)
+  count = shift
+  characters.map! do |val|
+    if val == ' '
+      count += 1
+      next val
+    end
+
+    val = val + count
+    if val > 25
+      val = val % 25
+    end
+
+    count += 1
+    ALPHABET[val]
+  end
+end
 
 def codeString(s, shift)
-  s = s.split(//)
-  counter = shift
-  coded = []
+  # maps each letter to it's index-value
+  # shifts each letter based on the given shift
+  # joins the array and returns the coded string
+  characters = s.chars
 
-  s.map! do |char|
-    ALPHABET[char]
-  end
-
-  s.each do |num|
-    # handles not shifting for spaces
-    if num == 0
-      coded << num
-      counter += 1
-      next
+  # maps each letters to it's index-value
+  characters.map! do |char|
+    if char == ' '
+      next ' '
+    else
+      ALPHABET.index(char)
     end
-    coded << num += counter
-    counter += 1
   end
 
-  coded.map! do |num|
-    _, r = num.divmod(26)
-    ALPHABET.key(r)
-  end
-  coded.join
+  # handles the shift
+  characters = shift_arr(characters, shift)
+
+  characters.join
 end
+
 
 def movingShift(s, shift)
   coded_str = codeString(s, shift)
-  coded_strs = []
-  q, r = coded_str.size.divmod(4)
+end
 
-  counter = 0
-  5.times do
-    coded_strs << coded_str.slice(counter, q)
-    counter += q
+
+
+def demovingShift(str, shift)
+  values = str.chars.map do |char|
+    if char == ' '
+      next char
+    end
+    ALPHABET.index(char)
   end
 
-  p coded_strs
+
+  count = shift
+  values.map! do |val|
+    if val == ' '
+      count += 1
+      next val
+    else
+      val >= count ? val = val - count : val = val - (count + 1)
+      count += 1
+      ALPHABET[val]
+    end
+  end
+
+  values.join
 end
 
-movingShift('my name is connor', 2)
-
-def demovingShift(arr, shift)
-=begin
-  input
-    arr of coded strings
-    the int shift
-  output
-    string decoded message
-=end
-end
+coded_str = movingShift('my name is connor', 2)
+p demovingShift(coded_str, 2)
