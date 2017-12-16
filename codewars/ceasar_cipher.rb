@@ -22,78 +22,57 @@ init a constant for the alphabet hash, the key's will be the letter values 1-26
 
 divide the string into five arrays
 =end
+require 'pry'
 
 ALPHABET = %w(a b c d e f g h i j k l m n o p q r s t u v w x y z)
 
-def shift_arr(characters, shift)
+def code(word, shift)
+  word_arr = word.chars
   count = shift
-  characters.map! do |val|
-    if val == ' '
-      count += 1
-      next val
-    end
 
-    val = val + count
-    if val > 25
-      val = val % 25
-    end
-
-    count += 1
-    ALPHABET[val]
+  word_arr.map! do |letter|
+    ALPHABET.index(letter)
   end
+
+  word_arr.map! do |value|
+    if shift > 0
+      value = (value + count) % 26
+      count += 1
+      value
+    else
+      value = (value + count) % 26
+      count -= 1
+      value
+    end
+  end
+
+  word_arr.map! do |value|
+    ALPHABET[value]
+  end
+  word_arr.join
 end
 
 def codeString(s, shift)
-  # maps each letter to it's index-value
-  # shifts each letter based on the given shift
-  # joins the array and returns the coded string
-  characters = s.chars
+  # split the string into an array of words
+  # code each word
+  # join the array with spaces
 
-  # maps each letters to it's index-value
-  characters.map! do |char|
-    if char == ' '
-      next ' '
-    else
-      ALPHABET.index(char)
-    end
+  words = s.split(' ')
+  words.map! do |word|
+    # binding.pry
+    code(word, shift)
   end
-
-  # handles the shift
-  characters = shift_arr(characters, shift)
-
-  characters.join
+  p words.join(' ')
 end
 
-
-def movingShift(s, shift)
-  coded_str = codeString(s, shift)
-end
-
-
-
-def demovingShift(str, shift)
-  values = str.chars.map do |char|
-    if char == ' '
-      next char
-    end
-    ALPHABET.index(char)
+def decodeString(s, shift)
+  words = s.split(' ')
+  words.map! do |word|
+    code(word, -shift)
   end
-
-
-  count = shift
-  values.map! do |val|
-    if val == ' '
-      count += 1
-      next val
-    else
-      val >= count ? val = val - count : val = val - (count + 1)
-      count += 1
-      ALPHABET[val]
-    end
-  end
-
-  values.join
+  p words.join(' ')
 end
-
-coded_str = movingShift('my name is connor', 2)
-p demovingShift(coded_str, 2)
+str = 'hello my name is connor'
+shift = 9999999
+coded_str = codeString(str, shift)
+decodeString(coded_str, shift)
