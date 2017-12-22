@@ -52,7 +52,6 @@ stack, and they won't contain unknown tokens.
 
 You should initialize the register to 0.
 =end
-
 # input
   # string - contains command sand numbers
 # output
@@ -79,7 +78,7 @@ def minilang(instructions)
     'MOD'  => Proc.new { register = register % stack.pop },
     'POP'  => Proc.new { register = stack.pop },
     'PRINT'=> Proc.new { puts register },
-    'STACK'=> Proc.new { puts stack[0] }
+    'STACK'=> Proc.new { puts stack }
   }
 
   instructions = instructions.split
@@ -103,13 +102,17 @@ end
 # write a program that can evaluate and print the result of this input
 # (3 + (4 * 5) - 7) / (5 % 3)
 # write this in a way that minilang can work the problem
-minilang('5 PUSH 4 MULT PUSH 3 ADD 7 SUB PRINT')
-#
+minilang('3 PUSH 5 MOD PUSH 7 PUSH 3 PUSH 5 PUSH 4 MULT ADD SUB DIV PRINT')
+# The tough part with this instruction set is that you need to consider
+# the order of operations, the operations that will occur last need to be
+# pushed on the stack first. So in a way you need to have the forethought to 
+# work backwards. 
+
 # # Examples:
 # minilang('PRINT')
 # # 0
 #
-minilang('5 PUSH 3 MULT PRINT')
+# minilang('5 PUSH 3 MULT PRINT')
 # adds 5 to the register
 # adds the 5 to the stack
 # adds 3 to register
@@ -118,7 +121,7 @@ minilang('5 PUSH 3 MULT PRINT')
 # print's register
 # => 5
 
-minilang('5 PRINT PUSH 3 PRINT ADD PRINT')
+# minilang('5 PRINT PUSH 3 PRINT ADD PRINT')
 # 5
 # 3
 # 8
@@ -126,20 +129,20 @@ minilang('5 PRINT PUSH 3 PRINT ADD PRINT')
 # minilang('5 PUSH POP PRINT')
 # 5
 
-minilang('3 PUSH 4 PUSH 5 PUSH PRINT ADD PRINT POP PRINT ADD PRINT')
+# minilang('3 PUSH 4 PUSH 5 PUSH PRINT ADD PRINT POP PRINT ADD PRINT')
 # 5
 # 10
 # 4
 # 7
 
-minilang('3 PUSH PUSH 7 DIV MULT PRINT ')
+# minilang('3 PUSH PUSH 7 DIV MULT PRINT ')
 # # 6
 
-minilang('4 PUSH PUSH 7 MOD MULT PRINT ')
+# minilang('4 PUSH PUSH 7 MOD MULT PRINT ')
 # 12
 
-minilang('-3 PUSH 5 SUB PRINT')
+# minilang('-3 PUSH 5 SUB PRINT')
 # 8
 
-minilang('6 PUSH')
+# minilang('6 PUSH')
 # (nothing printed; no PRINT commands)
