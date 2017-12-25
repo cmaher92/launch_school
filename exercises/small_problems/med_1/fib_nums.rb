@@ -41,25 +41,6 @@
 # Determine how to do the fib sequence without using a method
 # Then translate it into a recursive method
 
-# n = 9
-# prev_a = 0
-# prev_b = 1
-# prev_a + prev_b = fib
-# prev_a = prev_b
-# prev_b = fib
-# count += 1
-
-# prev_a = 1
-# prev_b = 2
-# prev_a + prev_b = fib
-# prev_a = prev_b
-# prev_b = fib
-# count += 1
-
-# If I pass 1, need 1 returned
-# If I pass 2, need 1 returned
-# If I pass 3, need 2 returned
-# If I pass 4, need 3 returned
 
 def fibonacci(n)
   # because the first 2 values in fib, are 1's
@@ -67,6 +48,34 @@ def fibonacci(n)
 
   fibonacci(n-1) + fibonacci(n-2)
 end
+
+# faults?
+  # the number of method calls
+  # it has to calculate the entire fib sequence
+  # uses massive amounts of space, can reasonably handle up to fibonacci(40)
+
+# tail recursive solution provided by Launch School
+# runs much faster, can handle up to around fibonacci(8200)
+def fibonacci_tail(nth, acc1, acc2)
+  if nth == 1
+    acc1
+  elsif nth == 2
+    acc2
+  else
+    fibonacci_tail(nth - 1, acc2, acc2 + acc1)
+  end
+end
+
+def fibonacci(nth)
+  fibonacci_tail(nth, 1, 1)
+end
+
+fibonacci(4)
+# fibonacci_tail(4, 1, 1)
+  # fibonacci_tail(3, 1, 2)
+    # fibonacci_tail(2, 2, 3)
+    # returns 3
+# fibonacci returns 3
 
 
 # Examples:
