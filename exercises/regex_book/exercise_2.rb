@@ -2,8 +2,12 @@
 # The fields are separated by a variety of spaces, tabs, and commas,
 # with possibly multiple occurrences of these characters.
 
+# def fields(str)
+#   str.scan(/\b\w\w*\b/)
+# end
+
 def fields(str)
-  str.scan(/\b\w\w*\b/)
+  str.split(/[ ,\t]+/)
 end
 
 # Examples:
