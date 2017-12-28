@@ -40,16 +40,31 @@ CHECK_LETTERS = ['BO',
 #   return the index in CHECK_LETTERS for the given character
 # compare the arr to the arr#uniq
 
-require 'pry'
+# require 'pry'
+#
+# def block_word?(str)
+#   arr = str.upcase.split(//).map do |char|
+#     CHECK_LETTERS.index do |substr|
+#       substr[0] == char || substr[1] == char
+#     end
+#   end
+#   arr == arr.uniq
+# end
 
-def block_word?(str)
-  arr = str.upcase.split(//).map do |char|
-    CHECK_LETTERS.index do |substr|
-      substr[0] == char || substr[1] == char
-    end
-  end
-  arr == arr.uniq
+
+BLOCKS = %w(BO XK DQ CP NA GT RE FS JW HU VI LY ZM).freeze
+
+def block_word?(string)
+  up_string = string.upcase
+  BLOCKS.none? { |block| up_string.count(block) >= 2 }
+  # none? passes each item of BLOCK into the block
+  # .count then checks the string up_string to see if the string contains
+  # more than 1 string in any of the blocks, if it does it would return
+  # true for that check which would cause #none? to return false.
+  # If there isn't any item in BLOCKS that up_string contains more than 1
+  # of then it will return true. 
 end
+
 
 # Examples:
 p block_word?('BATCH') == true
