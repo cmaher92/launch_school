@@ -45,7 +45,6 @@ def is_balanced?(str, match_item)
   balance = 0
   str.chars.each do |char|
     return false if balance < 0
-    if char == opened_match
     balance += 1 if char == opened_match
     balance -= 1 if char == closed_match
   end
@@ -53,21 +52,22 @@ def is_balanced?(str, match_item)
 end
 
 def balanced?(str)
-#   # str.match(/\[\]\(\)\{\}/).to_a.each do |item|
-#   #    return false unless is_balanced?(str, item) == true
-#   # end
+  str.scan(/[()\[\]{}]/).all? do |item|
+     is_balanced?(str, item) == true
+  end
 end
-# p is_balanced?('con[n]]or', "[")
-# p is_balanced?('co{nno}r', "}")
-# p is_balanced?("how are 'you today?", "'")
+p balanced?('con[n]]or')
+p balanced?('co{nno}r')
+p balanced?("how are 'you today?")
 
 # Examples:
 p balanced?('What (is) this?') == true
-# p balanced?('What is) this?') == false
-# p balanced?('What (is this?') == false
-# p balanced?('((What) (is this))?') == true
-# p balanced?('((What)) (is this))?') == false
-# p balanced?('Hey!') == true
-# p balanced?(')Hey!(') == false
-# p balanced?('What ((is))) up(') == false
+p balanced?('What is) this?') == false
+p balanced?('`What` (is this?') == false
+p balanced?('((What) (is this))?') == true
+p balanced?('((What)) (is this))?') == false
+p balanced?('Hey!') == true
+p balanced?(')Hey!(') == false
+p balanced?('What ((is))) up(') == false
+# p balanced
 # # Note that balanced pairs must each start with a (, not a ).
