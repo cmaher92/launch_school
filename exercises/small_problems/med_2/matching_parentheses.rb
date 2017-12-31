@@ -35,6 +35,9 @@ require 'pry'
 MATCH_CHARS = {'(' => ')', '[' => ']', "{" => "}"}
 
 def is_balanced?(str, match_item)
+  if match_item == "'" || match_item == "\""
+    return str.count(match_item).even?
+  end
   if MATCH_CHARS[match_item]
     opened_match = match_item
     closed_match = MATCH_CHARS[match_item]
@@ -51,16 +54,20 @@ def is_balanced?(str, match_item)
   balance == 0
 end
 
+# quotes_balanced?(str, '\'')
+
 def balanced?(str)
-  str.scan(/[()\[\]{}]/).all? do |item|
-     is_balanced?(str, item) == true
+  str.scan(/[()\[\]{}'"]/).all? do |item|
+    # binding.pry
+    is_balanced?(str, item) == true
   end
 end
-p balanced?('con[n]]or')
-p balanced?('co{nno}r')
-p balanced?("how are 'you today?")
 
-# Examples:
+# Test cases
+p balanced?("conn'or")  == false
+p balanced?('con[n]]or') == false
+p balanced?('co{nno}r') == true
+p balanced?("how are 'you today?") == false
 p balanced?('What (is) this?') == true
 p balanced?('What is) this?') == false
 p balanced?('`What` (is this?') == false
@@ -69,5 +76,3 @@ p balanced?('((What)) (is this))?') == false
 p balanced?('Hey!') == true
 p balanced?(')Hey!(') == false
 p balanced?('What ((is))) up(') == false
-# p balanced
-# # Note that balanced pairs must each start with a (, not a ).
