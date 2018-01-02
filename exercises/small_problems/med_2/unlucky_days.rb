@@ -12,9 +12,26 @@
 # rules
 #   you can assume the year is after 1752
 
-# 
+require 'Date'
+
+# create date object with the given integer
+# loop 365 times
+  # if date is a friday, and date is the 13th of the month
+  # add 1 to unlucky_days variable
+
+def friday_13th(year)
+  date = Date.new(year)
+  unlucky_days = 0
+  365.times do
+    date = date + 1
+    if date.friday? == true && date.mday == 13
+      unlucky_days += 1
+    end
+  end
+  unlucky_days
+end
 
 # Examples:
-friday_13th(2015) == 3
-friday_13th(1986) == 1
-friday_13th(2019) == 2
+p friday_13th(2015) == 3
+p friday_13th(1986) == 1
+p friday_13th(2019) == 2
