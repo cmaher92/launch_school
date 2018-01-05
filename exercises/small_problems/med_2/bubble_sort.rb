@@ -33,8 +33,9 @@
 
 def bubble_sort!(a)
   swapped = false
+  length = a.size
   loop do
-    1.upto(a.length - 1) do |i|
+    1.upto(length - 1) do |i|
       if a[i-1] > a[i]
         a[i-1], a[i] = a[i], a[i-1]
         swapped = true
@@ -42,9 +43,41 @@ def bubble_sort!(a)
     end
     break if swapped == false
     swapped = false
+    length = length - 1
   end
-  a
 end
+
+# This is an optimization based on the fact that after each sorting loop
+# the largest elementh is at the last place in the Array, so each time
+# the array is sorted you can ignore the last element.
+# procedure bubbleSort( A : list of sortable items )
+#     n = length(A)
+#     repeat
+#         swapped = false
+#         for i = 1 to n-1 inclusive do
+#             if A[i-1] > A[i] then
+#                 swap(A[i-1], A[i])
+#                 swapped = true
+#             end if
+#         end for
+#         n = n - 1
+#     until not swapped
+# end procedure
+
+# This is another optimization of the bubble sort where the 
+# procedure bubbleSort( A : list of sortable items )
+#     n = length(A)
+#     repeat
+#         newn = 0
+#         for i = 1 to n-1 inclusive do
+#             if A[i-1] > A[i] then
+#                 swap(A[i-1], A[i])
+#                 newn = i
+#             end if
+#         end for
+#         n = newn
+#     until n = 0
+# end procedure
 
 array = [5, 3]
 bubble_sort!(array)
