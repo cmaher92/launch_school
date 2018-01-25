@@ -13,28 +13,29 @@
     top-level element
 
   given an array
-    - I need to first count all of the top-level elements within
-    the given array
-      - add 1 right away regardless of what the element is
+    - define local variable 'count' to track the number of elements
+    - iterate over each element within the passed in array
+      - if element is not an array
+        - increase the count by 1
       - if the element is an array
-        - call the function again, adding the return value to the count
-
-  [1, 2, [3, 4]]
-  item  = 1
-  count = 1
-
-  item  = 2
-  count = 2
+        - increase the count by the return value of calling deep_count + 1
+    - return count
 
 =end
 
-def deep_count(a)
+def deep_count(arr)
+  count = 0
+  arr.each do |el|
+    if el.class != Array
+      count += 1
+    else
+      count += 1 + deep_count(el)
+    end
+  end
+  count
 end
 
 # Test cases
-deepCount([1, 2, 3]);
-//>>>>> 3
-deepCount(["x", "y", ["z"]]);
-//>>>>> 4
-deepCount([1, 2, [3, 4, [5]]]);
-//>>>>> 7
+p deep_count([1, 2, 3]) == 3
+p deep_count(["x", "y", ["z"]]) == 4
+p deep_count([1, 2, [3, 4, [5]]]) == 7
