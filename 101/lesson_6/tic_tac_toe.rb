@@ -1,4 +1,5 @@
 require 'pry'
+require_relative 'joinor'
 
 INITIAL_MARKER = ' '
 USER_MARKER = 'X'
@@ -20,9 +21,21 @@ def initialize_board
   board
 end
 
+def initialize_score
+  score = {"Player" => 0, "Computer" => 0}
+end
+
+def update_score(score, winner)
+  score[winner] += 1
+  score
+end
+
 # rubocop:disable Metrics/AbcSize
-def display_board(b)
+def display_board(b, score)
   system 'clear'
+  puts "You're #{USER_MARKER}. Computer is #{CPU_MARKER}."
+  puts "You have won #{score["Player"]} games"
+  puts "The computer has won #{score["Computer"]} games"
   puts "     |     |"
   puts "  #{b[1]}  |  #{b[2]}  |  #{b[3]}"
   puts "     |     |"
@@ -47,7 +60,8 @@ def user_turn!(b)
   square = ''
   loop do
     prompt("Please select where you want to place your piece")
-    prompt("Square #{empty_squares(b).join(', ')} are available")
+    # binding.pry
+    prompt("Squares #{joinor(empty_squares(b), ', ', 'and')} are available")
     square = gets.chomp.to_i
     break if empty_squares(b).include?(square)
     prompt("That's an invalid choice.")
@@ -71,6 +85,8 @@ def board_full?(b)
 end
 
 def someone_won?(b)
+  # returns a boolean
+  # saves the winner into a variable which is used to update the score
   !!detect_winner(b)
 end
 
@@ -85,27 +101,55 @@ def detect_winner(b)
   nil
 end
 
-# main gameplay logic
 loop do
-  board = initialize_board
+  # start of a series
+  score = initialize_score
 
   loop do
-    display_board(board)
-    user_turn!(board)
-    break if someone_won?(board) || board_full?(board)
-    computer_turn!(board)
-    break if someone_won?(board) || board_full?(board)
+    board = initialize_board
+
+    loop do
+      display_board(board, score)
+      user_turn!(board)
+      # binding.pry
+      break if !!someone_won?(board) || board_full?(board)
+      computer_turn!(board)
+      break if !!someone_won?(board) || board_full?(board)
+    end
+
+    display_board(board, score)
+
+    # display's who won
+    if someone_won?(board)
+      winner = detect_winner(board)
+      prompt("#{winner} won!")
+      score = update_score(score, winner)
+      prompt("The score is:")
+      prompt("Player: #{score["Player"]}, to Computer: #{score["Computer"]}")
+    else
+      prompt "It's a tie!"
+    end
+
+    break if score.values.any? { |score| score == 5 }
   end
 
-  display_board(board)
-
-  if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
-  else
-    prompt "It's a tie!"
-  end
-
-  prompt('Do you want to play again? (y/n)')
+  system 'clear'
+  # need to ask the player if he wants to play another match
+  winner = score.select { |k, v| k if v == 5 }.to_a[0][0]
+  prompt("It looks like #{winner} has won the match!")
+  prompt('Do you want to play another match? (y/n)')
   choice = gets.chomp.downcase
-  break if choice == 'n'
+  if choice == 'n'
+    break
+  else
+    score = initialize_score
+    next
+  end
 end
+# Keep score
+# No global or constant variables
+
+# initalize_score at beginning of new series
+# once somebody has won, update the score
+# display the score at the end of each game
+# break once somebody has 5 wins
