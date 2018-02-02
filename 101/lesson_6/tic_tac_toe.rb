@@ -13,6 +13,12 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
+def play_again?
+  prompt('Would you like to play again? (y/n)')
+  choice = gets.chomp.downcase
+  choice == 'n' ? false : true
+end
+
 def initialize_board
   board = {}
   1.upto(9) do |i|
@@ -22,7 +28,7 @@ def initialize_board
 end
 
 def initialize_score
-  score = {"Player" => 0, "Computer" => 0}
+  { "Player" => 0, "Computer" => 0 }
 end
 
 def update_score(score, winner)
@@ -34,8 +40,9 @@ end
 def display_board(b, score)
   system 'clear'
   puts "You're #{USER_MARKER}. Computer is #{CPU_MARKER}."
-  puts "You have won #{score["Player"]} games"
-  puts "The computer has won #{score["Computer"]} games"
+  puts "You have won #{score['Player']} games"
+  puts "The computer has won #{score['Computer']} games"
+  puts ""
   puts "     |     |"
   puts "  #{b[1]}  |  #{b[2]}  |  #{b[3]}"
   puts "     |     |"
@@ -47,6 +54,7 @@ def display_board(b, score)
   puts "     |     |"
   puts "  #{b[7]}  |  #{b[8]}  |  #{b[9]}"
   puts "     |     |"
+  puts ""
 end
 # rubocop:enable Metrics/AbcSize
 
@@ -101,17 +109,21 @@ def detect_winner(b)
   nil
 end
 
+def detect_match_winner(s)
+  s.select { |k, v| k if v == 5 }.to_a[0][0]
+end
+
 loop do
-  # start of a series
+  # start of a match
   score = initialize_score
 
   loop do
+    # start of game
     board = initialize_board
 
     loop do
       display_board(board, score)
       user_turn!(board)
-      # binding.pry
       break if !!someone_won?(board) || board_full?(board)
       computer_turn!(board)
       break if !!someone_won?(board) || board_full?(board)
@@ -125,31 +137,18 @@ loop do
       prompt("#{winner} won!")
       score = update_score(score, winner)
       prompt("The score is:")
-      prompt("Player: #{score["Player"]}, to Computer: #{score["Computer"]}")
+      prompt("Player: #{score['Player']}, to Computer: #{score['Computer']}")
     else
       prompt "It's a tie!"
     end
 
-    break if score.values.any? { |score| score == 5 }
+    break if score.values.any? { |total| total == 5 }
   end
 
   system 'clear'
-  # need to ask the player if he wants to play another match
-  winner = score.select { |k, v| k if v == 5 }.to_a[0][0]
+  winner = detect_match_winner(score)
   prompt("It looks like #{winner} has won the match!")
-  prompt('Do you want to play another match? (y/n)')
-  choice = gets.chomp.downcase
-  if choice == 'n'
-    break
-  else
-    score = initialize_score
-    next
-  end
-end
-# Keep score
-# No global or constant variables
+  prompt("The final score was #{score["Player"]} games to #{score["Computer"]}")
 
-# initalize_score at beginning of new series
-# once somebody has won, update the score
-# display the score at the end of each game
-# break once somebody has 5 wins
+  play_again? ? score = initialize_score : break
+end
