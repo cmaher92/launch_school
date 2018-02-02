@@ -136,8 +136,6 @@ loop do
       winner = detect_winner(board)
       prompt("#{winner} won!")
       score = update_score(score, winner)
-      prompt("The score is:")
-      prompt("Player: #{score['Player']}, to Computer: #{score['Computer']}")
     else
       prompt "It's a tie!"
     end
