@@ -1,5 +1,6 @@
 require 'pry'
 require_relative 'joinor'
+require_relative 'computer_turn'
 
 INITIAL_MARKER = ' '
 USER_MARKER = 'X'
@@ -76,14 +77,6 @@ def user_turn!(b)
   end
   b[square] = USER_MARKER
   b
-end
-
-def computer_turn!(b)
-  # randomly selects a square to place a piece based on what is available
-  # empty_squares returns an array of keys representing the empty squares
-  # on the board
-  choice = empty_squares(b).sample
-  b[choice] = CPU_MARKER
 end
 
 def board_full?(b)
