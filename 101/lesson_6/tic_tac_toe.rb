@@ -14,8 +14,8 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
-def play_again?
-  prompt('Would you like to play again? (y/n)')
+def play_again?(match_or_game)
+  prompt("Would you like to play another #{match_or_game}? (y/n)")
   choice = gets.chomp.downcase
   choice == 'n' ? false : true
 end
@@ -104,6 +104,18 @@ def detect_match_winner(s)
   s.select { |k, v| k if v == 5 }.to_a[0][0]
 end
 
+def display_winner(score, board)
+  winner = detect_winner(board)
+  display_board(board, score)
+  prompt("#{winner} won!")
+  winner
+end
+
+def display_tie(score, board)
+  display_board(board, score)
+  prompt("It's a tie!")
+end
+
 def place_piece!(board, current_player)
   if current_player == 'player'
     player_turn!(board)
@@ -115,8 +127,32 @@ def place_piece!(board, current_player)
   current_player
 end
 
+def play_game(score, board, current_player)
+  display_board(board, score)
+  current_player = place_piece!(board, current_player)
+  if !!someone_won?(board) || board_full?(board)
+    return
+  else
+    play_game(score, board, current_player)
+  end
+end
+
+def play_match(score, starting_player)
+  board = initialize_board
+  play_game(score, board, starting_player)
+  if someone_won?(board)
+    winner = display_winner(score, board)
+    update_score!(score, winner)
+  else
+    display_tie(board, score)
+  end
+  sleep(2)
+  return if score.values.any? { |total| total == 5 }
+  play_match(score, starting_player)
+end
+
 loop do
-  # start of a match
+  # start of a tic tac toe
   starting_player = ""
   loop do
     prompt('Who should go first.. You or the computer?')
@@ -135,42 +171,14 @@ loop do
   end
   score = initialize_score
 
-  loop do
-    # start of game
-    current_player = starting_player
-    board = initialize_board
-
-    loop do
-      # each loop display's the board
-      # places a piece on the board
-      # checks to see if somebody won or the board is full
-      # if the board is full, or there is a winner it breaks from this loop
-      display_board(board, score)
-      current_player = place_piece!(board, current_player)
-      break if !!someone_won?(board) || board_full?(board)
-    end
-
-    # display who won, updates score hash
-    if someone_won?(board)
-      winner = detect_winner(board)
-      update_score!(score, winner)
-      display_board(board, score)
-      prompt("#{winner} won!")
-    else
-      display_board(board, score)
-      prompt "It's a tie!"
-    end
-
-    sleep(3)
-    break if score.values.any? { |total| total == 5 }
-  end
+  play_match(score, starting_player)
 
   system 'clear'
   winner = detect_match_winner(score)
   prompt("It looks like #{winner} has won the match!")
   prompt("The final score was #{score["Player"]} games to #{score["Computer"]}")
 
-  play_again? ? score = initialize_score : break
+  play_again?('match') ? score = initialize_score : break
 end
 
 # TO_DO:
@@ -198,6 +206,12 @@ end
     # reassigning an object within the score, which is mutating the score not creating a
     # whole new Hash.
   # set up the option to choose who goes first each game
+    # done
+  # abstract the game loop into a function call
+    # I abstract both the turn logic and the game logic into their own
+    # recursive functions.
+  # abstract asking the player who should go first to a function, messy
+  # clean up the function names, organize the order
 
 
 # Feature backlog:
