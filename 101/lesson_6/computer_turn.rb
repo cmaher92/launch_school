@@ -1,10 +1,10 @@
-WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
-                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
-                [[1, 5, 9], [3, 5, 7]]
-
-USER_MARKER = 'X'
-INITIAL_MARKER = ' '
-CPU_MARKER = 'O'
+# WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
+#                 [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
+#                 [[1, 5, 9], [3, 5, 7]]
+#
+# PLAYER_MARKER = 'X'
+# INITIAL_MARKER = ' '
+# COMPUTER_MARKER = 'O'
 
 
 require 'pry'
@@ -13,7 +13,7 @@ require 'pry'
 #   # empty_squares returns an array of keys representing the empty squares
 #   # on the board
 #   choice = empty_squares(b).sample
-#   b[choice] = CPU_MARKER
+#   b[choice] = COMPUTER_MARKER
 # end
 
 # check the board's lines to see if anywhere on the board
@@ -97,17 +97,8 @@ def computer_turn!(brd)
     square = empty_squares(brd).sample
   end
 
-  brd[square] = CPU_MARKER
+  brd[square] = COMPUTER_MARKER
 end
-
-
-# The logic is simple:
-# if the computer already has 2 in a row,
-# then fill in the 3rd square,
-# as opposed to moving at random.
-
-
-
 
 # Test cases
 # board = {
