@@ -16,11 +16,13 @@ Choose the right way to structure your data,
 and this problem becomes a whole lot easier.
 
 Example output:
-The sleepy brown cat noisily
+The sleepy brown cat noisily.\n
 licks the sleepy yellow
 dog, who lazily licks his
 tail and looks around.
 =end
+
+require 'pry'
 
 ADJECTIVES = %w(mammoth giant spotty)
 NOUNS = %w(Bandanna Fang Governance)
@@ -54,15 +56,19 @@ word_generator = {
   'adjective' => ADJECTIVES,
   'noun'      => NOUNS,
   'verb'      => VERBS,
-  'adverbs'   => ADVERBS
+  'adverb'   => ADVERBS
 }
 sample_text = File.readlines('madlib.txt')
 sample_text.each do |sentence|
+  sentence = sentence.sub(/(\.) *(\n)/, '') # needs improvement
   words = sentence.split(' ')
-  words.map do |word|
-    word = word.match()
+  words.map! do |word|
+    word_generator.has_key?(word) ? word_generator[word].sample : word
   end
+  p words
 end
+
+word_generator
 
 # The noun adjective noun verb us adverb. The adjective, adjective
 # caretaker refused to answer our questions. I verb adverb.
@@ -75,6 +81,4 @@ end
 
 
 # TODO
-# sanitize the sentence so there are no newline characters
-# remove the periods as well, this will make it easier to compare words
-# to the keys of the array
+# instead of using sample, figure out a way to not use the same word again
