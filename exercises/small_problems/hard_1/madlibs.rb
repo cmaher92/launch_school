@@ -22,50 +22,32 @@ dog, who lazily licks his
 tail and looks around.
 =end
 
-require 'pry'
-
-ADJECTIVES = %w(mammoth giant spotty)
-NOUNS = %w(Bandanna Fang Governance)
-VERBS = %w(invent whisper scare)
-ADVERBS = %w(sweetly unbearably sedately)
-
-
-# create a local variable hash, with the keys ['noun', 'adverb', 'adjective' ...]
-# read text from a file and save into a local variable which will be
-# an array of strings
-# for each line in the array of strings
-  # split the string into words by splitting on spaces
-  # map each word in the string
-    # only grab characters a-z from the word
-    # if the word is one of the hash's keys
-    # replace it with a word from the value array
-# now print the full result
-
-# algorithm
-# initialize a hash named 'word_generator' that contains the parts of speech as strings
-# for keys and the constant array's as values.
-# initialize an array that will contain the sample text from the file 'madlib.txt'
-# for each sentence in sample_text array
-#   split the line into an array of words
-#   map the array of words
-#   if the string isn't empty, grab a value from the word_generator hash
-#   return that value
-# puts the lines one by one
+# I opted for splitting of the sentences to prevent using the same word
+# when there was more than one parts of speech in a single sentence.
+# I also use #pop instead of #sample to prevent the madlib from having
+# the same part-of-speech used multiple times.
 
 word_generator = {
-  'adjective' => ADJECTIVES,
-  'noun'      => NOUNS,
-  'verb'      => VERBS,
-  'adverb'   => ADVERBS
+  'adjective' => %w(mammoth giant spotty small),
+  'noun'      => %w(bandanna fang pickle),
+  'verb'      => %w(invent whisper scare),
+  'adverb'   => %w(sweetly unbearably sedately)
 }
 sample_text = File.readlines('madlib.txt')
 sample_text.each do |sentence|
-  sentence = sentence.gsub(/\n|\.|,/, '') # this works but there could be a better way
-  words = sentence.split(' ')
-  words.map! do |word|
-    word_generator.has_key?(word) ? word_generator[word].sample : word
+  formatted_sentence = sentence.split.map do |word|
+    case
+    when word =~ /%{adjective}/
+      format(word, adjective: word_generator['adjective'].pop)
+    when word =~ /%{noun}/
+      format(word, noun: word_generator['noun'].pop)
+    when word =~ /%{verb}/
+      format(word, verb: word_generator['verb'].pop)
+    when word =~ /%{adverb}/
+      format(word, adverb: word_generator['adverb'].pop)
+    else
+      word
+    end
   end
-  p words.join(' ') << '.'
+  p formatted_sentence.join(' ')
 end
-
-word_generator
