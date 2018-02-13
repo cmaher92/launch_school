@@ -60,25 +60,12 @@ word_generator = {
 }
 sample_text = File.readlines('madlib.txt')
 sample_text.each do |sentence|
-  sentence = sentence.sub(/(\.) *(\n)/, '') # needs improvement
+  sentence = sentence.gsub(/\n|\.|,/, '') # this works but there could be a better way
   words = sentence.split(' ')
   words.map! do |word|
     word_generator.has_key?(word) ? word_generator[word].sample : word
   end
-  p words
+  p words.join(' ') << '.'
 end
 
 word_generator
-
-# The noun adjective noun verb us adverb. The adjective, adjective
-# caretaker refused to answer our questions. I verb adverb.
-# Howard is a adjective noun. He verb adverb.
-#
-# adjective: 3
-# noun: 3
-# verb: 3
-# adverb: 3
-
-
-# TODO
-# instead of using sample, figure out a way to not use the same word again
