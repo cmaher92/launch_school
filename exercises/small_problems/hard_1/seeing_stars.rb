@@ -116,7 +116,9 @@ end
 # whether or not it was the top of the star or the bottom of the star
 # I'm still curious if I could abstract a simple recursive method that could
 # recognize whether or not it was the top row or bottom row, but again
-# it seems like it's simply overkill at this point. 
+# it seems like it's simply overkill at this point.
+# what would happen if I used the #format method opposed to string interpolation
+# maybe overkill but it would serve as solid practice. 
 
 
 # Examples
