@@ -118,7 +118,7 @@ end
 # recognize whether or not it was the top row or bottom row, but again
 # it seems like it's simply overkill at this point.
 # what would happen if I used the #format method opposed to string interpolation
-# maybe overkill but it would serve as solid practice. 
+# maybe overkill but it would serve as solid practice.
 
 
 # Examples
