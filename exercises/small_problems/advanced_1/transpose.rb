@@ -94,18 +94,42 @@ require 'pry'
 # so map will be called 3 seperate times for each column index
 
 # Here's my attempt at the instructors' solution
-def transpose(matrix)
-  result = []
-  (0..2).each do |column_index|
-    new_row = (0..2).map { |row_index| matrix[row_index][column_index]}
-    result << new_row
-  end
-  result
-end
+# def transpose(matrix)
+#   result = []
+#   (0..2).each do |column_index|
+#     new_row = (0..2).map { |row_index| matrix[row_index][column_index]}
+#     result << new_row
+#   end
+#   result
+# end
 
-# This is a good example of how you can iterate over something without
-# directly iterating over the collection being used. It woud be helpful
-# if I somehow kept a place for clever ways to work with objects. 
+# further exploration
+# write a transpose! method that does in-place mutation of the matrix
+# passed in.
+
+# i need to manipulate the matrix in place and return it
+# with each column now as the row
+#   for the first three elements in each row
+#     the first element should be appened to the first row,
+#     the second element should be appeneded to the second row,
+#     the third element should be appened to the final row
+# return the matrix
+
+# algorithm
+# iterate over each row in the matrix, passing in the row
+#   for each row
+#     0.upto(2) passing in the number representing the index
+#     shift the element, appending to the associated row
+#  return the matrix
+
+def transpose!(matrix)
+  matrix.each do |row|
+    0.upto(2) do |index|
+      matrix[index] << row.shift
+    end
+  end
+  matrix
+end
 
 # Test cases:
 matrix = [
@@ -114,8 +138,13 @@ matrix = [
   [3, 9, 6]
 ]
 
-new_matrix = transpose(matrix)
+new_matrix = transpose!(matrix)
 
 p new_matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
-p matrix == [[1, 5, 8], [4, 7, 2], [3, 9, 6]]
+p matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
 # This program should print "true" twice.
+
+# NOTES:
+# This is a good example of how you can iterate over something without
+# directly iterating over the collection being used. It woud be helpful
+# if I somehow kept a place for clever ways to work with objects.
