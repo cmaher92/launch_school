@@ -122,29 +122,69 @@ require 'pry'
 #     shift the element, appending to the associated row
 #  return the matrix
 
-def transpose!(matrix)
-  matrix.each do |row|
-    0.upto(2) do |index|
-      matrix[index] << row.shift
-    end
-  end
-  matrix
-end
-
-# Test cases:
-matrix = [
-  [1, 5, 8],
-  [4, 7, 2],
-  [3, 9, 6]
-]
-
-new_matrix = transpose!(matrix)
-
-p new_matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
-p matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
+# def transpose!(matrix)
+#   matrix.each do |row|
+#     0.upto(2) do |index|
+#       matrix[index] << row.shift
+#     end
+#   end
+#   matrix
+# end
+#
+# # Test cases:
+# matrix = [
+#   [1, 5, 8],
+#   [4, 7, 2],
+#   [3, 9, 6]
+# ]
+#
+# new_matrix = transpose!(matrix)
+#
+# p new_matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
+# p matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
 # This program should print "true" twice.
 
 # NOTES:
 # This is a good example of how you can iterate over something without
 # directly iterating over the collection being used. It woud be helpful
 # if I somehow kept a place for clever ways to work with objects.
+
+
+# transpose MxN
+# rules of transposition
+  # all elements in the x column (c index position of each row)
+  # become elements in the x row
+  # [1, 2, 3, 4]
+  # [1], [2], [3], [4]
+
+  # iterate over each row in the matrix
+  #   create a new arr of nil's the length of the first arr in the matrix
+  #   for each item and their index
+  #   if not nill in the transposed_matrix
+  #     append it to that arr
+  #   if nill
+  #     set that location to [element]
+  #   return transposed matrix
+
+  def transpose(matrix)
+    transposed_matrix = Array.new(matrix[0].size, nil)
+    matrix.each do |row|
+      row.each_with_index do |num, idx|
+        unless transposed_matrix[idx] == nil
+          transposed_matrix[idx] << num
+        else
+          transposed_matrix[idx] = []
+          transposed_matrix[idx] << num
+        end
+      end
+    end
+    transposed_matrix
+  end
+
+
+# test cases
+p transpose([[1, 2, 3, 4]]) == [[1], [2], [3], [4]]
+p transpose([[1], [2], [3], [4]]) == [[1, 2, 3, 4]]
+p transpose([[1, 2, 3, 4, 5], [4, 3, 2, 1, 0], [3, 7, 8, 6, 2]]) ==
+  [[1, 4, 3], [2, 3, 7], [3, 2, 8], [4, 1, 6], [5, 0, 2]]
+p transpose([[1]]) == [[1]]
