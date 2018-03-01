@@ -1,6 +1,6 @@
 require 'pry'
 require_relative 'joinor'
-require_relative 'computer_turn'
+# require_relative 'computer_turn'
 
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
@@ -57,6 +57,26 @@ def display_board(b, score)
   puts ""
 end
 # rubocop:enable Metrics/AbcSize
+
+def computer_turn!(board)
+  # given the board
+  # calculate the possible moves
+  moves = calculate_moves(board)
+  # check to see if any of the moves are winners, loser, or ties
+end
+
+def calculate_moves(board)
+  empty_spots = empty_squares(board)
+  possible_moves = []
+  until empty_spots.empty?
+    possible_move = Hash.new
+    possible_move.replace(board)
+    move = empty_spots.pop
+    possible_move[move] = COMPUTER_MARKER # this is manipulating the board
+    possible_moves << possible_move
+  end
+  possible_moves
+end
 
 def empty_squares(b)
   # finds the keys where the value in the board hash
@@ -144,15 +164,14 @@ def play_match(score, starting_player)
     winner = display_winner(score, board)
     update_score!(score, winner)
   else
-    display_tie(board, score)
+    display_tie(score, board)
   end
   sleep(2)
   return if score.values.any? { |total| total == 5 }
   play_match(score, starting_player)
 end
 
-loop do
-  # start of a tic tac toe
+def who_goes_first
   starting_player = ""
   loop do
     prompt('Who should go first.. You or the computer?')
@@ -169,6 +188,12 @@ loop do
       sleep(1)
     end
   end
+end
+
+loop do
+  # start of a tic tac toe
+  starting_player = who_goes_first
+
   score = initialize_score
 
   play_match(score, starting_player)
@@ -181,42 +206,12 @@ loop do
   play_again?('match') ? score = initialize_score : break
 end
 
-# TO_DO:
-  # check to see if changing the constant manually works
-    # it doesn't, why? Fix it.
-    # it actually was working, I just wasn't displaying the board after the
-    # computer went first, fixed this by displaying the board promptly after
-    # the computer goes so the user has a chance to see where the computer
-    # went.
-  # abstract unnecessary logic into methods
-    # modifying the current_player is not sticking, something to do with scoping
-    # yep, so #[] method with Hash's is mutating, meaning that it changes the contents
-    # of the Hash without changing the object_id.
-    # The #= method with a String is not-mutating, so after the method is ran
-    # the String remaings unchanged
-    # The solution is to save the return value from the method as current_player
-    # then the next iteration of the loop, current_player is properly updated within
-    # the game loop. This still will not modify the current_player outside the game loop.
-  # fix the display when somebody wins or there is a tie, it's not currently showing up
-    # The issue occurred when I removed the prompt which asked the user if they wanted to
-    # play again after each game
-  # see if I need to pass the score around, it's a hash just like the board, why not just
-    # modify and reset after each new match
-    # I don't need to pass the score around, when modifying the score for each player I'm
-    # reassigning an object within the score, which is mutating the score not creating a
-    # whole new Hash.
-  # set up the option to choose who goes first each game
-    # done
-  # abstract the game loop into a function call
-    # I abstract both the turn logic and the game logic into their own
-    # recursive functions.
-  # abstract asking the player who should go first to a function, messy
-  # clean up the function names, organize the order
+# Implementing the minimax algorithm
 
-
-# Feature backlog:
-  # if somebody wins the game, the loser get's the opportunity to go first
-  # fix the games/game issue, if the player has won a single game it should say 'game'
-  # incorporate joinor.rb and computer.rb back into the main tic_tac_toe file
-  # abstract the match loop, game loop, and turn loop into their own functions
-  #
+# create the game tree
+1. build the state tree passing in the board in its current state
+  - calculate the computers available moves for current turn
+  - if move results in win, tie, or loss score the move
+  - otherwise, calculate the moves for the player
+  - score again
+  - continue until a score is returned
