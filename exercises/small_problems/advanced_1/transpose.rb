@@ -166,21 +166,44 @@ require 'pry'
   #     set that location to [element]
   #   return transposed matrix
 
-  def transpose(matrix)
-    transposed_matrix = Array.new(matrix[0].size, nil)
-    matrix.each do |row|
-      row.each_with_index do |num, idx|
-        unless transposed_matrix[idx] == nil
-          transposed_matrix[idx] << num
-        else
-          transposed_matrix[idx] = []
-          transposed_matrix[idx] << num
-        end
-      end
-    end
-    transposed_matrix
-  end
+  # def transpose(matrix)
+  #   transposed_matrix = Array.new(matrix[0].size, nil)
+  #   matrix.each do |row|
+  #     row.each_with_index do |num, idx|
+  #       unless transposed_matrix[idx] == nil
+  #         transposed_matrix[idx] << num
+  #       else
+  #         transposed_matrix[idx] = []
+  #         transposed_matrix[idx] << num
+  #       end
+  #     end
+  #   end
+  #   transposed_matrix
+  # end
 
+# sets the variable 'result' to a literal array
+# sets the variable 'number_of_rows' to the number of rows in the passed in arr
+# sets the variable 'number_of_columns' to the size of the first subarr
+# iterates from 0 to one less than `number_of_columns'
+#   passes the block the bariable 'column_index'
+#   sets the variable 'new_row' to the result of mapping 0...number_of_rows
+  #   passes the 'row_index' into the block
+  #   based on the `number_of_rows` map will return all items
+  #   from the matrix that correspond to
+  #   matrix[row_index][column_index]
+# the new_row is appended to the result arr and implicitly returned
+
+# my attempt at the instructors solution
+def transpose(matrix)
+  result = []
+  num_of_rows = matrix.size
+  num_of_columns = matrix.first.size
+  (0...num_of_columns).each do |column_index|
+    new_row = (0...num_of_rows).map { |row_index| matrix[row_index][column_index] }
+    result << new_row
+  end
+  result
+end
 
 # test cases
 p transpose([[1, 2, 3, 4]]) == [[1], [2], [3], [4]]
