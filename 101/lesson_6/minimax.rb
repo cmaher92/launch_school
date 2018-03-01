@@ -55,6 +55,10 @@ def final_state?(board)
   someone_won?(board) || board_full?(board)
 end
 
+def get_available_moves(board)
+  # return array
+end
+
 def minimax(board, player)
   return score(board, player) if final_state?(board)
   next_player = ( player == 'X' ? 'O' : 'X')
