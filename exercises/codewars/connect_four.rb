@@ -44,6 +44,9 @@ def new_board
 end
 
 def check_winner(board)
+  # check to see if there are four moves in the same row
+  # check to see if there are four moves in the same column
+  # return winner color if winner
 end
 
 def  who_is_winner(moves)
@@ -51,6 +54,6 @@ def  who_is_winner(moves)
   moves.each do |move|
     column, color = move.split("_")
     board[column].unshift(move)
-    state, winner = check_winner(board)
+    winner = check_winner(board)
   end
 end
