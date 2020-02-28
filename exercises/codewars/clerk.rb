@@ -41,10 +41,17 @@ require 'pry'
     # if not keep iterating
 
 # fix this method
-def find_combinations(change_due, register)
-  combos = []
-  register.combination(2).to_a.each { |combo| combos << combo }
-  combos << register.combination(3).to_a[0]
+# input
+  # array; ints
+# output
+  # array; arrays or empty if no combinations
+
+# take the array of ints
+  # find all combinations
+def find_combinations( register)
+  combos = register.combination(2).to_a
+  register.combination(3).to_a.each { |combo| combos << combo }
+  combos.uniq
 end
 
 def valid_combination(combos, change_due)
@@ -87,12 +94,11 @@ def tickets(people)
     end
 
     # find combinations
-    combos = find_combinations(change_due, register)
+    combos = find_combinations(register)
 
     # any working combinations?
     combo = valid_combination(combos, change_due)
     if combo.empty?
-      binding.pry
       return 'NO'
     else
       # found working bill combo
@@ -119,4 +125,4 @@ end
 # puts tickets([25, 100])
 
 # failing tests
-tickets([25, 25, 25, 50, 25, 100, 25, 25, 25, 25, 100, 50, 25, 25, 25, 25])
+p tickets([25, 25, 25, 50, 25, 100, 25, 25, 25, 25, 100, 50, 25, 25, 25, 25])
