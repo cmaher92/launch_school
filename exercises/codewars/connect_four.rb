@@ -32,11 +32,11 @@
 def new_board
   # create board that's 6x7
   board = {
-    "A" => Array.new(6, ""),
-    "B" => Array.new(6, ""),
-    "C" => Array.new(6, ""),
-    "D" => Array.new(6, ""),
-    "E" => Array.new(6, ),
+    "A" => Array.new(),
+    "B" => Array.new(),
+    "C" => Array.new(),
+    "D" => Array.new(),
+    "E" => Array.new( ),
     "F" => Array.new(),
     "G" => Array.new(),
     }
@@ -50,6 +50,7 @@ def  who_is_winner(moves)
   board = new_board
   moves.each do |move|
     column, color = move.split("_")
-    board[column]
+    board[column].unshift(move)
+    state, winner = check_winner(board)
   end
 end
