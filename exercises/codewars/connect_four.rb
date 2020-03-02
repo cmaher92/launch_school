@@ -19,15 +19,13 @@ require 'pry'
 
 # You should return "Yellow", "Red" or "Draw" accordingly
 
-# input
-  # array; strings; "(column)_color"; "A_Red"
-# output
-  # string; yellow, red, or draw accordingly
-
-# set up an 6x7 board
-  # array of arrays
-
-# populate board with pieces
+# [["r", "y", "y", "r", "e", "e"],
+#  ["r", "r", "y", "y", "e", "e"],
+#  ["y", "y", "r", "r", "e", "e"],
+#  ["y", "y", "r", "y", "r", "y"],
+#  ["r", "y", "r", "e", "e", "e"],
+#  ["r", "r", "y", "e", "e", "e"],
+#  ["y", "r", "r", "y", "e", "e"]]
 
 
 COLUMNS_TO_INDEX = {
@@ -54,16 +52,6 @@ def create_board(moves)
     board[column] << color
   end
 
-# recursively check for winner
-# check current tile
-#   if it's empty, return 0
-#   if it's the color +1 in_a_row
-#   check_surrounding items
-#     if 0, returned stop checking
-#     if 1, is return keep checking
-#
-
-  # fill empty spots with 'e'
   board.each do |col|
     until col.size == 6
       col << 'e'
@@ -73,13 +61,6 @@ def create_board(moves)
   board
 end
 
-# [["r", "y", "y", "r", "e", "e"],
-#  ["r", "r", "y", "y", "e", "e"],
-#  ["y", "y", "r", "r", "e", "e"],
-#  ["y", "y", "r", "y", "r", "y"],
-#  ["r", "y", "r", "e", "e", "e"],
-#  ["r", "r", "y", "e", "e", "e"],
-#  ["y", "r", "r", "y", "e", "e"]]
 
 def check_columns(board)
   winner = ''
@@ -104,34 +85,98 @@ end
 
 def check_rows(board)
   winner = ''
-
-  # check all the items with the index of 0
-  # check all the items with the index of 1
-  # etc..
+  rows = []
+  
+  
+  # place each row into the array of rows
+  idx = 0
+  until rows.count == 6
+    row = []
+    board.each do |column|
+      row << column.at(idx)
+    end
+    idx += 1
+    rows << row
+  end
+  
+  # check each row for four in sequential order
   COLORS.each do |color|
-    row_num = 0
-    while row_num < 6 do
-      col_num = 0
-      while col_num < 7
-        puts "row: #{row_num}"
-        puts "column #{col_num}"
-        col_num += 1
+    rows.each do |row|
+      next if row.count(color) < 4
+      
+      seq_order = 0
+      row.each do |tile|
+        return color if seq_order == 4
+        tile == color ? seq_order += 1 : seq_order = 0
       end
-      row_num += 1
     end
   end
-
+  winner
 end
+
+# [
+#  ["r", "y", "y", "r", "e", "e"],
+#  ["r", "r", "y", "y", "e", "e"],
+#  ["y", "y", "r", "r", "e", "e"],
+#  ["y", "y", "r", "y", "r", "y"],
+#  ["r", "y", "r", "e", "e", "e"],
+#  ["r", "r", "y", "e", "e", "e"],
+#  ["y", "r", "r", "y", "e", "e"]
+# ]
+
+def create_diagonal_arr(board, starting_point)
+  x = starting_point[0]
+  y = starting_point[1]
+  arr = []
+  
+  while true do
+    arr << board[x][y]
+    x += 1
+    y += 1
+    break if x >= board.size
+    break if y >= board[0].size
+  end
+  arr
+end
+
+def check_diagonals(board)
+  # generate array of arrays with each diagonal possibility
+  # [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]
+  # [0, 1], [1, 2], [2, 3], [3, 4], [4, 5]
+  # [0, 3], [1, 4], [2, 5]
+  # [0, 4], [1, 5]
+  # [0, 5]
+ 
+  # [1, 0], [2, 1], [3, 2], [4, 3], [5, 4], [6, 5]
+  # [2, 0], [3, 1], [4, 2], [5, 3], [6, 4]
+  # [3, 0], [4, 1], [5, 2], [6, 4] 
+  
+  # pass the board
+  # generate an array of diagonals
+    # give a starting point
+    # for each iteration, increase x and y by 1 until nothing is there
+  diagonals = []
+  diagonals << create_diagonal_arr(board, [0, 0])
+  diagonals << create_diagonal_arr(board, [0, 1])
+  diagonals << create_diagonal_arr(board, [0, 2])
+  diagonals << create_diagonal_arr(board, [1, 0])
+  diagonals << create_diagonal_arr(board, [2, 0])
+  diagonals << create_diagonal_arr(board, [3, 0])
+  binding.pry
+  
+end
+
 
 def who_is_winner(moves)
   board = create_board(moves)
 
   winner = check_columns(board)
-  return winner if winner != ''
+#   binding.pry
   winner = check_rows(board)
-
-
+#   binding.pry
+  winner = check_diagonals(board)
   binding.pry
+  
 end
 
 
