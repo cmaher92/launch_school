@@ -61,30 +61,41 @@ def create_board(moves)
   board
 end
 
-
-def check_columns(board)
-  winner = ''
-  COLORS.each do |color|
-    board.each do |column|
-      next if column.count(color) < 4
-      seq_order = 0
-      column.each do |tile|
-        if seq_order == 4
-          return color
-        end
-        if tile == color
-          seq_order += 1
-        else
-          seq_order = 0
-        end
-      end
-    end
+def sequential?(color, a)
+  # see if the given array has four of the same color in a row
+  in_a_row = 0
+  a.each do |move|
+    if move == color 
+      in_a_row += 1
+      return true if in_a_row == 4
+    else 
+      in_a_row = 0
+    end 
   end
+  false
+end 
+
+def who_won(arr)
+  winner = 'Draw'
+  COLORS.each do |color|
+    arr.each do |a|
+      next if a.count(color) < 4
+      return color if sequential?(color, a)
+    end 
+  end 
   winner
+end 
+
+
+def create_columns(board)
+  columns = []
+  board.each do |column|
+    columns << column
+  end
+  columns
 end
 
-def check_rows(board)
-  winner = ''
+def create_rows(board)
   rows = []
   
   
@@ -99,19 +110,7 @@ def check_rows(board)
     rows << row
   end
   
-  # check each row for four in sequential order
-  COLORS.each do |color|
-    rows.each do |row|
-      next if row.count(color) < 4
-      
-      seq_order = 0
-      row.each do |tile|
-        return color if seq_order == 4
-        tile == color ? seq_order += 1 : seq_order = 0
-      end
-    end
-  end
-  winner
+  rows
 end
 
 # [
@@ -139,22 +138,23 @@ def create_diagonal_arr(board, starting_point)
   arr
 end
 
-def check_diagonals(board)
-  # generate array of arrays with each diagonal possibility
-  # [0, 0], [1, 1], [2, 2], [3, 3], [4, 4], [5, 5]
-  # [0, 1], [1, 2], [2, 3], [3, 4], [4, 5]
-  # [0, 3], [1, 4], [2, 5]
-  # [0, 4], [1, 5]
-  # [0, 5]
- 
-  # [1, 0], [2, 1], [3, 2], [4, 3], [5, 4], [6, 5]
-  # [2, 0], [3, 1], [4, 2], [5, 3], [6, 4]
-  # [3, 0], [4, 1], [5, 2], [6, 4] 
+def create_diagonal_up_arr(board, starting_point)
+  # creates an array starting in the bottom left of the board to the top right
+  arr = []
+  x = starting_point[0]
+  y = starting_point[1]
   
-  # pass the board
-  # generate an array of diagonals
-    # give a starting point
-    # for each iteration, increase x and y by 1 until nothing is there
+  while true do
+    arr << board[x][y]
+    x -= 1
+    y += 1
+    break if x < 0
+    break if y >= board[0].size
+  end 
+  arr
+end
+
+def create_diagonals(board)
   diagonals = []
   diagonals << create_diagonal_arr(board, [0, 0])
   diagonals << create_diagonal_arr(board, [0, 1])
@@ -162,50 +162,81 @@ def check_diagonals(board)
   diagonals << create_diagonal_arr(board, [1, 0])
   diagonals << create_diagonal_arr(board, [2, 0])
   diagonals << create_diagonal_arr(board, [3, 0])
-  binding.pry
   
+
+  diagonals << create_diagonal_up_arr(board, [6,0])
+  diagonals << create_diagonal_up_arr(board, [5,0])
+  diagonals << create_diagonal_up_arr(board, [4,0])
+  diagonals << create_diagonal_up_arr(board, [3,0])
+  diagonals << create_diagonal_up_arr(board, [6,1])
+  diagonals << create_diagonal_up_arr(board, [6,2])
+  
+ diagonals
 end
 
 
 def who_is_winner(moves)
   board = create_board(moves)
-
-  winner = check_columns(board)
-#   binding.pry
-  winner = check_rows(board)
-#   binding.pry
-  winner = check_diagonals(board)
+  
   binding.pry
   
+  rows = create_rows(board)
+  columns = create_columns(board)
+  diagonals = create_diagonals(board)
+  all = []
+  rows.each { |row| all << row }
+  columns.each { |column| all << column }
+  diagonals.each { |diagonal| all << diagonal }
+  winner = who_won(all)
+  if winner == 'y'
+    return 'Yellow'
+  elsif winner == 'r'
+    return 'Red'
+  else
+    return 'Draw'
+  end
 end
 
 
-puts who_is_winner([
-  "C_Yellow",
-  "E_Red",
-  "G_Yellow",
-  "B_Red",
-  "D_Yellow",
-  "B_Red",
-  "B_Yellow",
-  "G_Red",
-  "C_Yellow",
-  "C_Red",
-  "D_Yellow",
-  "F_Red",
-  "E_Yellow",
-  "A_Red",
-  "A_Yellow",
-  "G_Red",
-  "A_Yellow",
-  "F_Red",
-  "F_Yellow",
-  "D_Red",
-  "B_Yellow",
-  "E_Red",
-  "D_Yellow",
-  "A_Red",
-  "G_Yellow",
-  "D_Red",
-  "D_Yellow",
-  "C_Red"])
+puts who_is_winner(["F_Yellow",
+    "G_Red",
+    "D_Yellow",
+    "C_Red",
+    "A_Yellow",
+    "A_Red",
+    "E_Yellow",
+    "D_Red",
+    "D_Yellow",
+    "F_Red",
+    "B_Yellow",
+    "E_Red",
+    "C_Yellow",
+    "D_Red",
+    "F_Yellow",
+    "D_Red",
+    "D_Yellow",
+    "F_Red",
+    "G_Yellow",
+    "C_Red",
+    "F_Yellow",
+    "E_Red",
+    "A_Yellow",
+    "A_Red",
+    "C_Yellow",
+    "B_Red",
+    "E_Yellow",
+    "C_Red",
+    "E_Yellow",
+    "G_Red",
+    "A_Yellow",
+    "A_Red",
+    "G_Yellow",
+    "C_Red",
+    "B_Yellow",
+    "E_Red",
+    "F_Yellow",
+    "G_Red",
+    "G_Yellow",
+    "B_Red",
+    "B_Yellow",
+    "B_Red"])
