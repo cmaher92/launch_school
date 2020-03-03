@@ -240,3 +240,12 @@ puts who_is_winner(["F_Yellow",
     "B_Red",
     "B_Yellow",
     "B_Red"])
+
+# thoughts
+#   didn't consider checking for winner on the fly, which is leading to incorrect winners
+
+# new possible approach
+# create empty board
+# place a piece
+# check row, column, possible diagonals from that position
+# if no winner, continue
