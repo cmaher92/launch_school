@@ -41,6 +41,11 @@ def check_winner(move, board)
   # horizontal
   #   find the index of the last move
   #   find all in that index
+  index = board[move[0]].select { |item| item != '' }.size
+  index = index - 1
+  horizontal = []
+  board.each { |col| horizontal << col[index] }
+  binding.pry
 
 
 end
@@ -55,6 +60,7 @@ def place_pieces_check(board, moves)
       arr << ""
     end
     board[move[0]] = arr
+    check_winner(move, board)
   end
 end
 
