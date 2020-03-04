@@ -4,7 +4,6 @@
 # check for winner
 
 # to do
-#   find all the horizontal moves for the move that just occurred
 #   find all the 45 degree angle moves
 #   find all the 135 degree angle moves
 #   check to see if any of the above contain a winner
@@ -21,6 +20,9 @@ require 'pry'
   'G' => 6
 }
 
+def print_board(board)
+end
+
 def create_empty_board
   board = Array.new(7) {Array.new}
   board.each do |col|
@@ -35,6 +37,43 @@ def parse_moves(pieces_position_list)
   pieces_position_list
 end
 
+def find_moves_on_45(board, move, index)
+  x = move[0] - 3
+  y = index - 3
+  
+  moves = []
+  until moves.size == 8 do
+    if board[x] == nil
+      moves << ""
+      x += 1
+      y += 1
+    else
+      moves << board[x].fetch(y, "")
+      x += 1
+      y += 1
+    end 
+  end
+  moves
+end
+
+def find_moves_on_135(board, move, index)
+  x = move[0] + 3
+  y = index + 3
+  moves = []
+  until moves.size == 8 do
+    if board[x] == nil
+      moves << ""
+      x -= 1
+      y -= 1
+    else
+      moves << board[x].fetch(y, "")
+      x -= 1
+      y -= 1
+    end 
+  end
+  moves
+end
+
 def check_winner(move, board)
   vertical = board[move[0]]
 
@@ -45,9 +84,15 @@ def check_winner(move, board)
   index = index - 1
   horizontal = []
   board.each { |col| horizontal << col[index] }
+
+  # find 45 degree moves
+  diagonals_45 = find_moves_on_45(board, move, index)
+
+  # find moves on 135 degree angle
+  diagonals_135 = find_moves_on_135(board, move, index)
+  lines = [vertical] + [horizontal] + [diagonals_45] + [diagonals_135]
+
   binding.pry
-
-
 end
 
 def place_pieces_check(board, moves)
