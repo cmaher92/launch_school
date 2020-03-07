@@ -40,36 +40,44 @@ end
 def find_moves_on_45(board, move, index)
   x = move[0] - 3
   y = index - 3
-  
+
   moves = []
   until moves.size == 8 do
-    if board[x] == nil
+    if x < 0 || y < 0
+      moves << ""
+      x += 1
+      y += 1
+    elsif x > 6 || y > 5
       moves << ""
       x += 1
       y += 1
     else
-      moves << board[x].fetch(y, "")
+      moves << board[x][y]
       x += 1
       y += 1
-    end 
+    end
   end
   moves
 end
 
 def find_moves_on_135(board, move, index)
   x = move[0] + 3
-  y = index + 3
+  y = index - 3
   moves = []
   until moves.size == 8 do
-    if board[x] == nil
+    if x < 0 || y < 0
       moves << ""
       x -= 1
-      y -= 1
-    else
-      moves << board[x].fetch(y, "")
+      y += 1
+    elsif x > 6 || y > 5
+      moves << ""
       x -= 1
-      y -= 1
-    end 
+      y += 1
+    else
+      moves << board[x][y]
+      x -= 1
+      y += 1
+    end
   end
   moves
 end
@@ -78,21 +86,37 @@ def check_winner(move, board)
   vertical = board[move[0]]
 
   # horizontal
-  #   find the index of the last move
-  #   find all in that index
   index = board[move[0]].select { |item| item != '' }.size
   index = index - 1
   horizontal = []
   board.each { |col| horizontal << col[index] }
 
-  # find 45 degree moves
+  # find moves on 45 degree angle
   diagonals_45 = find_moves_on_45(board, move, index)
 
   # find moves on 135 degree angle
   diagonals_135 = find_moves_on_135(board, move, index)
+
+  # combine all moves
   lines = [vertical] + [horizontal] + [diagonals_45] + [diagonals_135]
 
-  binding.pry
+  # select lines with four or more in array
+    # if there isn't return false
+    # if there is
+      # check each line to see if there is four in a row
+
+  lines = lines.select! { |line| line.count(move[1]) >= 4 }
+  if lines.count == 0
+    return false
+  else
+    lines.each do |line|
+      in_a_row = 0
+      line.each do |color|
+        move[1] == color ? in_a_row += 1 : in_a_row = 0
+        return true if in_a_row == 4
+      end
+    end
+  end
 end
 
 def place_pieces_check(board, moves)
@@ -105,19 +129,21 @@ def place_pieces_check(board, moves)
       arr << ""
     end
     board[move[0]] = arr
-    check_winner(move, board)
+    if check_winner(move, board) == true
+      return move[1]
+    end
   end
 end
 
 def who_is_winner(pieces_position_list)
+  winner = "Draw"
   board = create_empty_board
   moves = parse_moves(pieces_position_list)
-  place_pieces_check(board, moves)
-  binding.pry
-
+  winner = place_pieces_check(board, moves)
+  return winner
 end
 
-who_is_winner([
+puts who_is_winner([
   "C_Yellow",
   "E_Red",
   "G_Yellow",
