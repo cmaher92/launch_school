@@ -3,10 +3,6 @@
 # place a piece
 # check for winner
 
-# to do
-#   find all the 45 degree angle moves
-#   find all the 135 degree angle moves
-#   check to see if any of the above contain a winner
 
 require 'pry'
 
@@ -117,6 +113,7 @@ def check_winner(move, board)
       end
     end
   end
+  false
 end
 
 def place_pieces_check(board, moves)
@@ -133,42 +130,25 @@ def place_pieces_check(board, moves)
       return move[1]
     end
   end
+  false
 end
 
 def who_is_winner(pieces_position_list)
-  winner = "Draw"
   board = create_empty_board
   moves = parse_moves(pieces_position_list)
   winner = place_pieces_check(board, moves)
-  return winner
+  if winner
+    winner
+  else
+    return "Draw"
+  end
 end
 
-puts who_is_winner([
-  "C_Yellow",
-  "E_Red",
-  "G_Yellow",
-  "B_Red",
-  "D_Yellow",
-  "B_Red",
+puts who_is_winner([ "A_Red",
   "B_Yellow",
-  "G_Red",
-  "C_Yellow",
-  "C_Red",
-  "D_Yellow",
-  "F_Red",
+  "A_Red",
   "E_Yellow",
-  "A_Red",
-  "A_Yellow",
-  "G_Red",
-  "A_Yellow",
   "F_Red",
-  "F_Yellow",
-  "D_Red",
-  "B_Yellow",
-  "E_Red",
-  "D_Yellow",
-  "A_Red",
   "G_Yellow",
-  "D_Red",
-  "D_Yellow",
-  "C_Red"])
+  "A_Red",
+  "G_Yellow"])
