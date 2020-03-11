@@ -105,10 +105,56 @@ def score_tournament(teams_in_league, games)
        end
     end
     
-    binding.pry
+    # rank the teams
+    # given an array of sorted arrays, sorted by points then diff, then goals for
+    # if the current team has more points than the next
+        # give rank
+        # increment rank
+    # if the current teams points are the same
+    #   check the diff
+        # if higher diff, rank the team, increment
+    #   # if the diff is the same, rank the team, don't increment rank
+    
+    rankings = []
+    
+    rank = 1
+    leaderboard.each_with_index do |team, index|
+        # if team has higher points than next team, rank and increment
+        if team[1] > leaderboard[(index + 1)][1]
+            rankings << team
+            rankings[-1].unshift(rank)
+            rank += 1 
+        else
+            # points are equal, so now need to check diff
+            # if team has higher diff than next team, rank and increment
+            if team[4] > leaderboard[(index + 1)][4]
+                rankings << team
+                rankings[-1].unshift(rank)
+                rank += 1
+            else
+                # both points and diff are equal, so now need to check goals for
+                # if team has higher goals for than next team, rank and increment
+                if team[2] > leaderboard[(index+1)][2]
+                    rankings << team
+                    rankings[-1].unshift(rank)
+                    rank += 1
+                else
+                    # at this point points, diff, and goals for are all the same
+                    # apply ranking
+                    # do not increment as next team will be same rank
+                    rankings << team
+                    rankings[-1].unshift(rank)
+                end
+            end 
+        end
+    end
    
     
 end
+
+# to do
+# work on handling index + 1 issue where once I get to the last team it tries to look for the next when there isn't a next team
+# 
 
     
   
