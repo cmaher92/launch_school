@@ -58,7 +58,7 @@ end
 
 def score_tournament(teams_in_league, games)
     leaderboard = Array.new(teams_in_league) { Array.new }
-    leaderboard.map! { |result| 3.times { result <<  0 } }
+    leaderboard.each { |result| 3.times { result <<  0 } }
     
     games.each do |game|
         team_a = game[0]
@@ -69,7 +69,6 @@ def score_tournament(teams_in_league, games)
         points = calculate_points(team_a_goals, team_b_goals)
         team_a_points = points[0]
         team_b_points = points[1]
-        binding.pry
         leaderboard[team_a][0] += team_a_points
         leaderboard[team_b][0] += team_b_points
         leaderboard[team_a][1] += team_a_goals
@@ -78,7 +77,36 @@ def score_tournament(teams_in_league, games)
         leaderboard[team_b][2] += team_a_goals
     end
     
-    p leaderboard
+   # calculate goal differential
+    leaderboard.each do |team|
+        team << team[1] - team[2]
+    end
+    
+    leaderboard.each_with_index do |stats, idx|
+        stats.unshift(idx)
+    end
+    
+    # sort based on points
+    # check points
+    leaderboard = leaderboard.sort { |a, b| b[1] <=> a[1] }
+    
+    # given an array of [team, points, goals_for, goals_against, diff]
+    # iterate through arrays
+    # if a and b have the same number of points, sort based on diff
+   leaderboard =  leaderboard.sort do |a, b|
+       if a[1] == b[1]
+           if b[4] == a[4]
+               b[2] <=> a[2]
+           else
+               b[4] <=> a[4]
+           end
+       else
+           b[1] <=> a[1]
+       end
+    end
+    
+    binding.pry
+   
     
 end
 
@@ -98,4 +126,4 @@ games = [[0, 5, 2, 2],  # // Team 0 - Team 5 => 2:2
          [3, 1, 1, 1],  # // Team 3 - Team 1 => 1:1
          [4, 0, 2, 0]]  # // Team 4 - Team 0 => 2:0
 
-score_tournament(number, games)
+p score_tournament(number, games)
