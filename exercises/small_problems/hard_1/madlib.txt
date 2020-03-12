@@ -1,5 +1,0 @@
-The %{adjective} %{noun} %{verb}s us %{adverb}.
-The %{adjective}, %{adjective} caretaker refused to answer our questions.
-I %{verb} %{adverb}.
-Howard is a %{adjective} %{noun}.
-He %{verb}s %{adverb}.

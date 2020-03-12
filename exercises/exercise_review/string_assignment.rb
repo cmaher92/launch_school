@@ -19,3 +19,6 @@
 # name.upcase!
 # puts name, save_name
 # What does this print out? Can you explain these results?
+
+# Both variables are pointing to the same place in memory, therefor when the
+# mutating method #upcase! is used, it affects both name and save_name

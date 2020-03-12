@@ -38,25 +38,38 @@ def win?(board, player)
     else
       return false
     end
+  end
 end
 
 def score(board, player)
   opponent = (player == 'X' ? 'O' : 'X')
   if win?(board, player)
-        return 1
-    elsif win?(board, opponent)
-        return -1
-    else
-        return 0
-    end
+    return 1
+  elsif win?(board, opponent)
+    return -1
+  else
+    return 0
+  end
+end
+
+def board_full?(board)
+  board.all? { |position| position != nil }
 end
 
 def final_state?(board)
   someone_won?(board) || board_full?(board)
 end
 
-def get_available_moves(board)
-  # return array
+def get_available_moves(board, player)
+  moves = []
+  board.each_with_index do |player_at_position, position|
+    unless player_at_position
+      next_board = board.dup
+      next_board[position] = player
+      moves << next_board
+    end
+  end
+  moves
 end
 
 def minimax(board, player)
@@ -65,7 +78,7 @@ def minimax(board, player)
   scores = []
   moves = []
 
-  get_available_moves(board).each do |move|
+  get_available_moves(board, player).each do |move|
     scores.push minimax(move, next_player)
     moves.push move
   end
@@ -80,6 +93,7 @@ def minimax(board, player)
     # @choice = moves[min_score_index]
     return scores[min_score_index]
   end
+  binding.pry
 end
 
 # if the game is over return the score
@@ -105,6 +119,5 @@ end
 #     return scores[max_score_index]
 
 board = Array.new(9)
-game_tree = { board => generate_moves(board, 'X') }
-binding.pry
-puts 'hello'
+result = minimax(board, 'X')
+p result

@@ -15,7 +15,7 @@ require 'pry'
 def solve(str)
   str.split(/[aeiou]/).map! do |substring|
     substring.bytes.map { |value| value - 96 }.reduce(&:+)
-  end.reject { |value| value == nil }.sort[-1]
+  end.reject { |value| value == nil }.max
 end
 
 puts solve("zodiac") == 26
