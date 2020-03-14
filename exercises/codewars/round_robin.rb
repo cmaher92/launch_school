@@ -56,16 +56,28 @@ def calculate_points(team_a_goals, team_b_goals)
     end
 end
 
-def score_tournament(teams_in_league, games)
+def more_points?(team_1, team_2)
+  team_1[1] > team_2[1]
+end
+
+def more_diff?(team_1, team_2)
+  team_1[4] > team_2[4]
+end
+
+def more_goals?(team_1, team_2)
+  team_1[2] > team_2[2]
+end
+
+def compute_ranks(teams_in_league, games)
     leaderboard = Array.new(teams_in_league) { Array.new }
     leaderboard.each { |result| 3.times { result <<  0 } }
-    
+
     games.each do |game|
         team_a = game[0]
         team_b = game[1]
         team_a_goals = game[2]
         team_b_goals = game[3]
-        
+
         points = calculate_points(team_a_goals, team_b_goals)
         team_a_points = points[0]
         team_b_points = points[1]
@@ -76,23 +88,17 @@ def score_tournament(teams_in_league, games)
         leaderboard[team_a][2] += team_b_goals
         leaderboard[team_b][2] += team_a_goals
     end
-    
+
    # calculate goal differential
     leaderboard.each do |team|
         team << team[1] - team[2]
     end
-    
+
     leaderboard.each_with_index do |stats, idx|
         stats.unshift(idx)
     end
-    
-    # sort based on points
-    # check points
-    leaderboard = leaderboard.sort { |a, b| b[1] <=> a[1] }
-    
-    # given an array of [team, points, goals_for, goals_against, diff]
-    # iterate through arrays
-    # if a and b have the same number of points, sort based on diff
+
+   leaderboard = leaderboard.sort { |a, b| b[1] <=> a[1] }
    leaderboard =  leaderboard.sort do |a, b|
        if a[1] == b[1]
            if b[4] == a[4]
@@ -104,61 +110,41 @@ def score_tournament(teams_in_league, games)
            b[1] <=> a[1]
        end
     end
-    
-    # rank the teams
-    # given an array of sorted arrays, sorted by points then diff, then goals for
-    # if the current team has more points than the next
-        # give rank
-        # increment rank
-    # if the current teams points are the same
-    #   check the diff
-        # if higher diff, rank the team, increment
-    #   # if the diff is the same, rank the team, don't increment rank
-    
-    rankings = []
-    
+
     rank = 1
-    leaderboard.each_with_index do |team, index|
-        # if team has higher points than next team, rank and increment
-        if team[1] > leaderboard[(index + 1)][1]
-            rankings << team
-            rankings[-1].unshift(rank)
-            rank += 1 
+    rankings = []
+    leaderboard.each_with_index do |team_info, index|
+      if (index + 1) < leaderboard.size
+        next_team_info = leaderboard[(index + 1)]
+        # if they have the same points, diff, and goals for than the next team
+        if !more_points?(team_info, next_team_info) && !more_diff?(team_info, next_team_info) && !more_goals?(team_info, next_team_info)
+          rankings << rank
         else
-            # points are equal, so now need to check diff
-            # if team has higher diff than next team, rank and increment
-            if team[4] > leaderboard[(index + 1)][4]
-                rankings << team
-                rankings[-1].unshift(rank)
-                rank += 1
-            else
-                # both points and diff are equal, so now need to check goals for
-                # if team has higher goals for than next team, rank and increment
-                if team[2] > leaderboard[(index+1)][2]
-                    rankings << team
-                    rankings[-1].unshift(rank)
-                    rank += 1
-                else
-                    # at this point points, diff, and goals for are all the same
-                    # apply ranking
-                    # do not increment as next team will be same rank
-                    rankings << team
-                    rankings[-1].unshift(rank)
-                end
-            end 
+          rankings << rank
+          rank += rankings.count(rank)
         end
+      else
+        # it's the last one
+        # if they have same points, diff, and goals for the last team, apply ranking
+        # else
+        #   rank +=1 and then apply
+        prev_team_info = leaderboard[(index - 1)]
+        # if they have the same points, diff, and goals for than the last team
+        if !more_points?(team_info, prev_team_info) && !more_diff?(team_info, prev_team_info) && !more_goals?(team_info, prev_team_info)
+          rankings << rank
+        else
+          rank += rankings.count(rank)
+          rankings << rank
+        end
+      end
     end
-   
-    
+
+    leaderboard.map! { |team_info| [team_info[0], rankings.shift] }
+    leaderboard = leaderboard.sort { |a, b| a[0] <=> b[0] }
+    leaderboard.map! { |team_info| team_info[1] }
+
 end
 
-# to do
-# work on handling index + 1 issue where once I get to the last team it tries to look for the next when there isn't a next team
-# 
-
-    
-  
- 
 
 # examples
 number = 6
@@ -172,4 +158,4 @@ games = [[0, 5, 2, 2],  # // Team 0 - Team 5 => 2:2
          [3, 1, 1, 1],  # // Team 3 - Team 1 => 1:1
          [4, 0, 2, 0]]  # // Team 4 - Team 0 => 2:0
 
-p score_tournament(number, games)
+p compute_ranks(number, games)
