@@ -21,7 +21,8 @@ def count_primes(number)
   possible_primes.select! do |num|
     # need to return true if num is prime, false if it is not
     # binding.pry if num == 3
-    results = (2...num).select do |n|
+    half_num = num
+    results = (2...half_num).select do |n|
       # if num % n == 0, means that n evenly divides into num making it not prime
       num % n == 0
     end
@@ -34,4 +35,4 @@ def count_primes(number)
   possible_primes.count
 end
 
-p count_primes(10) == 4
+p count_primes(10)
