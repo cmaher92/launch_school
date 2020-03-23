@@ -9,6 +9,7 @@
 # usage
 # returns a copy of str with all occurrences of pattern substituted for the second argument.
 
+# examples
 # gsub(pattern, replacement)
 # example
 'hello'.gsub(/[eo]/, '*') #=> "h*ll*"
@@ -16,7 +17,7 @@
 # the pattern then matches with the 'o' character and replaces with '*'
 
 # gsub(pattern, replacement)
-'hello'.gsub(/[aeiou]/, '<\1>') #=> "h<e>ll<o>"
+'hello'.gsub(/([aeiou])/, '<\1>') #=> "h<e>ll<o>"
 # each time any of the characters in the string match the [aeiou] character class
 # the replacement argument contains a backreference to the capture group with using \d
 # in this case it's referencing the only capture group, [aeiou]
@@ -31,11 +32,16 @@
 # gsub(pattern, replacement)
 "hello".gsub(/(?<vowel>[aeiou])/, '{\k<vowel>}')
 # here the pattern defines the name of the capture group as vowel
-# the capture group matches any character within [aeiou]
+# the capture group matches any single character within [aeiou]
 # the replacement string backreferences the capture group by name by using \k<name>
 # in this case \k<vowel>
 # The value returned by the block will be substituted for the match on each call.
 
+# gsub(pattern, hash)
+'hello'.gsub(/[eoh]/, 'e' => 3, 'o' => '*')    #=> "3ll*"
+# here the pattern is matching any single 'e' or 'o' character
+# then the matched character is passed to the hash and maped to the key's value
+# NOTE: if there is no key the match is replaced by nothing (look at how the 'h' dissapeared)
+
 # to do
-# review block form as second parameter to block (global vars)
-# review hash as second argument to gsub
+# back references to special variables, $& $' $` and $+ within pattern argument
