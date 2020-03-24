@@ -1,8 +1,6 @@
 # Strings mix problem (4)
 # link: https://www.codewars.com/kata/5629db57620258aa9d000014/ruby
 
-require 'pry'
-
 # input
 # String; containg lowercase, capitals, and other chars
 # String; containg lowercase, capitals, and other chars
@@ -25,63 +23,50 @@ require 'pry'
 # grab keys from each hash and combine into an array
 # make unique
 # ['a', 'b']
+require 'pry'
+
+def make_hash(str)
+    h = {}
+    str.gsub(/[a-z]/) do |letter|
+        h[letter] == nil ? h[letter] = 1 : h[letter] += 1
+    end
+    h.reject! { |k, v| v < 2 }
+end
 
 def mix(s1, s2)
-    s1 = s1.scan(/[a-z]/)
-    s2 = s2.scan(/[a-z]/)
+    h1 = make_hash(s1)
+    h2 = make_hash(s2)
+    result = h1.keys + h2.keys
+    result.uniq!
 
-    # sort
-    # turn array of chars into a hash, with a count of each char
-    # select only key,value where value > 2
-    h1 = {}
-    h2 = {}
-    s1.each do |char|
-        h1[char] == nil ? h1[char] = 1 : h1[char] += 1
-    end
-    s2.each do |char|
-        h2[char] == nil ? h2[char] = 1 : h2[char] += 1
-    end
-    h1 = h1.sort_by { |k, v| v }.reverse.to_h
-    h2 = h2.sort_by { |k, v| v }.reverse.to_h
-    [h1, h2].each { |hsh| hsh.select! { |k, v| v >= 2 }}
-
-    letters = h1.keys + h2.keys
-    letters.uniq!
-
-    # map letters
-        # for each letter
-        # see if s1, s2 or equivalent
-    letters.map! do |letter|
-        l1 = h1.fetch(letter, 0)
-        l2 = h2.fetch(letter, 0)
-        result = l1 <=> l2
-        case result
-        when 0
-            "=:#{letter * l1}"
+    result.map! do |key|
+        c1 = h1.fetch(key, 0)
+        c2 = h2.fetch(key, 0)
+        case c1 <=> c2
         when 1
-            "1:#{letter * l1}"
+            ["1:", key * c1]
+        when -1
+            ["2:", key * c2]
         else
-            "2:#{letter * l2}"
+            ["=:", key * c1]
         end
     end
-    answer = []
-    letters.select! do |group| 
-        if group[0] == "="
-            answer << group
-            false
-        else
-            true
-        end
+    result.sort! do |a, b|
+        b[1].length <=> a[1].length
     end
-    letters
-            
+    result
+    # sort by length of chars
+    # sort by prefix 1:, 2:, =:
+    # sort by lexicographical order
 end
 
 
 # s1 = "A aaaa bb c"
 # s2 = "& aaa bbb c d"
 # p mix(s1, s2) == "1:aaaa/2:bbb"
-p mix("Are they here", "yes, they are here")# == "2:eeeee/2:yy/=:hh/=:rr"
+# p mix("Are they here", "yes, they are here") == "2:eeeee/2:yy/=:hh/=:rr"
+p mix("looping is fun but dangerous", "less dangerous than coding") #== "1:ooo/1:uuu/2:sss/=:nnn/1:ii/2:aa/2:dd/2:ee/=:gg"
+
 
 # to do
 # sort the letters by the length of the string using str[2, str.length - 2]
