@@ -58,14 +58,35 @@ def mix(s1, s2)
     # sort by length of chars
     # sort by prefix 1:, 2:, =:
     # sort by lexicographical order
+    # sorting_hash = { 4 => { '1:' => [], '2:' => [], '=:' => [] }}
+    sorting_hash = {}
+    result.each do |k, v|
+        key = v.length
+        if sorting_hash[key] == nil
+            sorting_hash[key] = { '1:' => [], '2:' => [], '=:' => [] }
+            sorting_hash[key][k] << v
+        else
+            sorting_hash[key][k] << v
+        end
+    end
+    sorting_hash.each do |k,v|
+        v.each { |k, v| v.sort! }
+    end
+    results_arr = []
+    sorting_hash.each_value do |hash|
+        hash.each do |key, value|
+            value.each { |v| results_arr << "#{key}#{v}"}
+        end
+    end
+    results_arr.join('/')
 end
 
 
 # s1 = "A aaaa bb c"
 # s2 = "& aaa bbb c d"
 # p mix(s1, s2) == "1:aaaa/2:bbb"
-# p mix("Are they here", "yes, they are here") == "2:eeeee/2:yy/=:hh/=:rr"
-p mix("looping is fun but dangerous", "less dangerous than coding") #== "1:ooo/1:uuu/2:sss/=:nnn/1:ii/2:aa/2:dd/2:ee/=:gg"
+p mix("Are they here", "yes, they are here") == "2:eeeee/2:yy/=:hh/=:rr"
+p mix("looping is fun but dangerous", "less dangerous than coding") == "1:ooo/1:uuu/2:sss/=:nnn/1:ii/2:aa/2:dd/2:ee/=:gg"
 
 
 # to do
