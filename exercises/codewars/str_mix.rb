@@ -1,5 +1,7 @@
 # Strings mix problem (4)
 # link: https://www.codewars.com/kata/5629db57620258aa9d000014/ruby
+# finished
+# time: 4.5 hours roughly
 
 # input
 # String; containg lowercase, capitals, and other chars
