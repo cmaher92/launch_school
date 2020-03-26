@@ -1,6 +1,7 @@
 # sum of pairs
 # from collections named 'struggled'
 # interested to see how I fair on something I previously struggled with
+# https://www.codewars.com/kata/54d81488b981293527000c8f/train/ruby
 
 # input; array of ints
 # output; arr of two nums that equal num after being summed
