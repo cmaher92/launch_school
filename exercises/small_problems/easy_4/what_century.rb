@@ -42,6 +42,9 @@ def century(year)
   "#{c_num}#{ENDINGS_MAP.fetch(c_suffix, 'th')}"
 end
 
+# TODO:
+# if it's 11, 12, 13 => 'th'
+
 
 # Examples:
 #p century(2000) == '20th'
