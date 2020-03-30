@@ -14,7 +14,6 @@ def choose_best_sum(t, k, ls)
 require 'pry'
   return nil if ls.size < 3
   options = ls.combination(k).to_a
-  binding.pry
   options.map! { |subarr| subarr.reduce(:+) }
   options.map! { |sum| sum <= t }
   options.max

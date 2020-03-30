@@ -26,8 +26,6 @@ require 'pry'
 #   hist2.sort.map{|v| v[1]+':'+v[2]*-v[0]}.join('/')
 # end
 
-# using an array to sort size, string_label, alphabetically
-
 def mix(s1, s2)
   hist = ('a'..'z').map do |c| 
     [c * s1.count(c), c * s2.count(c) ]
