@@ -13,8 +13,14 @@ date_str = latest_update_string.split(' ')[6..-1]
 link_to_download = result.attributes['href'].value
 pdf = URI.open("https://www.mass.gov#{link_to_download}")
 reader = PDF::Reader.new(pdf)
-reader.pages[0].text.gsub(/[\W]/, ' ').scan(/[\w]+/).join(' ')
-binding.pry
+text = reader.pages[0].text.gsub(/[\W]/, ' ').scan(/[\w]+/).join(' ')
+cases = text.match(/Cases Reported \d+/).to_s
+new_cases = text.match(/\d+ new cases/).to_s
+deaths = text.match(/total of \d+/).to_s
+new_deaths = text.match(/\d+ new deaths/).to_s
+barnstable = text.match(/Barnstable \d+/).to_s
+info = [cases, new_cases, deaths, new_deaths, barnstable]
+info.each { |each| p each }
 
 
 # TODO
