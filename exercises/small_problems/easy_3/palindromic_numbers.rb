@@ -13,7 +13,6 @@
 #   - reverse and compare
 
 def palindromic_number?(n)
-  p n.to_s
   n.to_s == n.to_s.reverse
 end
 

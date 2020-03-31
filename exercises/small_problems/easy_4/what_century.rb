@@ -22,38 +22,43 @@ Rules
     - 3    -> rd
     - 4..9 -> th
 Data Structure
+  - Hash, to store the suffix endings
 Algorithm
   - find century number
     - divide inputted num by 100
     - add 1
-  - find century ending
-    - map last char to endings_map, if not in map append 'th'
-  - return string
-
+  - add century suffix
+    - given any number, return the last two digits as an integer
+      - if digits are between 11 and 13, pass into as themselves
+      - otherwise, just pass the second digit
+    - pass the two-digit integer into the endings map
+  - output result string
 =end
+
 require 'pry'
 
-ENDINGS_MAP = { 1 => 'st', 2 => 'nd', 3 => 'rd' }
+SUFFIX_MAP = { 1 => 'st', 2 => 'nd', 3 => 'rd' }
 
-def century(year)
-  c_num, rem = year.divmod(100)
-  c_num += 1 unless rem == 0
-  c_suffix = c_num.digits.first(2)
-  "#{c_num}#{ENDINGS_MAP.fetch(c_suffix, 'th')}"
+def suffix(century)
+  return 'th' if (century % 100).between?(11, 13)
+  SUFFIX_MAP.fetch((century % 10), 'th')
 end
 
-# TODO:
-# if it's 11, 12, 13 => 'th'
+def century(year)
+  century = (year / 100) + 1
+  century -= 1 if year % 100 == 0
+
+  "#{century}#{suffix(century)}"
+end
 
 
 # Examples:
-#p century(2000) == '20th'
-#p century(1965) == '20th'
-#p century(1052) == '11th'
-#p century(1127) == '12th'
-#p century(11201) == '113th'
-
-p century(2001) #== '21st'
-p century(256) #== '3rd'
-p century(5) #== '1st'
-p century(10103) #== '102nd'
+p century(2000) == '20th'
+p century(1965) == '20th'
+p century(1052) == '11th'
+p century(1127) == '12th'
+p century(11201) == '113th'
+p century(2001) == '21st'
+p century(256) == '3rd'
+p century(5) == '1st'
+p century(10103) == '102nd'
