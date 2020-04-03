@@ -13,4 +13,10 @@
 
 # Bills reminder txting app
 
-twilio 
+- twilio 
+- list monthly bills
+  - provide link to open app
+- add bill
+  - bill, add, date, amount
+  - 
+
