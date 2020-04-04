@@ -49,7 +49,10 @@ def display_loan_details(loan)
   prompt "Monthly payment: $#{loan[:monthly_payment].round(2)}"
 end
 
-def build_loan(loan_str, apr_str, duration_str)
+def build_loan(loan_info)
+  loan_str = loan_info[0]
+  apr_str = loan_info[1]
+  duration_str = loan_info[2]
   loan = {}
   loan[:amount]           = loan_str.to_i
   loan[:apr]              = percent_to_decimal(apr_str.to_f)
@@ -63,9 +66,13 @@ def get_loan_info
   loan_str     = ask_user "Please enter the loan amount"
   apr_str      = ask_user "Please enter the Annual Percentage Rate", "(Example: 5 for 5% or 2.5 for 2.5%)"
   duration_str = ask_user "Please enter the loan duraton"
-  build_loan(loan_str, apr_str, duration_str)
+  [loan_str, apr_str, duration_str]
 end
 
 prompt "Welcome to the loan calculator!"
 prompt "Written by: Connor Maher"
-display_loan_details(get_loan_info)
+
+loan_info = get_loan_info
+loan = build_loan(loan_info)
+
+display_loan_details(loan)
