@@ -3,39 +3,6 @@
 
 require 'pry'
 
-# > Integers
-#   - loan amount
-#   - annual percentage rate
-#   - loan duration
-# < Integers
-#   - monthly interest rate
-#   - loan duration in months
-# ! Rules
-#   - monthly payment formula
-#     - m = p * (j / (1 - (1 + j)**(-n)))
-#         - m = monthly payment
-#         - p = loan amount
-#         - j = monthly interest rate
-#         - n = loan duration in months
-#   - monthly interest rate formula
-#     - j = apr / 12
-#       apr - annual percentage rate in decimal format
-#   - loan duration in months
-#     - n = duration * 12
-# ~ Algorithm
-#   - write method that prompts user
-#     - takes a string, adds a '=>'
-#     - prints
-#   - write a method that asks a user a question
-#     - takes a question_str
-#     - validates question_str is an integer
-#   - write a method that takes a int as a percentage and outputs in decimal format
-#     - int / 100
-#   - retrieve loan amount (p), apr, and loan duration
-#   - write a method that does all the calculations and outputs as hash
-#     - method to calculate monthly payment
-#     - method to calculate monthly interest rate
-
 def prompt(str)
   puts "=> #{str}"
 end
@@ -82,17 +49,23 @@ def display_loan_details(loan)
   prompt "Monthly payment: $#{loan[:monthly_payment].round(2)}"
 end
 
+def build_loan(loan_str, apr_str, duration_str)
+  loan = {}
+  loan[:amount]           = loan_str.to_i
+  loan[:apr]              = percent_to_decimal(apr_str.to_f)
+  loan[:monthly_interest] = (loan[:apr] / 12)
+  loan[:duration]         = (duration_str.to_i * 12)
+  loan[:monthly_payment]  = calc_monthly_payment(loan[:amount], loan[:monthly_interest], loan[:duration])
+  loan
+end
+
+def get_loan_info
+  loan_str     = ask_user "Please enter the loan amount"
+  apr_str      = ask_user "Please enter the Annual Percentage Rate", "(Example: 5 for 5% or 2.5 for 2.5%)"
+  duration_str = ask_user "Please enter the loan duraton"
+  build_loan(loan_str, apr_str, duration_str)
+end
+
 prompt "Welcome to the loan calculator!"
 prompt "Written by: Connor Maher"
-loan_str     = ask_user "Please enter the loan amount"
-apr_str      = ask_user "Please enter the Annual Percentage Rate", "(Example: 5 for 5% or 2.5 for 2.5%)"
-duration_str = ask_user "Please enter the loan duraton"
-loan = {}
-
-loan[:amount]           = loan_str.to_i
-loan[:apr]              = percent_to_decimal(apr_str.to_f)
-loan[:monthly_interest] = (loan[:apr] / 12)
-loan[:duration]         = (duration_str.to_i * 12)
-loan[:monthly_payment]  = calc_monthly_payment(loan[:amount], loan[:monthly_interest], loan[:duration])
-
-display_loan_details(loan)
+display_loan_details(get_loan_info)
