@@ -98,3 +98,43 @@ end
 
 *If the `#find_name` method fails to retrieve a name the **if conditional** relies on the short-circuit behavior to prevent the `#valid?` method from executing.* 
 
+------
+
+### Rubocop
+
+* static code analyzer
+  * analyzes code and offers advice about style format as well as potential logical errors
+
+#### Terminology
+
+| Term        | Definition                                                   |
+| ----------- | ------------------------------------------------------------ |
+| Cops        | Enforcement rules that rubocop uses                          |
+| Departments | Groupings of rules                                           |
+| Lint        | Analyzes code for possible logical errors or code smells     |
+| Code smell  | any characteristic in the code that indicates a deeper problem |
+| C           | stands ford *convention*, which means a convention was broken |
+| F           | Fatal error                                                  |
+| W           | warning                                                      |
+| E           | Error                                                        |
+
+#### Quick Tutorial
+
+```bash
+$ rubocop test.rb
+```
+
+Rubocop takes a file as an argument
+
+```bash
+rubocop test.rb --format offenses
+```
+
+Shows offenses per cop, and total offenses in our code
+
+
+
+#### Configuration
+
+Rubocop will look for a `.rubocop.yml` file in the directory it's executed in and apply configuration settings. 
+
