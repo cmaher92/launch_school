@@ -1,13 +1,10 @@
 # rock paper scissors
 
-# update the program so the user can type just the first letter for their choice
 # keep score of the player's and computers wins
+#   make the game a loop
+#   track wins in an array, play the game until either item gets to 5
+#   increment when either wins
 #   - when either the player or computer reaches five wins, the match is over
-
-# validate_choice method
-# iterate through the choices keys
-# if the choice is equal to the key, or equal to first letter of the choice return true
-# else return false
 
 require 'pry'
 
@@ -64,7 +61,37 @@ def display_results(choice, cp_choice, winner)
   prompt('The Computer won.') if winner == cp_choice
 end
 
-choice = get_choice
-cp_choice = CHOICES.keys.sample
-winner = check_winner(choice, cp_choice)
-display_results(choice, cp_choice, winner)
+def update_scoreboard(scoreboard, winner, choice, cp_choice)
+  scoreboard[0] += 1 if winner == choice
+  scoreboard[1] += 1 if winner == cp_choice
+  scoreboard
+end
+
+def play_game(scoreboard)
+  choice = get_choice
+  cp_choice = CHOICES.keys.sample
+  winner = check_winner(choice, cp_choice)
+  display_results(choice, cp_choice, winner)
+  update_scoreboard(scoreboard, winner, choice, cp_choice)
+end
+
+def display_match_winner(scoreboard)
+  scoreboard[0] == 5 ? prompt("You won the match!") : prompt("The computer won the match")
+end
+
+def play_match?
+  prompt("Would you like to play a match? Best of 5 wins. (y/n)")
+  response = gets.chomp
+  return true if /[yY]/.match?(response)
+end
+
+scoreboard = [0, 0]
+match = nil
+loop do
+  match = play_match? if match == nil
+  play_game(scoreboard)
+  display_match_winner(scoreboard) if scoreboard.include?(5)
+  prompt("You have #{scoreboard[0]} wins and the computer has #{scoreboard[1]} wins.") if match && scoreboard.include?(5) == false
+  break if scoreboard.include?(5)
+  break if !match
+end
