@@ -3,14 +3,14 @@ All methods, information, etc.. that I need to spend time reviewing to improve l
 
 ## Random Questions
 
-- https://www.neilwithdata.com/mathematics-self-learner
+- While, unless, for loops not treating `do..end` and `{..}` as blocks (because they don't)
+- When a hash is passed into a method, how can alter the hash's data without affecting the original hash object
 
 ## General
 
 - `#format`
 - `#split`
 - `#rand`
-- `(&:*)`, what specifically does the `&` symbol represent here
 - `#chars`
 - `#inspect`
 - `#class`
@@ -149,6 +149,91 @@ str['Barnstable'] #=> "Barnstable"
 
 
 
+### Methods
+
+#### match?
+
+*Signatures*
+
+```ruby
+str.match(pattern)      -> true or false
+str.match(pattern, pos) -> true or false
+```
+
+*Description*
+
+Converts pattern to a Regexp (if it isn't already one), then returns true or false indicating whether the regexp is matched str or not without upating `$~` and other related variables. If pos is present it indicates where to begin the search.
+
+*Examples*
+
+```ruby
+str = 'the quick brown fox jumped'
+str.match?(/quick/) # => true
+str.match?(/quick/, 9) # => false
+```
+
+
+
+#### count
+
+*Signatures*
+
+```ruby
+str.count([other_str]+) -> Integer
+# each other_str defines a set of characters to count
+```
+
+*Description*
+
+* Counts the characters in the string. 
+
+* The intersection of these sets defines the characters to count in string. 
+
+* Sequences can be used. 
+
+* any `other_str` that starts with a caret `^` is negated
+
+*Examples*
+
+```ruby
+str = 'hello world'
+str.count('lo') 
+# => 5
+# counts each instance of the 'l' character AND the 'o' character
+
+str.count('lo', 'o')
+# => 2
+# the 'lo' and 'o' arguments have 'o' in common, meaning that just 'o' is counted
+
+str.count('hello', '^l')
+# => 4
+# here 'h', 'e', and 'o' are counted because the '^l' negates the 'l's in the first
+# argument
+```
+
+
+
+#### center
+
+*Signature*
+
+```ruby
+str.center(width, padstr=' ') -> new_str
+# pads with spaces by default
+```
+
+*Description*
+
+* Centers str in provided width.
+* If str is greater than the width, simply returns the string
+
+*Examples*
+
+```ruby
+'hello'.center(20)
+# => "       hello        "
+```
+
 
 
 ## Array
@@ -216,6 +301,30 @@ ary.to_h
 ```
 
 ### Methods
+
+#### concat (mutating)
+
+*Signature*
+
+```ruby
+ary.concat(other_ary1, other_ary2, ...) -> ary 
+```
+
+*Description*
+
+Add contents from other arrays to the calling array. 
+
+*Example*
+
+```ruby
+arr = [1, 2, 3]
+arr.concat([4, 5, 6])
+# => [1, 2, 3, 4, 5, 6]
+```
+
+
+
+
 
 ## Hash
 
@@ -317,6 +426,79 @@ arr.group_by { |letter| letter }
 ```
 
 
+
+#### key?
+
+Returns true if the given key is present in hsh
+
+```ruby
+  h = { "a" => 100, "b" => 200 }
+  h.has_key?("a")   #=> true
+  h.has_key?("z")   #=> false
 ```
 
+
+
+#### merge (!)
+
+*Signatures*
+
+```ruby
+hsh.merge(other_hash1, other_hash2, ...) -> new_hash
+hsh.merge(other_hash1, other_hash2, ...) { |key, old_val, new_val| block }
 ```
+
+*Description*
+
+Returns a new hash that *combines the contents of the calling hash object and the contents of the arguments*
+
+*Details*
+
+* without block
+
+  * entries with duplicate keys are overwritten with the values from each `other_hash` one after another. 
+
+  * ```ruby
+    ages = {'connor' => 28, 'skylar' => 22, 'avery' => 20}
+    more_ages = {'connor' => 29}
+    ages.merge(more_ages)
+    # => {"connor"=>29, "skylar"=>22, "avery"=>20}
+    ```
+
+* with block
+
+  * value for each duplicate key is determined by calling the block with the key, the calling hash's value, and the argument hash's value.
+
+  * ```ruby
+    ages = {'connor' => 28, 'skylar' => 22, 'avery' => 20}
+    more_ages = {'connor' => 29}
+    
+    ages.merge(more_ages) do |key, old_v, new_v|
+      old_v > new_v ? old_v : new_v
+    end
+    
+    # => {"connor"=>29, "skylar"=>22, "avery"=>20}
+    ```
+
+    * the higher of the two values here is returned for each duplicate key
+
+
+
+------
+
+## Control Expressions
+
+### `begin..end` 
+
+This creates a while loop that will run the body once prior to the condition.
+
+```ruby
+a = 0
+begin
+ a += 1
+end while a < 10
+# this will increment a in the body
+# then will evaluate the condition
+# ends once a < 10
+```
+
