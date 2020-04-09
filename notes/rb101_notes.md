@@ -1001,3 +1001,162 @@ rps('paper', 'rock') # => 'paper'
 
 ```
 
+------
+
+#### Medium 2
+
+*Question 3*
+
+Let's call a method, and pass both a string and an array as parameters and see how even though they are treated in the same way by Ruby, the results can be different.
+
+Study the following code and state what will be displayed...and why:
+
+```ruby
+def tricky_method(a_string_param, an_array_param)
+  a_string_param += "rutabaga"
+  an_array_param << "rutabaga"
+end
+
+my_string = "pumpkins"
+my_array = ["pumpkins"]
+tricky_method(my_string, my_array)
+
+puts "My string looks like this now: #{my_string}"
+puts "My array looks like this now: #{my_array}"
+```
+
+------
+
+#### Hard 1
+
+*Question 1*
+
+What do you expect to happen when the `greeting` variable is referenced in the last line of the code below?
+
+```ruby
+if false
+  greeting = 'hello world'
+end
+
+greeting #=> nil
+```
+
+*Answer*
+
+`nil` , when you inititalize a local variable within an if block, even if that if block doesn't get executed, the local variable is initialized to `nil`. 
+
+
+
+*Question 2*
+
+What is the result of the last line in the code below?
+
+```ruby
+greetings = { a: 'hi' }
+informal_greeting = greetings[:a]
+informal_greeting << 'there'
+
+puts informal_greeting # => 'hi there'
+puts greetings # => {:a => 'hi there'}
+```
+
+*Answer*
+
+`'hi there'` is returned because the `informal_greeting` object is mutated with `<<` which is the same object that the value for `greetings[:a]` points to. 
+
+------
+
+## Lesson 4 - Ruby Collections
+
+### Introduction to the PEDAC process
+
+The PEDAC process is one approach to solving programming problems. Its primary goal is to help you identify and avoid pitfalls that you may encounter when you don't code with intent.
+
+P - Understand the **P**roblem
+
+E - **E**xamples
+
+D - **D**ata Structure
+
+A - **A**lgorithm
+
+C - **C**ode
+
+#### Understanding The Problem
+
+1. Read the problem's description
+2. Check the test cases, if any
+3. If any part of the problem is unclear, ask the interviewer or problem requester to clarify the matter
+
+```ruby
+# input: string
+# output: string (not the same object)
+# rules:
+# 	explicit requirements:
+# 		- every palindrome in the string must be converted to
+#			  uppercase. (Reminder: a palindrome is a word that read
+# 			the same forwards and backward).
+# 		- palindromes are case sensitive ('Dad' is not a palindrome, but 'dad' is).
+
+# 	implicit requirements:
+# 		- the returned string shouldn't be the same object
+```
+
+
+
+#### Data Structure/Algorithm
+
+Data structures influence your algorithm, and for that reason, these two steps are often paired. The biggest problem students have when writing algorithms is providing sufficient detail.
+
+*Example of applying data structures/algorithm from PEDAC process*
+
+```ruby
+# PROBLEM:
+
+# Given a string, write a method `palindrome_substrings` which returns
+# all the substrings from a given string which are palindromes. Consider
+# palindrome words case sensitive.
+
+# Test cases:
+# palindrome_substrings("supercalifragilisticexpialidocious") == ["ili"]
+# palindrome_substrings("abcddcbA") == ["bcddcb", "cddc", "dd"]
+# palindrome_substrings("palindrome") == []
+# palindrome_substrings("") == []
+
+# Some questions you might have?
+# 1. What is a substring?
+# 2. What is a palindrome?
+# 3. Will inputs always be strings?
+# 4. What does it mean to treat palindrome words case-sensitively?
+
+# input: string
+# output: an array of substrings
+# rules:
+#      Explicit requirements:
+#        - return only substrings which are palindromes.
+#        - palindrome words should be case sensitive, meaning "abBA"
+#          is not a palindrome.
+```
+
+```ruby
+# Data structure
+# Array
+
+# Algorithm
+# init empty results array
+# find all substrings within the array
+# init variable named length to 3
+# loop, that will find substrings of n length, beginning at 3
+# 	init start variable to 0
+# 	loop, finding the substrings of the length
+# 		retrieve substring
+# 		if substring is the same length as length append to results array
+# 		else, break
+# 	increment length by 1
+# 	break when length == the size of the string
+# with an array of all possible substrings within the array
+# create a method that determines if a string is a palindrome
+```
+
+
+
