@@ -1,19 +1,6 @@
 # Bannerizer
 # Write a method that will take a short line of text, and print it within a box.
 
-# further exploring
-# split_string method
-# split the sentence into words
-# x = 0
-# loop, break when x == words.size
-# y = 0
-#   loop
-#     increment y by 1
-#     if the length of words[x, y].join(' ') > 76
-#       join words[x, y-1] and append to messages array
-#       x = y
-#       break
-
 def split_message(message)
   words = message.split(' ')
   second = []
