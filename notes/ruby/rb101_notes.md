@@ -1158,5 +1158,362 @@ Data structures influence your algorithm, and for that reason, these two steps a
 # create a method that determines if a string is a palindrome
 ```
 
+------
+
+### Looping
+
+Using a `while` loop print 5 random numbers between 0 and 99.
+
+```ruby
+count = 0
+while count < 5
+  puts rand(0..99)
+  count += 1
+end
+```
+
+
+
+Use an `until` loop to print each number
+
+```ruby
+numbers = [1, 2, 3, 4, 5]
+idx = 0
+until idx == numbers.size
+  puts numbers[idx]
+  idx += 1
+end
+```
+
+
+
+Use a `for` loop so it only prints odd numbers
+
+```ruby
+for i in 1..100
+  puts i if i.odd?
+end
+```
+
+
+
+Use a `for` loop to greeting each friend
+
+```ruby
+friends = ['Sarah', 'John', 'Hannah', 'Dave']
+for friend in friends
+  puts "Hi #{friend}"
+end
+```
+
+
+
+Write a loop that prints numbers 1-5, and whether the number is even or odd
+
+```ruby
+for i in 1..5
+  i.odd? ? puts("#{i} is odd!") : puts("#{i} is even!")
+end
+```
+
+
+
+Modify the following code so that the loop stops if `number` is equal to or between 0 and 10.
+
+```ruby
+loop do
+  number = rand(100)
+  break if number.between?(0, 10)
+  puts number
+end
+```
+
+
+
+Using an `if/else` statement, run a loop that prints `"The loop was processed!"` one time if `process_the_loop` equals `true`. Print `"The loop wasn't processed!"` if `process_the_loop` equals `false`.
+
+```ruby
+process_the_loop = [true, false].sample
+
+if process_the_loop
+  while process_the_loop
+    puts "The loop was processed!"
+    break
+  end
+else
+  puts "The loop wasn't processed!"
+end
+```
+
+### Selection and Transformation
+
+Selection: 
+
+* picking certain elements out of the collection depending on some criterion.
+
+Transformation: 
+
+* refers to manipulating every element in the collection.
+
+It's critical to not only understand how to perform these actions, but to develop a high level of proficiency so you can quickly and fluently work with collections.
+
+#### Looping to Select and Transform
+
+*Applying selection to a collection*
+
+```ruby
+alphabet = ('a'..'z').to_a.join
+selected_chars = ''
+counter = 0
+
+loop do
+  # selection criteria
+  selected_chars << alphabet[counter] if alphabet[counter] == 'g'
+  counter += 1
+  break if counter == alphabet.length
+end
+```
+
+In the above `loop` the *selection criteria* is what makes this a *selection* loop. It only selects the 'g' characters and adds them to the `selected_chars` string.
+
+
+
+*Applying transformation to a collection*
+
+```ruby
+fruits = ['apple', 'banana', 'pear']
+transformed_elements = []
+counter = 0
+
+loop do
+  # transformation criteria
+  transformed_elements << (fruits[counter] + 's')
+  counter += 1
+  break if counter == fruits.size
+end
+```
+
+In the above `loop` transformation is applied to the fruits array, returning a new array `transformed_elements`. Remember it's important to pay attention to whether the original collection was mutated or if a new collection was returned.
+
+
+
+*Select the key-value pairs where the value is `'Fruit'`*
+
+```ruby
+produce = {
+  'apple' => 'Fruit',
+  'carrot' => 'Vegetable',
+  'pear' => 'Fruit',
+  'broccoli' => 'Vegetable'
+}
+
+def find_pairs_by_value(hash, value)
+  selected_pairs = {}
+  counter = 0
+  keys = hash.keys
+
+  loop do
+    break if counter == keys.length
+    key = keys[counter]
+    if hash[key] == value
+      selected_pairs[key] = value
+    end
+    counter += 1
+  end
+
+  selected_pairs
+end
+
+select_fruit(produce) # => {"apple"=>"Fruit", "pear"=>"Fruit"}
+```
+
+
+
+*Write a method that takes an array of numbers and mutates the passed in array*
+
+```ruby
+numbers = [1, 2, 3, 4, 5]
+
+def double_numbers!(ary)
+  counter = 0
+  loop do
+    break if counter == ary.length
+    # mutating transformation criteria
+    ary[counter] *= 2
+    counter += 1
+  end
+  ary
+end
+```
+
+
+
+*Write a method that takes a string and a letter and selects only the specified letter*
+
+```ruby
+def select_letter(sentence, letter)
+  selected = ''
+  counter = 0
+  loop do
+    break if counter == sentence.length
+    selected << sentence[counter] if sentence[counter] == letter
+    counter += 1
+  end
+  selected
+end
+```
+
+
+
+#### The `for` loop
+
+```ruby
+alphabet = ('a'..'z').to_a.join
+
+for char in alphabet.chars
+  puts char
+end
+```
+
+
+
+------
+
+### Methods
+
+This lesson will take a closer look at `each` , `select`, and `map`. 
+
+#### `each`
+
+One of the main difference between using a standard `loop` is that `each` returns the original collection.
+
+```ruby
+ary = [1, 2, 3]
+ary.each { |num| puts num }
+# => [1, 2, 3]
+
+counter = 0
+loop do
+  break if counter == ary.size
+  puts ary[couner]
+  counter += 1
+end
+# => nil
+```
+
+
+
+#### `select`
+
+returns only the elements where the corresponding block returned a truthy value in a new collection.
+
+#### `map`
+
+Similar to `select` map also considers the return value of a block. Whatever the block returns is placed into a new collection. 
+
+```ruby
+[1, 2, 3].map { |num| num * 2 } 
+# => [1, 4, 6]
+```
+
+------
+
+### More Methods
+
+#### `Enumerable#any?`
+
+*Example*
+
+```ruby
+[1, 2, 3].any? { |num| num > 2 } # => true
+```
+
+There are two return values that we need to be aware of here, *the return value of the method* and *the return value of the block*. `any?` looks at the truthiness of the block's return value in order to determine what the method's return value will be. 
+
+
+
+*It can also be used with a block*
+
+```ruby
+{ a: 'ant', b: 'bear', c: 'cat' }.any? { |key, value| value.size > 4 }
+# => false
+```
+
+
+
+#### `Enumerable#all?`
+
+`all?` functions in a similar way to `any?`. It also looks at the truthiness of the block's return value, but the method only returns `true` if the block's return value in every iteration is truthy. 
+
+```ruby
+{ a: 'ant', b: 'bear', c: 'cat' }.all? { |k, v| v != nil }
+# => true
+```
+
+
+
+#### `Enumerable#each_with_index`
+
+```ruby
+{ a: 'ant', b: 'bear', c: 'cat' }.each_with_index do |pair, index|
+  puts "The index of #{pair} is #{index}."
+end
+# pair is an array of k, v
+```
+
+
+
+#### `Enumerable#each_with_object`
+
+```ruby
+[1, 2, 3].each_with_object([]) do |num, ary|
+  ary << num if num.odd?
+end
+# The method argument, [] in this case, must be a collection arguments
+# will return the collection argument
+
+{ a: "ant", b: "bear", c: "cat" }.each_with_object({}) do |(key, value), hash|
+  hash[value] = key
+end
+# => { "ant" => :a, "bear" => :b, "cat" => :c }
+```
+
+*Notice that when `each_with_object` is handling a hash it turns the element into an array `[k, v]`, instead of defining the whole pair, you can use parenthesis to define the key and value `(key, value)`*
+
+#### `Enumerable#include?`
+
+You can use `#include?` on a hash, however it only checks for the existance of a key, it does not check the corresponding value.
+
+```ruby
+{ a: 'ant', b: 'bear', c: 'cat' }.include?('bear')
+# => false
+{ a: 'ant', b: 'bear', c: 'cat' }.include?(:c)
+# => true
+```
+
+
+
+#### `Hash#has_value?` or `Hash#value?`
+
+If you want to find out if a value exists within a hash, either of these aliased methods will work.
+
+
+
+#### `Enumerable#partition`
+
+`partition` divides up elements in the current collection into two collections, depending on the block's return value. 
+
+```ruby
+[1, 2, 3].partititon { |num| num.odd? }
+# => [[1, 3], [2]]
+
+# the most idiomatic way to use partition is to parallel assign variables
+odd, even = [1, 2, 3].partition { |num| num.odd? }
+odd 
+# => [1, 3]
+even
+# => [2]
+```
+
 
 

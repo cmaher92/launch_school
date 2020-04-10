@@ -4,4 +4,7 @@ Working with loops that require an inner and outer loop to iterate over an array
 
 * find all element possibilities in an array with sequential elements, fixed size and not fixed sizes
 * find all number possibilities in an array without sequential elements, fixed and dynamic sizes of sub-arrays
+* review bannerize.rb within `exercises/small_problems/easy_5`
+  * better way to find substrings of desired length
+  * should be able to do entire paragraphs
 
