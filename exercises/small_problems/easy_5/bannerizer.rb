@@ -6,21 +6,17 @@ def split_message(message)
   line_count = (message.length / 76.0).ceil
   lines = []
   words = message.split(' ')
-  # iterate over lines
-  # append words to the line, unless by shifting the word will make the length > 76
-    # if line + word is greater than 76, break
-    # else, line + word
   line = ''
   loop do
     if words.empty?
       lines << line
       break
-    end
-    if (line.length + words[0].length + 1) > 76
+    elsif (line.length + words[0].length + 1) > 76
       lines << line
       line = ''
+    else
+      line.empty? ? line << words.shift : line << " #{words.shift}"
     end
-    line.empty? ? line << words.shift : line << " #{words.shift}"
   end
   lines
 end
@@ -28,7 +24,9 @@ end
 def print_middle_lines(messages)
   length = messages[0].length
   puts "| #{messages[0]} |"
-  puts "| #{messages[1].center(length)} |"
+  messages[1..-1].each do |message|
+    puts "| #{message.center(length)} |"
+  end
 end
 
 def print_in_box(message)
@@ -50,7 +48,7 @@ end
 print_in_box('connor maher lives in cotuit massachusetts which is on cape cod and it is a very very nice town you will have to see it')
 
 # Example:
-# print_in_box('To boldly go where no one has gone before.')
+print_in_box('To boldly go where no one has gone before.')
 # +--------------------------------------------+
 # |                                            |
 # | To boldly go where no one has gone before. |
