@@ -1,15 +1,28 @@
 # Bannerizer
 # Write a method that will take a short line of text, and print it within a box.
+require 'pry'
 
 def split_message(message)
+  line_count = (message.length / 76.0).ceil
+  lines = []
   words = message.split(' ')
-  second = []
-  # pop words and append to second string, until first string is less than 76 |
+  # iterate over lines
+  # append words to the line, unless by shifting the word will make the length > 76
+    # if line + word is greater than 76, break
+    # else, line + word
+  line = ''
   loop do
-    second.unshift(words.pop)
-    break if words.join(' ').length <= 76
+    if words.empty?
+      lines << line
+      break
+    end
+    if (line.length + words[0].length + 1) > 76
+      lines << line
+      line = ''
+    end
+    line.empty? ? line << words.shift : line << " #{words.shift}"
   end
-  [words.join(' '), second.join(' ')]
+  lines
 end
 
 def print_middle_lines(messages)
