@@ -1,24 +1,14 @@
 # Backlog
 All methods, information, etc.. that I need to spend time reviewing to improve language knowledge. Once reviewied in-depth and flashcards have been created if applicable then cross out from backlog.
 
-## Random Questions
-
-- While, unless, for loops not treating `do..end` and `{..}` as blocks (because they don't)
-- When a hash is passed into a method, how can alter the hash's data without affecting the original hash object
-
 ## General
 
 - `#format`
 - `#split`
 - `#rand`
 - `#chars`
-- `#inspect`
 - `#class`
 - `#is_a?`
-- begin/rescue
-- keyword `next` (return value)
-- order of precedence
-- 
 
 ## Array
 
@@ -31,6 +21,11 @@ All methods, information, etc.. that I need to spend time reviewing to improve l
 - move `#gsub` notes into this master notes file
 - `permutation`
 - `combination`
+- `reverse_each`
+- `drop_while`
+- `delete_if`
+- `keep_if`
+- 
 
 ## Hash
 
@@ -44,9 +39,14 @@ All methods, information, etc.. that I need to spend time reviewing to improve l
 
 ## Enumerable
 
-* `#sort`
 * `#each_with_object`
-* 
+* `chunk`
+* min
+* max
+* minmax
+* min_by
+* max_by
+* Minimax_by
 
 ## String
 
@@ -81,7 +81,36 @@ All methods, information, etc.. that I need to spend time reviewing to improve l
 
 # Notes
 
-Once something is reviewed, move here.
+Notes on reviewed classes, methods, modules, and other aspects of Ruby.
+
+## Object
+
+### Methods
+
+#### `inspect`
+
+*Signature*
+
+```ruby
+obj.inspect -> string
+```
+
+*Description*
+
+* Returns a string containing human-readable representation of obj. 
+  * The default `inspect` shows object's class name, an encoding of the object_id, and a list of the instance variables and their values
+
+*Example*
+
+```ruby
+arr = [1, 2, 3]
+arr.inspect
+# => "[1, 2, 3]"
+```
+
+
+
+
 
 ## String
 
@@ -324,6 +353,35 @@ arr.concat([4, 5, 6])
 ```
 
 
+
+#### `find_index`
+
+Alias to `#index`and `#rindex`
+
+*Signatures*
+
+```ruby
+ary.find_index(obj)             ->  int or nil
+ary.find_index {|item| block}   ->  int or nil
+ary.find_index                  ->  Enumerator
+```
+
+*Description*
+
+* Returns the index of the first object in the array
+* If block is given
+  * returns the index of the first object for which the block returns true
+  * nil if no match found
+
+*Examples*
+
+```ruby
+a = ['a', 'b', 'c']
+b = [1, 2, 3, 4, 5]
+a.index('b') # => 1
+a.index('z') # => nil
+b.index { |num| num.odd? } # => 1
+```
 
 
 
