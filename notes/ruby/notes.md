@@ -21,8 +21,6 @@ All methods, information, etc.. that I need to spend time reviewing to improve l
 - move `#gsub` notes into this master notes file
 - `permutation`
 - `combination`
-- `reverse_each`
-- `drop_while`
 - `delete_if`
 - `keep_if`
 - 
@@ -567,8 +565,6 @@ Can be unstable if two keys are equal, the order of the corresponding elements i
 # => ['fig', 'pear', 'apple']
 ```
 
-
-
 *Example*
 
 ```ruby
@@ -580,6 +576,56 @@ numbers.sort_by { |number| english_numbers[number] }
 # resulting in sorting based on characters
 # => [4, 1, 3, 2, 0]
 ```
+
+#### `reverse_each`
+
+*Signature*
+
+```ruby
+enum.reverse_each(*args) { |item| block } -> enum
+enum.reverse_each(*args) { |item| block } -> enum
+```
+
+*Description*
+
+* Builds a temporary array and traverses that array in reverse order
+  * unless called on an Array, where it will simply just traverse self in reverse order
+
+*Example*
+
+```ruby
+[1, 2, 3].reverse_each do |num|
+  puts num
+end
+# 3
+# 2
+# 1
+# => [1, 2, 3]
+```
+
+
+
+#### `drop_while`
+
+*Signature*
+
+```ruby
+  enum.drop_while { |obj| block }  -> array
+  enum.drop_while                  -> an_enumerator
+```
+
+*Description*
+
+* Drops elements up to, but not including, the first element for which the block returns `nil` or `false` and returns an array containing the remaining elements.
+
+*Examples*
+
+```ruby
+  a = [1, 2, 3, 4, 5, 0]
+  a.drop_while { |i| i < 3 }   #=> [3, 4, 5, 0]
+```
+
+
 
 
 

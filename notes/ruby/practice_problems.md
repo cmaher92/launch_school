@@ -157,3 +157,96 @@ add_names(names, 'avery')
 puts names.inspect # => 
 ```
 
+
+
+16. What will `reverse_each` return when called on a Hash?
+
+```ruby
+people = { connor: 28, megan: 24, avery: 20, skylar: 22 }
+people.reverse_each do |name, age|
+  puts name, age
+end
+# ...
+# =>
+```
+
+
+
+17. What will `reverse_each` return when called on an Array?
+
+```ruby
+[1, 2, 3].reverse_each { |num| puts num }
+# ...
+# => 
+```
+
+
+
+18. Given an array, drop the number that are less than 3
+
+```ruby
+arr = [1, 2, 3, 4, 5]
+# => [3, 4, 5]
+```
+
+
+
+19. Given an array, add items to the array. Modifies the caller.
+
+```ruby
+arr = [1, 2, 3]
+
+p arr
+# => "[1, 2, 3, 4, 5, 6]"
+```
+
+
+
+20. Given an array, add items to the array, without modifying the caller.
+
+```ruby
+arr = [1, 2, 3]
+arr2 = [4, 5, 6]
+new_arr = # write solution here
+p arr 
+# => "[1, 2, 3]"
+p new_arr
+# => "[1, 2, 3, 4, 5, 6]"Given a string, see if there is a match in the string that matches the word 'connor', return a boolean value.
+```
+
+
+
+21. Given `str` see if the word 'connor' is matched anywhere in the string, return a boolean.
+
+```ruby
+str = 'how tall is connor?'
+
+# => true
+```
+
+
+
+22. Sort the array of arrays which contain numeric strings, we want to sort the outer array so that the inner arrays are ordered according to the *numeric* value of the strings they contain. 
+
+```ruby
+arr = [['1', '8', '11'], ['2', '6', '13'], ['2', '12', '15'], ['1', '8', '9']]
+
+# => [["1", "8", "9"], ["1", "8", "11"], ["2", "6", "13"], ["2", "12", "15"]]
+```
+
+[Source]: https://launchschool.com/lessons/c53f2250/assignments/c633cf37	"Working With Blocks"
+
+
+
+23. Return an integer larger than 13 from the first sub-array and an item with a size less than 6 from the second sub-array. 
+
+```ruby
+numbers_and_fruits = [[8, 13, 27], ['apple', 'banana', 'cantaloupe']]
+numbers_and_fruits.map do |arr|
+  arr.select do |item|
+    # write code here
+  end
+end 
+# => [[27], ["apple"]]
+```
+[Source]: https://launchschool.com/lessons/c53f2250/assignments/c633cf37	"Working With Blocks"
