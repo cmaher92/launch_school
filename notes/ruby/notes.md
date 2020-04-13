@@ -5,7 +5,7 @@ All methods, information, etc.. that I need to spend time reviewing to improve l
 
 - `#format`
 - `#split`
-- `#rand`
+- `#rand
 - `#chars`
 - `#class`
 - `#is_a?`
@@ -379,6 +379,64 @@ b = [1, 2, 3, 4, 5]
 a.index('b') # => 1
 a.index('z') # => nil
 b.index { |num| num.odd? } # => 1
+```
+
+
+
+#### `permutation`
+
+*Signature*
+
+```ruby
+  arr.permutation {|p| block}            -> ary
+  arr.permutation                        -> Enumerator
+  arr.permutation(n) {|p| block}         -> ary
+  arr.permutation(n)                     -> Enumerator
+```
+
+*Description*
+
+* permutation is all possible variations of n number of elements
+  * permutation treates `[1, 2]` and `[2, 1]` as SEPERATE variations, returning both
+    * `combination` would only return one of the two
+* When invoked with a block
+  * yield all permutations (variations) of length `n`of the elements of the array, then return the array itself
+  * If `n` is not specified as an argument, yield all permutations of all elements
+
+*Example*
+
+```ruby
+arr = [1, 2, 3]
+# if you wanted all variations, with the length of each variation set to 2
+arr.permutation(2)
+# => [[1, 2], [1, 3], [2, 1], [2, 3], [3, 1], [3, 2]]
+
+# If you wanted all the possible variations of two digits, summed from the array.
+arr.permutation(2) { |p| p.sum }
+```
+
+#### `combination`
+
+*Signature*
+
+```ruby
+  ary.combination(n) {|c| block}      -> ary
+  ary.combination(n)                  -> Enumerator
+```
+
+*Description*
+
+* Yields all combinations of length `n` of elements from the array
+  * returns array itself
+* considers `[1, 2`] and `[2, 1]` to be the same combination, therefor will only return one of the two. 
+  * compare this to `Array.permutation`
+
+*Example*
+
+```ruby
+arr = [1, 2, 3]
+arr.combination(2).to_a
+# => [[1, 2], [1, 3], [2, 3]]
 ```
 
 

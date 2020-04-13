@@ -33,7 +33,7 @@ hash = { connor: 28, megan: 24, avery: 20, skylar: 22 }
 hash.map { |k, v| v += 1 }
 ```
 
-3. Return value of variable inititalized inside of for loop
+3. Return value of variable inititalized inside of for loop [1, 0]
 
 ```ruby
 # What is returned?
@@ -61,7 +61,7 @@ return_value
 ```ruby
 # print a once it reference a value of at least 10
 a = 0
-a += 1 until a > 10
+# code here
 p a # 11
 ```
 
@@ -78,8 +78,6 @@ p a # 11
 ```ruby
 # map over array, if it's multiply by 2
 [1, 2, 3].map do |number|
-  next value if value.even?
-  value * 2
 end
 ```
 
@@ -129,7 +127,7 @@ arr2
 arr1 
 ```
 
-14. What does the following return when working with a `dup` object? [0, 1]
+14. What does `arr1` and `arr2` reference in the following code?
 
 ```ruby
 arr1 = ["a", "b", "c"]
@@ -216,7 +214,7 @@ p new_arr
 
 
 
-21. Given `str` see if the word 'connor' is matched anywhere in the string, return a boolean.
+21. Given `str` see if the word 'connor' is matched anywhere in the string, return a boolean [1, 0]
 
 ```ruby
 str = 'how tall is connor?'
@@ -250,3 +248,32 @@ end
 # => [[27], ["apple"]]
 ```
 [Source]: https://launchschool.com/lessons/c53f2250/assignments/c633cf37	"Working With Blocks"
+
+
+
+24. Call the `take_block` method and have it print the number 32.
+
+```ruby
+def take_block(number, &block)
+  block.call(number)
+end
+```
+
+
+
+25. Transform the given array into a hash of grouped values, the `key` is the character and the `value` is an array of all characters.
+
+```ruby
+arr = ["a", "l", "p", "h", "a", "b", "e", "t", "s", "o", "u", "p"]
+
+# => {"a"=>["a", "a"], "l"=>["l"], "p"=>["p", "p"], "h"=>["h"], "b"=>["b"], "e"=>["e"],           "t"=>["t"], "s"=>["s"],"o"=>["o"], "u"=>["u"] }
+
+```
+
+26. Given an array, find the sum of each variation of two digits.
+
+```ruby
+arr = [1, 2, 3]
+# hint, Array.permutation
+```
+
