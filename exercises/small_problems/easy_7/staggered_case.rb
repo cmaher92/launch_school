@@ -29,6 +29,13 @@
 #     - otherwise, downcase
 #   join string, and return
 
+# staggered caps (part 2)
+# keep a counter
+# loop over each
+# next if character is non-alphabetic
+# increment otherwise
+require 'pry'
+
 def downcase_char(char)
   char.ord.between?(65, 90) ? (char.ord + 32).chr : char
 end
@@ -38,7 +45,19 @@ def upcase_char(char)
 end
 
 def staggered_case(str)
-  str.chars.each_with_index.map { |char, i| i.even? ? upcase_char(char) : downcase_char(char) }.join
+  # str.chars.each_with_index.map { |char, i| i.even? ? upcase_char(char) : downcase_char(char) }.join
+  counter = 0
+  str.chars.map do |char|
+    # binding.pry
+    next char if char =~ /[^a-zA-Z]/
+    if counter.even?
+      counter +=  1
+      upcase_char(char)
+    else
+      counter += 1
+      downcase_char(char)
+    end
+  end.join
 end
 
 # tests for helpers
@@ -50,6 +69,11 @@ end
 # p upcase_char("!")
 
 # tests
-p staggered_case('I Love Launch School!') == 'I LoVe lAuNcH ScHoOl!'
-p staggered_case('ALL_CAPS') == 'AlL_CaPs'
-p staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 NuMbErS'
+# p staggered_case('I Love Launch School!') #= 'I LoVe lAuNcH ScHoOl!'
+# p staggered_case('ALL_CAPS') == 'AlL_CaPs'
+# p staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 NuMbErS'
+
+# tests for part 2
+p staggered_case('I Love Launch School!') == 'I lOvE lAuNcH sChOoL!'
+p staggered_case('ALL CAPS') == 'AlL cApS'
+p staggered_case('ignore 77 the 444 numbers') == 'IgNoRe 77 ThE 444 nUmBeRs'
