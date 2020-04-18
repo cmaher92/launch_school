@@ -16,6 +16,9 @@ require 'pry'
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
+WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
+                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
+                [[1, 5, 9], [3, 5, 7]]              # diagnals
 
 def initialize_board
   new_board = {}
@@ -23,9 +26,9 @@ def initialize_board
   new_board
 end
 
+# rubocop:disable Metrics/AbcSize:
 def display_board(board)
   system 'clear'
-  puts ""
   puts "     |     |"
   puts "  #{board[1]}  |  #{board[2]}  |  #{board[3]}"
   puts "     |     |"
@@ -37,8 +40,8 @@ def display_board(board)
   puts "     |     |"
   puts "  #{board[7]}  |  #{board[8]}  |  #{board[9]}"
   puts "     |     |"
-  puts ""
 end
+# rubocop:enable Metrics/AbcSize:
 
 def prompt(msg)
   puts ">> #{msg}"
@@ -51,7 +54,7 @@ end
 def player_places_piece!(board)
   square = ''
 
-  loop do 
+  loop do
     prompt "Choose a square (#{empty_squares(board).join(', ')}):"
     square = gets.chomp.to_i
     break if empty_squares(board).include?(square)
@@ -75,10 +78,7 @@ def someone_won?(board)
 end
 
 def detect_winner(board)
-  winning_lines = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] + # rows
-                  [[1, 4, 7], [2, 5, 8], [3, 6, 9]] + # cols
-                  [[1, 5, 9], [3, 5, 7]]              # diagnals
-  winning_lines.each do |line|
+  WINNING_LINES.each do |line|
     return 'Player' if line.all? { |pos| board[pos] == PLAYER_MARKER }
     return 'Computer' if line.all? { |pos| board[pos] == COMPUTER_MARKER }
   end
@@ -94,7 +94,7 @@ loop do
 
     player_places_piece!(board)
     break if someone_won?(board) || board_full?(board)
-    
+
     computer_places_piece!(board)
     break if someone_won?(board) || board_full?(board)
   end
