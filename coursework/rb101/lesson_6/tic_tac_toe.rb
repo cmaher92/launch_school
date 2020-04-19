@@ -66,20 +66,18 @@ def player_places_piece!(board)
   board[square] = PLAYER_MARKER
 end
 
-def check_winning_lines(board)
-  WINNING_LINES.find do |line|
-    # return true if the line has 2 user markers and 1 initial marker
-    user = line.count { |pos| board[pos] == PLAYER_MARKER }
-    initial = line.count { |pos| board[pos] == INITIAL_MARKER }
-    user == 2 && initial == 1 ? true : false
+def find_at_risk_square(line, board)
+  if board.values_at(*line).count('X') == 2
+    board.select{|k,v| line.include?(k) && v == ' '}.keys.first
+  else
+    nil
   end
 end
 
 def computer_places_piece!(board)
-  winning_line = check_winning_lines(board)
-  if winning_line
-    spot = winning_line.find { |pos| board[pos] == INITIAL_MARKER }
-    board[spot] = COMPUTER_MARKER
+  square = WINNING_LINES.filter_map{ |line| find_at_risk_square(line, board)}.first
+  if square != nil 
+    board[square] = COMPUTER_MARKER
   else
     board[empty_squares(board).sample] = COMPUTER_MARKER
   end
