@@ -1,17 +1,7 @@
 # tic_tac_toe.rb
 
-# 1. Display the initial empty 3x3 board.
-# 2. Ask the user to mark a square.
-# 3. Computer marks a square.
-# 4. Display the updated board state.
-# 5. If winner, display winner.
-# 6. If board is full, display tie.
-# 7. If neither winner nor board is full, go to #2
-# 8. Play again?
-# 9. If yes, go to #1
-# 10. Good bye!
-
 require 'pry'
+require 'pry-byebug'
 
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
@@ -47,6 +37,18 @@ def prompt(msg)
   puts ">> #{msg}"
 end
 
+def joiner(list, delimiter=',', joining_word='or')
+  list.map do |word| 
+    if word == list[-2]
+      "#{word} #{joining_word} "
+    elsif word == list[-1]
+      word
+    else
+      "#{word}#{delimiter} "
+    end
+  end.join
+end
+
 def empty_squares(board)
   board.keys.select { |num| board[num] == INITIAL_MARKER }
 end
@@ -55,7 +57,7 @@ def player_places_piece!(board)
   square = ''
 
   loop do
-    prompt "Choose a square (#{empty_squares(board).join(', ')}):"
+    prompt "Choose a square (#{joiner(empty_squares(board), ",", "or")}):"
     square = gets.chomp.to_i
     break if empty_squares(board).include?(square)
     prompt("Sorry that's not a valid choice")
@@ -64,9 +66,23 @@ def player_places_piece!(board)
   board[square] = PLAYER_MARKER
 end
 
+def check_winning_lines(board)
+  WINNING_LINES.find do |line|
+    # return true if the line has 2 user markers and 1 initial marker
+    user = line.count { |pos| board[pos] == PLAYER_MARKER }
+    initial = line.count { |pos| board[pos] == INITIAL_MARKER }
+    user == 2 && initial == 1 ? true : false
+  end
+end
+
 def computer_places_piece!(board)
-  square = empty_squares(board).sample
-  board[square] = COMPUTER_MARKER
+  winning_line = check_winning_lines(board)
+  if winning_line
+    spot = winning_line.find { |pos| board[pos] == INITIAL_MARKER }
+    board[spot] = COMPUTER_MARKER
+  else
+    board[empty_squares(board).sample] = COMPUTER_MARKER
+  end
 end
 
 def board_full?(board)
@@ -85,12 +101,46 @@ def detect_winner(board)
   nil
 end
 
-# game loop
-loop do
+def ask_if_match?
+  response = nil
+  loop do
+    prompt "Would you like to play a match?"
+    prompt "First to 5 wins (y or n)"
+    response = gets.chomp
+    break if response.match?(/^[yn]$/i)
+    prompt "That's an invalid option, please enter either (y or n)."
+  end
+  response.match?(/[y]/i) ? true : false
+end
+
+def update_score!(score, winner)
+  winner = 'X' if winner == 'Player'
+  winner = 'O' if winner == 'Computer'
+  score[winner] += 1
+end
+
+def display_score(score)
+  # update so it says point if only 1
+  player_score = score[PLAYER_MARKER]
+  computer_score = score[COMPUTER_MARKER]
+  player_score == 1 ? prompt("You have 1 point") : prompt("You have #{player_score} points")
+  computer_score == 1 ? prompt("The computer has 1 point") : prompt("The computer has #{computer_score} points")
+end
+
+def someone_won_match?(score)
+  score.any? { |_, v| v == 5 }
+end
+
+is_a_match = false
+score = { PLAYER_MARKER => 0, COMPUTER_MARKER => 0 }
+is_a_match = ask_if_match? unless is_a_match == true
+
+loop do # game loop
   board = initialize_board
 
   loop do
     display_board(board)
+    display_score(score) if is_a_match
 
     player_places_piece!(board)
     break if someone_won?(board) || board_full?(board)
@@ -100,14 +150,25 @@ loop do
   end
 
   if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
+    display_board(board)
+    winner = detect_winner(board)
+    prompt "#{winner} won!"
+    update_score!(score, winner)
   else
     prompt "It's a tie!"
   end
 
-  prompt "Play again (y or n)"
-  answer = gets.chomp
-  break if answer == 'n'
+  if is_a_match
+    display_score(score)
+    break if someone_won_match?(score)
+    sleep(2)
+  else
+    prompt "Play again (y or n)"
+    answer = gets.chomp
+    break if answer == 'n'
+  end
 end
 
 prompt "Thanks for playing tic tac toe. Goodbye!"
+
+# TODO
