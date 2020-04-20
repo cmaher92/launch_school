@@ -19,11 +19,9 @@ All methods, information, etc.. that I need to spend time reviewing to improve l
   - tried to use each_with_object by passing in an integer and it didn't work, it does however work with inject
 - `#insert`
 - move `#gsub` notes into this master notes file
-- `permutation`
-- `combination`
 - `delete_if`
 - `keep_if`
-- 
+- `zip`
 
 ## Hash
 
