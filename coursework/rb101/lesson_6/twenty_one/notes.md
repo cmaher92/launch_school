@@ -13,8 +13,8 @@
       - ace + 7 + 3 would be either 21 or 11, because the 11 value
         isn't over 21, that is used.
     - if there are multiple aces in a hand
-      - A, A, 8
-        - 10, or 20, or 30
+      - A, A
+        - 2, 12, or 22
         - when calculating choose the value
 
 ## Game setup
@@ -60,3 +60,7 @@ hand - array of cards
   - if both the dealer and player stay
   - compare cards
     - greatest value wins (up to 21 obv)
+
+## To do
+- ask to play again?
+- Improve result display at end
