@@ -24,6 +24,7 @@
 * when a variable is initialized with the same name as a method that is also defined when invoked which is referenced?
   * the answer here is local variable
 * how you can decompress
+* concatenating arrays
 
 
 

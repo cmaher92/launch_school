@@ -7,6 +7,8 @@
 * When a hash is passed into a method, how can alter the hash's data without affecting the original hash object
 * order of precedence
   * local variables and methods with the same name
+* assignment and reassignment
+* 
 
 ### Long
 
