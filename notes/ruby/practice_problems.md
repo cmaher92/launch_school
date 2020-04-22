@@ -5,9 +5,8 @@
 ### Short
 
 * When a hash is passed into a method, how can alter the hash's data without affecting the original hash object
-* .call / .yield for blocks/procs
-* begin/rescue
 * order of precedence
+  * local variables and methods with the same name
 
 ### Long
 
@@ -17,7 +16,7 @@
 
 ## Small Practice Problems
 
-1. Return value of split [0, 1]
+1. Return value of split [1, 1]
 
 ```ruby
 # What is returned?
@@ -65,7 +64,7 @@ a = 0
 p a # 11
 ```
 
-6. `begin/end` to write a loop that executes the body once before the condition
+6. `begin/end` to write a loop that executes the body once before the condition [1, 0]
 
 ```ruby
 # write a loop that runs the body once before the condition
@@ -283,4 +282,14 @@ arr = [1, 2, 3]
 arr = [{a: [1, 2, 3]}, {b: [2, 4, 6], c: [3, 6], d: [4]}, {e: [8], f: [6, 10]}]
 
 ```
+
+
+
+28. How would you order this array of number strings by descending numeric value?
+
+```ruby
+arr = ['10', '11', '9', '7', '8']
+```
+
+[Sorting, Nested Collections and Working with Blocks] (https://launchschool.com/lessons/c53f2250/assignments/f524e910)
 
