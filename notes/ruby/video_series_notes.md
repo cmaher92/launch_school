@@ -29,3 +29,11 @@ The key in the above example is to recognize that because `param` was reassigned
 
  Variables point to objects, objects live in memory.
 
+## Video 3
+
+- What's a data structure or collection
+- Differences between Array and Hash
+  - Order (not anymore, but typically)
+  - Index vs key retrieval
+  - Arrays can have duplicates, but hash keys are unique
+

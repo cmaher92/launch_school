@@ -1,5 +1,7 @@
 # Study Guide
 
+https://www.redpointnotebooks.com/notebooks/52d40218-9167-43bd-9697-a380d4cfcb43
+
 ## Terminology
 
 * truthy
@@ -14,6 +16,8 @@
 * local variable initialization
 * Transformation and selection
 * Caller
+* deep copy vs shallow copy https://medium.com/rubycademy/the-complete-guide-to-create-a-copy-of-an-object-in-ruby-part-i-91be8b9daafd
+* 
 
 
 

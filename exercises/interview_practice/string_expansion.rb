@@ -26,19 +26,19 @@
 #       - reassign last_num to current number
 # return the result string
 
-# def string_expansion(str)
-#   result = ''
-#   last_num = nil
-#   str.each_char do |char|
-#     if char.match?(/[a-z]/i)                          # if it's a letter
-#       result << char if last_num == nil               # append to result string if no number precedes
-#       result << (char * last_num) if last_num != nil  # multiply letter by preceding number then append
-#     else
-#       last_num = char.to_i
-#     end
-#   end
-#   result
-# end
+def string_expansion(str)
+  result = ''
+  last_num = nil
+  str.each_char do |char|
+    if char.match?(/[a-z]/i)                          # if it's a letter
+      result << char if last_num == nil               # append to result string if no number precedes
+      result << (char * last_num) if last_num != nil  # multiply letter by preceding number then append
+    else
+      last_num = char.to_i
+    end
+  end
+  result
+end
 
 # with gsub
 # find numeric characters followed by at least one letter character and place into an array
@@ -51,17 +51,31 @@
   # iterate over remaining part of the substring mapping each character to itself multiplied by number
   # combine to result together, without the number
 
+# def string_expansion(str)
+#   substrs = str.scan(/\d{0,1}[a-z]+/i)
+#   substrs.map do |substr|
+#     if substr[0].to_i == 0
+#       substr
+#     else
+#       num = substr.slice!(0).to_i
+#       substr = substr.chars.map { |char| char * num }.join
+#       substr
+#     end
+#   end.join
+# end
+
 def string_expansion(str)
-  substrs = str.scan(/\d{0,1}[a-z]+/i)
-  substrs.map do |substr|
-    if substr[0].to_i == 0
-      substr
+  numbers = (1..9).to_a
+  current_num = 1
+  results = ''
+  str.chars.each do |char|
+    if numbers.include?(char.to_i)
+      current_num = char.to_i
     else
-      num = substr.slice!(0).to_i
-      substr = substr.chars.map { |char| char * num }.join
-      substr
+      results << (char * current_num) # If it's a letter character without a preceding string, just multiplies by 1
     end
-  end.join
+  end
+  results
 end
 
 p string_expansion('3D2a5d2f') == 'DDDaadddddff'
@@ -69,3 +83,4 @@ p string_expansion('3abc')     == 'aaabbbccc'
 p string_expansion('3d332f2a') == 'dddffaa'
 p string_expansion('abcde')    == 'abcde'
 p string_expansion('')         == ''
+p string_expansion('3d1a5d2f') == 'dddadddddff'
