@@ -2,29 +2,28 @@
 
 ## Problems to make
 
-### Short
-
 * When a hash is passed into a method, how can alter the hash's data without affecting the original hash object
 * order of precedence
   * local variables and methods with the same name
 * assignment and reassignment
 * 
 
-### Long
-
-* find all combinations of elements within an array
-  * sequential elements
-  * non-sequentially (all possible combinations)
-
 ## Small Practice Problems
 
 1. Return value of split [1, 1]
-
 ```ruby
 # What is returned?
 str = 'connor'
 str.split
 ```
+
+<details>
+  <summary>Answer</summary>
+  <pre>
+  <code># => ["connor"]</code>
+  </pre>
+</details>
+
 
 2. Return value of map when called by Hash [0, 1]
 
@@ -33,6 +32,15 @@ str.split
 hash = { connor: 28, megan: 24, avery: 20, skylar: 22 }
 hash.map { |k, v| v += 1 }
 ```
+
+<details>
+  <summary>Answer</summary>
+  <pre>
+  <code># => [29, 25, 21, 23]</code>
+  </pre>
+</details>
+
+
 
 3. Return value of variable inititalized inside of for loop [1, 0]
 
@@ -43,8 +51,14 @@ for number in [1, 2, 3]
   puts number
 end
 a
-# => 
 ```
+<details>
+  <summary>Answer</summary>
+<pre>
+<code># 0</code>
+<pre>
+</details>
+
 
 4. Return value of a for loop [1, 0]
 
@@ -56,6 +70,14 @@ end
 return_value
 # =>
 ```
+<details>
+  <summary>Answer</summary>
+<pre>
+<code>[1, 2, 3]</code>
+</pre>
+<details>
+
+
 
 5. Using `until `as a modifier
 
@@ -65,14 +87,33 @@ a = 0
 # code here
 p a # 11
 ```
+<details>
+<summary>Answer</summary>
+<pre>
+<code>
+until a > 10
+  a += 1
+end
+</code>
+</pre>
+</details>
+
+
 
 6. `begin/end` to write a loop that executes the body once before the condition [1, 0]
 
 ```ruby
-# write a loop that runs the body once before the condition
-# use begin/end
 p a # 11
 ```
+<details>
+<summary>Answer</summary>
+<pre>
+begin
+  `
+end
+</pre>
+</details>
+
 
 7. `next` statement to skip over iteration and return value for the block
 
@@ -260,15 +301,11 @@ def take_block(number, &block)
 end
 ```
 
-
-
 25. Transform the given array into a hash of grouped values, the `key` is the character and the `value` is an array of all characters.
-
 ```ruby
 arr = ["a", "l", "p", "h", "a", "b", "e", "t", "s", "o", "u", "p"]
 
 # => {"a"=>["a", "a"], "l"=>["l"], "p"=>["p", "p"], "h"=>["h"], "b"=>["b"], "e"=>["e"],           "t"=>["t"], "s"=>["s"],"o"=>["o"], "u"=>["u"] }
-
 ```
 
 26. Given an array, find the sum of each variation of two digits.
@@ -285,13 +322,31 @@ arr = [{a: [1, 2, 3]}, {b: [2, 4, 6], c: [3, 6], d: [4]}, {e: [8], f: [6, 10]}]
 
 ```
 
-
-
 28. How would you order this array of number strings by descending numeric value?
-
 ```ruby
 arr = ['10', '11', '9', '7', '8']
 ```
+<details>
+  <summary>Answer</summary>
+	<pre>
+	arr.sort { |a, b| b.to_i <=> a.to_i }
+	</pre>
+</details>
 
-[Sorting, Nested Collections and Working with Blocks] (https://launchschool.com/lessons/c53f2250/assignments/f524e910)
+*[Sorting, Nested Collections and Working with Blocks] (https://launchschool.com/lessons/c53f2250/assignments/f524e910)*
+
+
+
+29. What are the three major differences between an Array and Hash?
+
+<details>
+<summary>Answer</summary>
+<pre>
+- Order
+- Arrays are accessed by Index, while a Hash is accessed by keys
+- Arrays can have duplicate elements while Hash keys are unique
+</pre>
+</details>
+
+
 

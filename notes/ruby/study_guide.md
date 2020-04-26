@@ -9,25 +9,26 @@ https://www.redpointnotebooks.com/notebooks/52d40218-9167-43bd-9697-a380d4cfcb43
 * Falsey
 * conditional statement
 * output
-* Returned
 * method invocation
 * method definition
 * Assignment and reassignment
 * local variable initialization
 * Transformation and selection
 * Caller
+* initialization
+* return value
+* Invoke
+* side-effects
 * deep copy vs shallow copy https://medium.com/rubycademy/the-complete-guide-to-create-a-copy-of-an-object-in-ruby-part-i-91be8b9daafd
-* 
 
 
 
 ## Things I need to practice
 
 * local variables initialized within a block aren't available outside of block
-  * what about blocks with for loops?
+  * unless it's a reserved keyword, where they don't create their own scope like for, while and until.
 * when a variable is initialized with the same name as a method that is also defined when invoked which is referenced?
-  * the answer here is local variable
-* how you can decompress
+  * the answer here is local variable, it has a higher precedence 
 * concatenating arrays
 
 
@@ -80,7 +81,7 @@ puts greeting
 *Ideal answer describing what is happening within the example and identifying underlying principles that the example demonstrates.*
 
 * On line 1, the local variable `greeting` is assigned to the String `'hello'`.
-* The `do..end` on lines 3 to 6 define the block
+* The `do..end` defines a block on lines 3 to 6, which is passed into the `loop` method
 
 * Within the block, on line 4, `greeting` is then reassigned to the String `'hi'`.
 * The `puts` method is called on line 8, with the local variable `greeting` being passed to it as an argument
@@ -105,7 +106,7 @@ end
 
 *Precise description of `a_method`*
 
-`a method` defined on line one returns the string `'hello world'` and returns `nil`. 
+`a method` defined on line one outputs the string `'hello world'` and returns `nil`. 
 
 
 
