@@ -114,6 +114,8 @@ require 'pry'
 # 3. We can't merge the current meetint with the pervious meeting
 #     - add the current meeting since it doesn't overlap
 
+string = 'hi how are you'
+
   def merge_ranges(meetings)
   # Sort by start time.
   sorted_meetings = meetings.sort
