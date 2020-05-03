@@ -43,7 +43,7 @@
 #   - l, length
 #   - s, squared string
 # - rules
-#   - original text will not containg newline character
+#   - original text will not contain newline character
 # - code(t) -> "c.nhsoI\nltiahi.\noentinw\ncng.nga\nk..mg.s\n\voao.f.\n\v'trtig"
 #   - t = "I.was.going.fishing.that.morning.at.ten.o'clock"
 #   - create squared string from t
@@ -54,3 +54,33 @@
 #         - in this case it would be 7, because 7**2 == 49
 #       - split the string into an array of n*n
 #         - 
+require 'pry'
+
+def code(t)
+  l = t.length
+  squared_string = []
+  n = 1
+  n += 1 until n**2 >= l
+  count = 0
+  substr = ''
+  loop do
+    substr << t[count]
+    if substr.length == n
+      squared_string << substr
+      substr = ''
+    end
+    count += 1
+    if count == l
+      squared_string << substr
+      break
+    end
+  end
+  binding.pry
+  
+end
+t = "I.was.going.fishing.that.morning.at.ten.o'clock"
+code(t)
+  
+  # to do
+  # review problem another time, this is taking too long for fundamental practice
+  
