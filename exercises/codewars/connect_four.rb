@@ -150,7 +150,8 @@ def create_diagonal_up_arr(board, starting_point)
     y += 1
     break if x < 0
     break if y >= board[0].size
-  end 
+  end
+   
   arr
 end
 
