@@ -9,44 +9,6 @@
 
 # Input range: 1 -> 10**26 (10**16 for JS)
 
-# input
-#   - integer: positive
-# output
-#   - string: english representation of given integer
-# constraints
-#   - input is positive
-#   - all words in output should be lower case and are separated by one space
-#   - no trailing spaces
-#   - dashes between 
-# mental model 
-#   - create a list of suffix
-#   - create an array to store the subarrays of numbers
-# - create a list of subarrays of three numbers
-#   - divide the inputted number by 1000
-#   - placing the remainder into an array then appending to subarray to the numbers array
-#  - convert each subarray of numbers to their english words
-#     - divide by 100, if the remainder is between 10..19 map to ones
-#     - otherwise, divide original number by 10 and map to english word
-#       - if it's 0, ignore it
-#     - once the result is less than 10
-#       - map to ones and append 'hundred'
-# - append appropriate suffix (thousand, millionm billion etc..)
-# algorithm
-# - convert each subarray of numbers to their english words
-#   - number is at maximum 3 digits
-#   - set local variable to an empty string
-#   - divmod by 100
-#   - map the quotient to the ones constants
-#     - if q isn't zero
-#     - add to the string
-#     - add space to string
-#   - if modulus is between 1..19
-#     - map to ones
-#     - add to english_numbers string 
-#   - else
-#     - divmod by 10, mapping the one to the ONES constant and the TEN to the TENS constant
-#     - concat and add to english_numbers array
-
 require 'pry'
 
 ONES = {
@@ -85,41 +47,99 @@ TENS = {
 
 SUFFIXES = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion', 'quintillion', 'sextillion', 'septillion']
 
+# input
+#   - integer: positive
+# output
+#   - string: english representation of given integer
+# constraints
+#   - input is positive
+#   - all words in output should be lower case and are separated by one space
+#   - no trailing spaces
+#   - dashes between 
+# approach
+# create constants holding suffixes and a hash map that will be responsiblle
+# for mapping each integer number to their corresponding english word. 
+# Seperate the number into groups of three by using division, keeping track
+# of both the quotient and the modulus. The modulus will be added the 
+# number groups array, and this process will repeat until the quotient is 0.
+# Now map each grouping into the integer to string hashing map, adding suffixes
+# based on the index position of each grouping. Once the maping is completed along
+# with the proper suffixes being appended, reverse the list into it's proper order and join
+# it together. 
+# steps
+# - create constant for mapping integers to english words
+# - create a constant holding suffixes of numbers numbers beginning with thousands
+# - write a method definition that takes an integer argument
+# - set a variable result to hold a list of strings
+# - separate number into groupings of three numbers
+# - map groupings of numbers into their english words
+# - set a variable to 0 to have access to the suffixes constant while looping
+#   - repeat process until number is equal to 0
+#     - find the quotient and modulus of the number by 1000
+#     - the quotient should be reassigned to the number
+#     - the modulus result shoud be assigned to variable called hundred
+#       - 123456.divmod(1000) -> 123, 456
+#     - find the quotient and modulus of the number by 100
+#       - assign quotient to hundred
+#       - assign modulus to tens
+#     - check to see if the hundreds is 0
+#       - if it is, hundreds = ""
+#       - if it isn't, map it through the constant and append ' hundred'
+#     - check to see if tens is between 10..19
+#       - if it is, map through the ones  constant
+#       - if not, find quotient and modulus by 10
+#         - assign variables to tens
+#         - map each through corresponding constants
+#         - join together with a space
+#     - combine hundreds + tens + suffix
+#     - reject any variables that have empty strings
+#     - incremement idx variable
+#     - prepend to list
+# - join list together
+
+# int_to_english(0) == ""
+# int_to_english(10) == "ten"
+# int_to_english(100) == "one hundred"
+# int_to_english(132) ==  "one hundred thirty two"
+
 def int_to_english(n)
-  numbers = []
-  quotient = n
-  modulus = 0
-  until quotient == 0
-    quotient, modulus = quotient.divmod(1000)
-    numbers << modulus
+  result = []
+  idx     = 0
+  
+  until n == 0 do
+    n, hundreds = n.divmod(1000)
+    hundreds, tens = hundreds.divmod(100)
+    
+    if hundreds == 0
+      hundreds = ""
+    else
+      hundreds = ONES[hundreds] + ' hundred'
+    end
+    
+    if tens.between?(10, 19)
+      tens = ONES[tens]
+    elsif tens == 0
+      tens = ""
+    else
+      tens, ones = tens.divmod(10)
+      tens = TENS[tens]
+      tens = "" if tens.nil?
+      ones = ONES[ones]
+      ones = "" if ones.nil?
+      tens = [tens, ones].reject { |place| place.empty? }.join(' ')
+    end
+    group = [hundreds, tens, SUFFIXES[idx]].reject { |place| place.empty? }.join(' ')
+    result.prepend(group)
+    idx += 1
   end
   
-  numbers.map! do |number|
-    english = []
-    q, r = number.divmod(100)
-    english << (ONES[q] + ' hundred') if q != 0
-    if r.between?(10,19)
-      english << ONES[r]
-    else
-      ten, one = r.divmod(10)
-      english << TENS[ten]
-      english << ONES[one]
-    end
-    english.select { |number| number }.join(' ')
-  end
-  
-  numbers.map.with_index do |n, idx| 
-    if SUFFIXES[idx].empty?
-      n
-    else
-      n + " #{SUFFIXES[idx]}"
-    end
-  end.reverse.join(' ')
+  result.join(' ')
 end
 
 # Examples:
-p int_to_english(1) == 'one'
-p int_to_english(10) == 'ten'
-p int_to_english(25161045656) == 'twenty five billion one hundred sixty one million forty five thousand six hundred fifty six'
+p int_to_english(0)
+p int_to_english(1) #== 'one'
+p int_to_english(10) #== 'ten'
+p int_to_english(25161045656) #== 'twenty five billion one hundred sixty one million forty five thousand six hundred fifty six'
 # int_to_english(25161045656) == 'twenty five billion one hundred sixty-one million forty-five thousand six hundred and fifty-six'
 
