@@ -10,79 +10,64 @@
 # and reversed the order of the words in place. You cannot use the 
 # split method, or the reverse method.
 
-# < String
-# > String
-# rules: 
-#   - reverse string in place
-#   - spaces are delimeters that define a word
-#   - string only contains letters and spaces
-# problem:
-#   swap characters
-
-
-# reverse characters in-place
-#   left_index, right_index = 0, -1
-#   while left_index < right_index
-#   swap
-#   increment, decremenet
-# reverse each word
-#   - find each word
-#     - group of subsequent chars, delimited by spaces
-#     - start at 0
-#     - end index at 1
-#     - increment end_index until it's a space
-#       - word is start_index...end_index
-#       - start_index, end_index = end_index + 1, end_index + 2
-#     - otherwise
-#       - increment end_index
-
+# input:
+#   - String- message with all the words backwards
+# output:
+#   - String– reversed order of words
+# constraints:
+#   - you cannot use split or reverse method
+# test input/output
+#   -
+# algorithm/data structure:
+#   - reverse the order of the characters
+#     - set two variables as begin, end set to 0 and the length of the message - 1
+#     - while begin is less than end (loop)
+#       - swap characters
+#       - increment begin, decremement end
+#   - reverse the order of the characters within the word
+#     - find each word
+#       - keep track of begin_word_index
+#       - iterate until current character is a space or is the last character of the sentence
+#       - if space
+#         - call reverse_string! with message(begin_index, end_index-1)
+#         - begin_index = end_index + 1
+#         - end_index   = begin_index
+#       - if last letter of string
+#         - call reverse_string
+#         - break
 require 'pry'
 
-  def reverse_words!(message)
-
-  # First we reverse all the characters in the entire message.
-  reverse_characters!(message, 0, message.length - 1)
-
-  # This gives us the right word order
-  # but with each word backward.
-
-  # Now we'll make the words forward again
-  # by reversing each word's characters.
-
-  # We hold the index of the *start* of the current word
-  # as we look for the *end* of the current word.
-  current_word_start_index = 0
-
-  (0..message.length).each do |i|
-
-    # Skip unless we're at the end of the current word.
-    next unless i == message.length || message[i] == ' '
-
-    reverse_characters!(message, current_word_start_index, i - 1)
-
-    # If we haven't exhausted the string our
-    # next word's start is one character ahead.
-    current_word_start_index = i + 1
+def reverse_string!(message, begin_index, end_index)
+  while begin_index < end_index
+    message[begin_index], message[end_index] = message[end_index], message[begin_index]
+    begin_index += 1
+    end_index -= 1
   end
 end
 
-def reverse_characters!(message, left_index, right_index)
+def reverse_words!(message, begin_index = 0)
+  reverse_string!(message, 0, message.length - 1)
 
-  # Walk towards the middle, from both sides.
-  while left_index < right_index
-
-    # Swap the left char and right char.
-    message[left_index], message[right_index] =
-      message[right_index], message[left_index]
-
-    left_index  += 1
-    right_index -= 1
+  begin_index, end_index = 0, 0
+  while end_index < message.length
+    end_index += 1
+    # if end_index is a space
+    # reverse from begin_index to end_index - 1
+    if message[end_index] == ' '
+      reverse_string!(message, begin_index, end_index-1)
+      begin_index = end_index + 1
+      end_index = begin_index
+    elsif end_index == (message.length - 1)
+      reverse_string!(message, begin_index, end_index)
+    end
   end
+
 end
 
-# message = 'cake pound steal'
-# reverse_words!(message)
-# puts message # 'steal pound cake'
-name = 'connor maher'
-reverse_str!(name[0..5])
-p name
+message = 'cake pound steal'
+reverse_words!(message)
+puts message # 'steal pound cake'
+
+message = 'cookies steals connor'
+reverse_words!(message)
+puts message
