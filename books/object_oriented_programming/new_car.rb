@@ -1,28 +1,46 @@
-module SteeringWheel
-end
+require 'pry'
 
 class NewCar
-  attr_accessor :make, :model
-  def initialize(make, model)
+  def initialize(color, make)
+    @color = color 
     @make = make
-    @model = model
   end
-  
-  def change_info(make, model)
-    self.make = make
-    self.model = model
+
+  def color
+    @color
   end
-  
-  def honk
-     # here the make and model getter methods are called
-    # it's better to use getter methods than access the ivars directly
-      "The #{self.make} #{self.model} beeps!"
+
+  def color=(color)
+    @color = color
+  end
+
+  def make
+    @make
+  end
+
+  def make=(make)
+    @make = make
+  end
+
+  def change_info(color, make)
+    binding.pry
+    self.color = color
+    self.make  = make
+  end
+
+  def info
+    "#{self.color} #{self.make}"
+  end
+
+  # class method
+  def self.what_am_i
+    "I am a NewCar method"
   end
 end
 
-car = NewCar.new('Audi', 'Q5')
-puts car.make
-puts car.model
-car.change_info('Audi', 'SQ5')
-puts car.make
-puts car.model
+car = NewCar.new('black', 'audi')
+
+puts car.info
+car.change_info('yellow', 'toyota')
+puts car.info
+puts NewCar.what_am_i

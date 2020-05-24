@@ -8,6 +8,10 @@ class MyCar
     @model = model
     @speed = 0
   end
+
+  def self.gas_mileage(gallons, miles)
+    puts "#{miles / gallons} miles per gallon of gas"
+  end
   
   def speed_up(speed_increase)
     self.speed += speed_increase
@@ -26,15 +30,11 @@ class MyCar
   
   def spray_paint(color)
     self.color = color
+    puts "Your new #{color} paint job looks great!"
+  end
+
+  def to_s
+    "This car is a #{self.year} #{self.color} #{self.model}"
   end
   
 end
-
-car = MyCar.new('2020', 'black', 'Audi')
-puts car.year
-puts car.model
-puts car.color
-puts car.speed
-car.speed_up(10)
-car.shut_off
-puts car.speed
