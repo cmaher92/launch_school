@@ -35,7 +35,3 @@ end
 
 class Cat < Animal
 end
-
-sparky = GoodDog.new('sparky', 'brown')
-puts sparky.speak
-p GoodDog.ancestors
