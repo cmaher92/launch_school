@@ -1,81 +1,37 @@
-class Move
-  VALUES = ['rock', 'paper', 'scissors', 'spock', 'lizard']
-  @@moves = []
+class Rock
+end
 
+class Scissors
+end
+
+class Paper
+end
+
+class Spock
+end
+
+class Lizard
+end
+
+class Dog
   def initialize
-    if @@moves.empty?
-      @@moves << [self]
-    elsif @@moves.last.size == 2
-      @@moves << [self]
-    else
-      @@moves.last << self
+    @personality = { 
+      Rock.new => 6, 
+      Scissors.new => 1,
+      Paper.new => 1,
+      Spock.new => 1,
+      Lizard.new => 1 
+    }
+  end
+
+  def choose
+    moves = []
+    @personality.map do |move, freq|
+      freq.times { moves << move.dup }
     end
-  end
-
-  def self.moves
-    @@moves
-  end
-
-  def to_s
-    "#{self.class}"
+    moves
   end
 end
 
-class Rock < Move
-  def >(other_move)
-    # return true if other move is scissors or lizard
-    other_move.class == Scissors || other_move.class == Lizard
-  end
-
-  def <(other_move)
-    # return true if other move is spock or paper
-    other_move.class == Paper || other_move.class == Spock
-  end
-end
-
-class Paper < Move
-  def >(other_move)
-    other_move.class == Rock || other_move.class == Spock
-  end
-
-  def <(other_move)
-    other_move.class == Scissors || other_move.class == Lizard
-  end
-end
-
-class Scissors < Move
-  def >(other_move)
-     other_move.is_a?(Paper) || other_move.is_a?(Lizard)
-  end
-
-  def <(other_move)
-    other_move.class == Rock || other_move.class == Spock
-  end
-end
-
-class Spock < Move
-  def >(other_move)
-    other_move.class == Rock || other_move.class == Scissors
-  end
-
-  def <(other_move)
-    other_move.class == Lizard || other_move.class == Paper
-  end
-end
-
-class Lizard < Move
-  def >(other_move)
-    other_move.class == Spock || other_move.class == Paper
-  end
-
-  def <(other_move)
-    other_move.class == Rock || other_move.class == Scissors
-  end
-end
-
-my_move = Spock.new
-computer_move = Paper.new
-Lizard.new
-Lizard.new
-Lizard.new
-p Move.moves
+archie = Dog.new
+p archie.choose

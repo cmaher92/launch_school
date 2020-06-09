@@ -1,17 +1,3 @@
-# Rock, Paper, Scissors is a two-player game where each player chooses
-# one of three possible moves: rock, paper, or scissors. The chosen moves
-# will then be compared to see who wins, according to the following rules:
-
-# - rock beats scissors
-# - scissors beats paper
-# - paper beats rock
-
-# If the players chose the same move, then it's a tie.
-
-# nouns: player, move, rule
-# verbs: choose, compare
-require 'pry'
-
 class Move
   VALUES = ['rock', 'paper', 'scissors', 'spock', 'lizard']
   @@moves = []
@@ -28,6 +14,10 @@ class Move
 
   def self.moves
     @@moves
+  end
+
+  def self.reset_move_history
+    @@moves.clear
   end
 
   def to_s
@@ -121,44 +111,49 @@ class Human < Player
 end
 
 class Computer < Player
+  attr_accessor :personality
+
   def set_name
-    self.name = ['R2D2', 'Hal', 'Chappie', 'Sonny'].sample
+    @name = self.class
   end
 
   def choose
-    choice = Move::VALUES.sample
-    self.move = Object.const_get(choice.capitalize).new
+    possible_moves = []
+    @personality.map do |possible_move, freq|
+      freq.times { possible_moves << possible_move }
+    end
+    self.move = possible_moves.sample.new
   end
 end
 
-# game orchestration engine
-class RPSGame
-  MATCH_LENGTH = 10
-  attr_reader :human, :computer
+class R2D2 < Computer
+  # R2D2 loves rocks and will choose them 60% of the time
   def initialize
-    @human = Human.new
-    @computer = Computer.new
+    super
+    @personality = {
+      Rock => 6,
+      Scissors => 1,
+      Paper => 1,
+      Spock => 1,
+      Lizard => 1
+    }
   end
+end
 
-  def play
-    display_welcome_message
-    loop do
-      player_turns
-      calculate_score
-      display_game_info
-      break if match_winner?
-      break unless play_again?
-    end
-    display_goodbye_message
+class Alexa < Computer
+  def initialize
+    super
+    @personality = {
+      Rock => 1,
+      Scissors => 1,
+      Paper => 1,
+      Spock => 3,
+      Lizard => 3
+    }
   end
+end
 
-  private
-
-  def player_turns
-    human.choose
-    computer.choose
-  end
-
+module Displayable
   def display_game_info
     display_moves
     display_winner
@@ -207,6 +202,81 @@ class RPSGame
     end
   end
 
+  def display_match_winner
+    puts ""
+    if human.score > computer.score
+      puts "#{human.name} won the match!"
+    else
+      puts "#{computer.name} won the match!"
+    end
+  end
+end
+
+# game orchestration engine
+class RPSGame
+  COMPUTERS = [R2D2.new, Alexa.new]
+  include Displayable
+  attr_reader :human, :computer
+
+  def initialize
+    @human = Human.new
+    @computer = COMPUTERS.sample
+    @points_to_win = 10
+  end
+
+  def play
+    display_welcome_message
+    start_match
+    display_goodbye_message
+  end
+
+  private
+
+  def start_match
+    loop do
+      match_points
+      start_game
+      display_match_winner
+      break unless play_again?
+      reset_score
+      reset_move_history
+    end
+  end
+
+  def start_game
+    loop do
+      player_turns
+      calculate_score
+      display_game_info
+      break if match_winner?
+    end
+  end
+
+  def reset_score
+    human.score = 0
+    computer.score = 0
+  end
+
+  def reset_move_history
+    Move.reset_move_history
+  end
+
+  def match_points
+    points = nil
+    loop do
+      puts ""
+      puts "How many points do you want the match to be for?"
+      points = gets.chomp
+      break if points.to_i.to_s == points
+    end
+    @points_to_win = points.to_i
+  end
+
+  def player_turns
+    human.choose
+    computer.choose
+  end
+
   def calculate_score
     human.score += 1 if human.move > computer.move
     computer.score += 1 if computer.move > human.move
@@ -216,7 +286,7 @@ class RPSGame
     answer = nil
     loop do
       puts ""
-      puts "Would you like to play again?"
+      puts "Would you like to play another match?"
       answer = gets.chomp
       break if ['y', 'n'].include? answer.downcase
       puts "Sorry must be y or n."
@@ -225,7 +295,7 @@ class RPSGame
   end
 
   def match_winner?
-    human.score == MATCH_LENGTH || computer.score == MATCH_LENGTH
+    human.score == @points_to_win || computer.score == @points_to_win
   end
 end
 
