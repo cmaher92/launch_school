@@ -1,10 +1,9 @@
-# .rubocop.yml for RB101 lesson 2-5
-# December, 2019
+# .rubocop.yml for non-RB101 courses (10 Dec 2019)
 
 AllCops:
   # Display cop names
   DisplayCopNames: true
-  # Display extra details
+  # Display Extra details
   ExtraDetails: true
   # Style guide URLs are not displayed in offense messages by default. Change
   # behavior by overriding DisplayStyleGuide, or by giving the
@@ -23,6 +22,10 @@ Style/BlockComments:
 
 Style/BracesAroundHashParameters:
   Description: Forces certain brace styles when the last argument is a hash.
+  Enabled: false
+
+Style/ClassVars:
+  Description: 'Checks for uses of class variables.'
   Enabled: false
 
 Style/CommandLiteral:
@@ -67,7 +70,8 @@ Style/FrozenStringLiteralComment:
 
 Style/GuardClause:
   Description: Check for conditionals that can be replaced with guard clauses.
-  Enabled: false
+  Enabled: true
+  MinBodyLength: 1
 
 Style/HashSyntax:
   Description: >-
@@ -141,7 +145,18 @@ Style/ParenthesesAroundCondition:
 
 Style/PercentLiteralDelimiters:
   Description: 'Use `%`-literal delimiters consistently'
-  Enabled: false
+  Enabled: true
+  PreferredDelimiters:
+    '%':  ()
+    '%i': ()
+    '%I': ()
+    '%q': ()
+    '%Q': ()
+    '%r': ()
+    '%s': ()
+    '%w': ()
+    '%W': ()
+    '%x': ()
 
 Style/PerlBackrefs:
   Description: Avoid Perl-style regex back references.
@@ -171,7 +186,7 @@ Style/SafeNavigation:
                   This cop transforms usages of a method call safeguarded by
                   a check for the existance of the object to
                   safe navigation (`&.`).
-  Enabled: false
+  Enabled: true
 
 Style/SingleLineBlockParams:
   Description: Enforces the names of some block params.
@@ -210,7 +225,8 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Description: Limit size of blocks.
-  Enabled: false
+  Enabled: true
+  Max: 20
 
 Metrics/ClassLength:
   Description: 'Avoid classes longer than 100 lines of code.'
@@ -227,10 +243,10 @@ Metrics/LineLength:
   - https
 
 Metrics/MethodLength:
-  Description: 'Avoid methods longer than 15 lines of code.'
+  Description: 'Avoid methods longer than 10 lines of code.'
   Enabled: true
   CountComments: false  # count full line comments?
-  Max: 15
+  Max: 10
 
 Lint/LiteralInInterpolation:
   Description: 'Avoid interpolating literals in strings'
