@@ -1,5 +1,4 @@
 class Move
-  VALUES = ['rock', 'paper', 'scissors', 'spock', 'lizard']
   @@moves = []
 
   def initialize
@@ -28,52 +27,52 @@ end
 class Rock < Move
   def >(other_move)
     # return true if other move is scissors or lizard
-    other_move.class == Scissors || other_move.class == Lizard
+    other_move.is_a?(Scissors) || other_move.is_a?(Lizard)
   end
 
   def <(other_move)
     # return true if other move is spock or paper
-    other_move.class == Paper || other_move.class == Spock
+    other_move.is_a?(Paper) || other_move.is_a?(Spock)
   end
 end
 
 class Paper < Move
   def >(other_move)
-    other_move.class == Rock || other_move.class == Spock
+    other_move.is_a?(Rock) || other_move.is_a?(Spock)
   end
 
   def <(other_move)
-    other_move.class == Scissors || other_move.class == Lizard
+    other_move.is_a?(Scissors) || other_move.is_a?(Lizard)
   end
 end
 
 class Scissors < Move
   def >(other_move)
-    other_move.class == Paper || other_move.class == Lizard
+    other_move.is_a?(Paper) || other_move.is_a?(Lizard)
   end
 
   def <(other_move)
-    other_move.class == Rock || other_move.class == Spock
+    other_move.is_a?(Rock) || other_move.is_a?(Spock)
   end
 end
 
 class Spock < Move
   def >(other_move)
-    other_move.class == Rock || other_move.class == Scissors
+    other_move.is_a?(Rock) || other_move.is_a?(Scissors)
   end
 
   def <(other_move)
-    other_move.class == Lizard || other_move.class == Paper
+    other_move.is_a?(Lizard) || other_move.is_a?(Paper)
   end
 end
 
 class Lizard < Move
   def >(other_move)
-    other_move.class == Spock || other_move.class == Paper
+    other_move.is_a?(Spock) || other_move.is_a?(Paper)
   end
 
   def <(other_move)
-    other_move.class == Rock || other_move.class == Scissors
+    other_move.is_a?(Rock) || other_move.is_a?(Scissors)
   end
 end
 
@@ -87,6 +86,17 @@ class Player
 end
 
 class Human < Player
+  def initialize
+    super
+    @valid_choices = {
+      Rock => ['Rock', 'rock', '1'],
+      Paper => ['Paper', 'paper', '2'],
+      Scissors => ['Scissors', 'scissors', '3'],
+      Lizard => ['Lizard', 'lizard', '4'],
+      Spock => ['Spock', 'spock', '5']
+    }
+  end
+
   def set_name
     n = ""
     loop do
@@ -101,12 +111,27 @@ class Human < Player
     choice = nil
     loop do
       puts ""
-      puts "Please choose rock, paper, scissors, lizard or spock:"
+      puts "Please select your choice."
+      puts "1. Rock \n2. Paper \n3. Scissors \n4. Lizard or \n5. Spock\n"
       choice = gets.chomp
-      break if Move::VALUES.include?(choice)
+      break if valid_choice?(choice)
       puts "Sorry, invalid choice."
     end
-    self.move = Object.const_get(choice.capitalize).new
+    self.move = find_object(choice).new
+  end
+
+  private
+
+  attr_reader :valid_choices
+  def valid_choice?(choice)
+    valid_choices.values.any? { |arr| arr.include?(choice) }
+  end
+
+  def find_object(choice)
+    # given a string, find the corresponding object in the valid_choices hash and return
+    valid_choices.each do |obj, arr|
+      return obj if arr.include?(choice)
+    end
   end
 end
 
