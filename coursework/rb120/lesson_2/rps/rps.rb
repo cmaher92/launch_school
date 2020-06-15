@@ -1,23 +1,80 @@
-class Move
-  @@moves = []
+module Displayable
+  def display_move_options
+    puts ""
+    puts "Please select a move"
+    puts "Enter move number or move name"
+    Move::VALID_MOVE_CHOICES.keys.each_with_index do |move, idx|
+      puts "#{idx + 1}. #{move}"
+    end
+  end
+  
+  def display_game_info
+    display_moves
+    display_winner
+    display_score
+    display_move_history
+  end
 
-  def initialize
-    if @@moves.empty?
-      @@moves << [self]
-    elsif @@moves.last.size == 2
-      @@moves << [self]
-    else
-      @@moves.last << self
+  def display_welcome_message
+    puts ""
+    puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
+  end
+
+  def display_goodbye_message
+    puts ""
+    puts "Thanks for playing Rock, Paper, Scissors, Lizard, Spock. Good Bye!"
+  end
+
+  def display_moves
+    puts ""
+    puts "#{human.name} chose #{human.move.class}."
+    puts "#{computer.name} chose #{computer.move.class}."
+  end
+
+  def display_move_history
+    puts ""
+    puts "Move History:"
+    num = 0
+    while num < human.move_history.size
+      puts "#{human.name}: #{human.move_history[num]} #{computer.name}: #{computer.move_history[num]}"
+      num += 1
     end
   end
 
-  def self.moves
-    @@moves
+  def display_score
+    puts ""
+    puts "The score is:"
+    puts "#{human.name}: #{human.score} to #{computer.name}: #{computer.score}."
   end
 
-  def self.reset_move_history
-    @@moves.clear
+  def display_winner
+    if human.move > computer.move
+      puts "#{human.name} won!"
+    elsif human.move < computer.move
+      puts "#{computer.name} won!"
+    else
+      puts "It's a tie!"
+    end
   end
+
+  def display_match_winner
+    puts ""
+    if human.score > computer.score
+      puts "#{human.name} won the match!"
+    else
+      puts "#{computer.name} won the match!"
+    end
+  end
+end
+
+class Move
+  VALID_MOVE_CHOICES = {
+    "Rock" => ['Rock', 'rock', '1'],
+    "Paper" => ['Paper', 'paper', '2'],
+    "Scissors" => ['Scissors', 'scissors', '3'],
+    "Lizard" => ['Lizard', 'lizard', '4'],
+    "Spock" => ['Spock', 'spock', '5']
+  }
 
   def to_s
     self.class.to_s
@@ -77,60 +134,42 @@ class Lizard < Move
 end
 
 class Player
-  attr_accessor :move, :name, :score
+  attr_accessor :move, :name, :score, :move_history
 
   def initialize
     @score = 0
+    @move_history = []
     set_name
+  end
+
+  def record_move
+    self.move_history << move
   end
 end
 
 class Human < Player
-  def initialize
-    super
-    @valid_choices = {
-      Rock => ['Rock', 'rock', '1'],
-      Paper => ['Paper', 'paper', '2'],
-      Scissors => ['Scissors', 'scissors', '3'],
-      Lizard => ['Lizard', 'lizard', '4'],
-      Spock => ['Spock', 'spock', '5']
-    }
-  end
+  include Displayable
+  MOVES = [Rock.new, Scissors.new, Paper.new, Lizard.new, Spock.new]
 
   def set_name
     n = ""
     loop do
       puts "Whats your name?"
       n = gets.chomp
-      break unless n.empty?
+      break unless n.empty? || n.gsub(/ /, "").empty?
+      puts "Invalid name, please enter a valid name."
     end
     self.name = n
   end
 
   def choose
-    choice = nil
     loop do
-      puts ""
-      puts "Please select your choice."
-      puts "1. Rock \n2. Paper \n3. Scissors \n4. Lizard or \n5. Spock\n"
+      display_move_options
       choice = gets.chomp
-      break if valid_choice?(choice)
+      MOVES.each do |move|
+        return self.move = move if Move::VALID_MOVE_CHOICES[move.to_s].include?(choice)
+      end
       puts "Sorry, invalid choice."
-    end
-    self.move = find_object(choice).new
-  end
-
-  private
-
-  attr_reader :valid_choices
-  def valid_choice?(choice)
-    valid_choices.values.any? { |arr| arr.include?(choice) }
-  end
-
-  def find_object(choice)
-    # given a string, find the corresponding object in the valid_choices hash and return
-    valid_choices.each do |obj, arr|
-      return obj if arr.include?(choice)
     end
   end
 end
@@ -178,65 +217,6 @@ class Alexa < Computer
   end
 end
 
-module Displayable
-  def display_game_info
-    display_moves
-    display_winner
-    display_score
-    display_move_history
-  end
-
-  def display_welcome_message
-    puts ""
-    puts "Welcome to Rock, Paper, Scissors, Lizard, Spock!"
-  end
-
-  def display_goodbye_message
-    puts ""
-    puts "Thanks for playing Rock, Paper, Scissors, Lizard, Spock. Good Bye!"
-  end
-
-  def display_moves
-    puts ""
-    puts "#{human.name} chose #{human.move.class}."
-    puts "#{computer.name} chose #{computer.move.class}."
-  end
-
-  def display_move_history
-    puts ""
-    puts "Move History"
-    moves = Move.moves
-    moves.each_with_index do |pair, idx|
-      puts "#{idx + 1}: #{human.name} #{pair[0]}, #{computer.name} #{pair[1]}"
-    end
-  end
-
-  def display_score
-    puts ""
-    puts "The score is:"
-    puts "#{human.name}: #{human.score} to #{computer.name}: #{computer.score}."
-  end
-
-  def display_winner
-    if human.move > computer.move
-      puts "#{human.name} won!"
-    elsif human.move < computer.move
-      puts "#{computer.name} won!"
-    else
-      puts "It's a tie!"
-    end
-  end
-
-  def display_match_winner
-    puts ""
-    if human.score > computer.score
-      puts "#{human.name} won the match!"
-    else
-      puts "#{computer.name} won the match!"
-    end
-  end
-end
-
 # game orchestration engine
 class RPSGame
   COMPUTERS = [R2D2.new, Alexa.new]
@@ -264,7 +244,6 @@ class RPSGame
       display_match_winner
       break unless play_again?
       reset_score
-      reset_move_history
     end
   end
 
@@ -282,10 +261,6 @@ class RPSGame
     computer.score = 0
   end
 
-  def reset_move_history
-    Move.reset_move_history
-  end
-
   def match_points
     points = nil
     loop do
@@ -299,7 +274,9 @@ class RPSGame
 
   def player_turns
     human.choose
+    human.record_move
     computer.choose
+    computer.record_move
   end
 
   def calculate_score
@@ -312,11 +289,11 @@ class RPSGame
     loop do
       puts ""
       puts "Would you like to play another match?"
-      answer = gets.chomp
+      answer = gets.chomp.downcase
       break if ['y', 'n'].include? answer.downcase
       puts "Sorry must be y or n."
     end
-    answer == 'y' ? true : false
+    ['y', 'yes'].include?(answer) ? true : false
   end
 
   def match_winner?
