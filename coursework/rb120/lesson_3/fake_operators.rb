@@ -14,7 +14,8 @@ p !false
 p false.!
 
 # complement
-# ~
+p ~18
+p 18.~
 
 # unary plus
 num = -9
