@@ -1,13 +1,3 @@
-# What happens when you try to reference an instance
-# variable that was initialized as the class level?
+# What are the differences between a local variable and an
+# instance variable?
 
-class Person
-  @name = 'bob'
-
-  def get_name
-    @name
-  end
-end
-
-bob = Person.new
-p bob.get_name

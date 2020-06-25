@@ -1,16 +1,6 @@
-module Maintenance
-  def change_tires
-    "Changing #{WHEELS} tires."
-  end
+begin
+  raise "hi"
+rescue => e
+  puts e.class
+  puts e.message
 end
-
-class Vehicle
-  WHEELS = 4
-end
-
-class Car < Vehicle
-  include Maintenance
-end
-
-a_car = Car.new
-p a_car.change_tires 
