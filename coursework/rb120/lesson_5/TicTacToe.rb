@@ -1,9 +1,3 @@
-module Displayable
-  def display_board
-    #
-  end
-end
-
 class Board
   def initialize
     # we need some way to model the 3x3 grid. Maybe "squares"?
@@ -13,14 +7,23 @@ class Board
     @grid = make_grid(3, 3)
   end
   
+  def display
+  end
+  
   private
   def make_grid(row, column)
-    Array.new(row * column)
+    Array.new(row) { Array.new(column) { Square.new } }
   end
 end
 
 class Square
+  attr_accessor :mark
+  
   def initialize
+  end
+  
+  def to_s
+    mark
   end
 end
 
