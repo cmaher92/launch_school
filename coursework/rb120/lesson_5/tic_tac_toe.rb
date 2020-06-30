@@ -1,3 +1,5 @@
+require 'pry'
+
 module Displayable
   EMPTY_SPACE = ""
   EMPTY_LINE = "     |     |     "
@@ -28,7 +30,7 @@ module Displayable
 
   def display_choices
     puts "Here are the available choices:"
-    squares = board.squares.map { |key, square| key if square.mark == ' ' }
+    squares = board.squares.map { |key, square| square.mark == ' ' ? key : square.mark }
     puts EMPTY_SPACE
     puts EMPTY_LINE
     puts "  #{squares[0]}  |  #{squares[1]}  |  #{squares[2]}  "
@@ -58,6 +60,12 @@ class Board
       8 => Square.new,
       9 => Square.new
     }
+
+    set_lines
+  end
+
+  def full?
+    get_available_squares.empty?
   end
 
   def get_square_at(key)
@@ -66,6 +74,38 @@ class Board
 
   def set_square_at(key, marker)
     @squares[key].mark = marker
+  end
+
+  def get_available_squares
+    squares.select { |key, square| square.available? }.map { |k, v| v }
+  end
+
+  def winner?
+    !!detect_winner
+  end
+
+  def detect_winner
+    @lines.each do |line|
+      if line.all? { |square| square.mark == 'X' }
+        return 'X'
+      elsif line.all? { |square| square.mark == 'O' }
+        return 'O'
+      end
+    end
+    nil
+  end
+
+  private
+
+  def set_lines
+    @lines = [squares[1], squares[5], squares[9]],
+    [squares[3], squares[5], squares[7]],
+    [squares[1], squares[2], squares[3]],
+    [squares[4], squares[5], squares[6]],
+    [squares[7], squares[8], squares[9]],
+    [squares[1], squares[4], squares[7]],
+    [squares[2], squares[5], squares[8]],
+    [squares[3], squares[6], squares[9]]
   end
 end
 
@@ -116,7 +156,7 @@ end
 
 class TTTGame
   include Displayable
-  attr_reader :board, :human
+  attr_reader :board, :human, :computer
 
   def initialize
     @board = Board.new
@@ -128,15 +168,21 @@ class TTTGame
     display_welcome_message
     loop do
       human_turn
-      system('clear')
-      display_board
-      # break if someone_won? || board_full?
+      break if board.full? || board.winner?
 
       computer_turn
-      # break if someone_won? || board_full?
-      break
+      break if board.full? || board.winner?
+
+      display_board
     end
-    # display_result
+    case board.detect_winner
+    when 'X'
+      puts "Congratulations #{human.name}, you won!"
+    when 'O'
+      puts "Sorry, you lost!"
+    else
+      puts "It looks like it was a tie!"
+    end
     display_goodbye_message
   end
 
@@ -155,7 +201,8 @@ class TTTGame
   end
 
   def computer_turn
-
+    square = board.get_available_squares.sample
+    square.mark = computer.marker
   end
 end
 
