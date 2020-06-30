@@ -1,29 +1,47 @@
+module Displayable
+  EMPTY_LINE = "     |     |     "
+  MID_LINE = "_____|_____|_____"
+
+  def display_board
+    puts display_row(0),
+         display_row(1),
+         display_row(2)
+  end
+
+  private
+
+  def display_row(row_index)
+    row = @grid[row_index]
+    puts
+      EMPTY_LINE,
+      "  #{row[0]}  |  #{row[1]}  |  #{row[2]}  ",
+      (row_index == 2 ? EMPTY_LINE : MID_LINE)
+  end
+end
+
 class Board
+  include Displayable
+
+  attr_reader :grid # not needed outside of testing
+
   def initialize
-    # we need some way to model the 3x3 grid. Maybe "squares"?
-    # what data structure should we use?
-    # - array/hash of Square objects?
-    # - array/hash of strings or integers?
     @grid = make_grid(3, 3)
   end
-  
-  def display
-  end
-  
+
   private
+
   def make_grid(row, column)
     Array.new(row) { Array.new(column) { Square.new } }
   end
 end
 
 class Square
-  attr_accessor :mark
-  
   def initialize
+    @mark = " "
   end
-  
+
   def to_s
-    mark
+    @mark
   end
 end
 
@@ -38,22 +56,21 @@ class Player
 end
 
 class TTTGame
-  
+
   def play
     display_welcome_message
     loop do
       display_board
       first_player_moves
       break if someone_won? || board_full?
-      
+
       second_player_moves
       break if someone_won? || board_full?
     end
     display_result
     display_goodbye_message
   end
-  
+
 end
 
-game = TTTGame.new
-game.play
+puts Board.new.display_board
