@@ -16,8 +16,18 @@ module Displayable
   end
 
   def display_board_with_choices
-    puts 'Here are the available choices:'
     display_board
+  end
+
+  def display_result
+    case board.detect_winner
+    when 'X'
+      puts "Congratulations #{human.name}, you won!"
+    when 'O'
+      puts "Sorry, you lost!"
+    else
+      puts "It looks like it was a tie!"
+    end
   end
 
   private
@@ -52,18 +62,27 @@ module Displayable
 end
 
 class Board
+  WINNING_LINES = [
+    [1, 5, 9],
+    [3, 5, 7],
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9]
+  ]
+
   attr_reader :squares
 
   def initialize
     @squares = {}
     9.times { |num| @squares[num + 1] = Square.new }
-    set_lines
   end
 
   def reset
     @squares = {}
     9.times { |num| @squares[num + 1] = Square.new }
-    set_lines
     system('clear')
   end
 
@@ -88,24 +107,12 @@ class Board
   end
 
   def detect_winner
-    @lines.each do |line|
+    WINNING_LINES.each do |keys|
+      line = keys.map { |key| @squares[key] }
       return 'X' if line.all? { |square| square.mark == 'X' }
       return 'O' if line.all? { |square| square.mark == 'O' }
     end
     nil
-  end
-
-  private
-
-  def set_lines
-    @lines = [squares[1], squares[5], squares[9]],
-    [squares[3], squares[5], squares[7]],
-    [squares[1], squares[2], squares[3]],
-    [squares[4], squares[5], squares[6]],
-    [squares[7], squares[8], squares[9]],
-    [squares[1], squares[4], squares[7]],
-    [squares[2], squares[5], squares[8]],
-    [squares[3], squares[6], squares[9]]
   end
 end
 
@@ -159,53 +166,56 @@ class TTTGame
   attr_reader :board, :human, :computer
 
   def initialize
+    system('clear')
     @board = Board.new
     @human = Human.new
     @computer = Computer.new
+    system('clear')
   end
 
   def play
     display_welcome_message
 
     loop do
-      loop do
-        display_board_with_choices
-        human_turn
-        break if board.full? || board.winner?
-
-        computer_turn
-        break if board.full? || board.winner?
-        system('clear')
-      end
+      play_turns
 
       system('clear')
       display_board_with_choices
+      display_result
 
-      # remove this from #play method
-      case board.detect_winner
-      when 'X'
-        puts "Congratulations #{human.name}, you won!"
-      when 'O'
-        puts "Sorry, you lost!"
-      else
-        puts "It looks like it was a tie!"
-      end
-
-      break if !play_again?
-      board.reset
-      puts "Great!, let's play again!"
+      play_again? ? reset_board : break
     end
+
     display_goodbye_message
   end
 
   private
+
+  def reset_board
+    system('clear')
+    puts "Great!, let's play again!"
+    board.reset
+  end
+
+  def play_turns
+    loop do
+      puts 'Here are the available choices:'
+      display_board_with_choices
+      human_turn
+      break if board.full? || board.winner?
+
+      computer_turn
+      break if board.full? || board.winner?
+      system('clear')
+    end
+  end
 
   def human_turn
     choice = nil
     loop do
       puts "Please select an available square:"
       choice = gets.chomp.to_i
-      break if (1..9) === choice && board.get_square_at(choice).available?
+      break if choice.between?(1, 9) && board.get_square_at(choice).available?
       puts "Invalid choice, try again."
     end
     board.set_square_at(choice, human.marker)
