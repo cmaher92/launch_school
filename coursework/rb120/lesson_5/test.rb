@@ -1,21 +1,37 @@
-EMPTY_LINE = "     |     |     "
-MID_LINE   = "_____|_____|_____"
- # "  %1$s  |  %2$s  |  %3$s  " % ['1', '2', '3']
-marks = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+require 'paint'
+require 'pry'
 
-def display_board(marks)
-  content = build_content_lines(marks)
-  [
-    EMPTY_LINE, content[0], MID_LINE,
-    EMPTY_LINE, content[1], MID_LINE,
-    EMPTY_LINE, content[2], EMPTY_LINE
-  ].each { |line| puts line }
+class Square
+  attr_accessor :mark
+
+  def initialize(position)
+    @position = position
+  end
+
+  def available?
+    !!@mark
+  end
+
+  def to_s
+    if @mark == 'X'
+      Paint['X', '#00cc66', :bold]
+    elsif @mark == 'O'
+      Paint['O', '#bf0603', :bold]
+    else
+      @position.to_s
+    end
+  end
 end
 
-def build_content_lines(marks)
-  content = []
-  3.times { content << "  %1$s  |  %2$s  |  %3$s  " % marks.shift(3) }
-  content
-end
+player_marked_square = Square.new(4)
+player_marked_square.mark = 'X'
 
-display_board(marks)
+squares = [
+Square.new(1),
+Square.new(2),
+Square.new(3),
+player_marked_square
+]
+
+puts squares
+# squares.each { |square| p format("  %s  ", square) }

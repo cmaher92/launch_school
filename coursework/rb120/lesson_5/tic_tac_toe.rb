@@ -3,11 +3,9 @@ require 'paint'
 
 module Displayable
   EMPTY_SPACE = ""
-  EMPTY_LINE = "     |     |     "
-  MID_LINE   = "_____|_____|_____"
 
   def display_welcome_message
-    puts("Welcome to Tic Tac Toe, #{human.name}")
+    puts "Welcome to Tic Tac Toe, #{human.name}"
   end
 
   def display_goodbye_message
@@ -15,12 +13,12 @@ module Displayable
     puts "Thank you for playing!"
   end
 
-  def display_board_with_choices
-    display_board
+  def display_board
+    board.draw
   end
 
   def display_result
-    case board.detect_winner
+    case board.winning_marker
     when 'X'
       puts "Congratulations #{human.name}, you won!"
     when 'O'
@@ -29,39 +27,11 @@ module Displayable
       puts "It looks like it was a tie!"
     end
   end
-
-  private
-
-  def display_board
-    content = build_content_lines
-    [
-      EMPTY_LINE, content[0], MID_LINE,
-      EMPTY_LINE, content[1], MID_LINE,
-      EMPTY_LINE, content[2], EMPTY_LINE
-    ].each { |line| puts line }
-  end
-
-  def build_content_lines
-    marks = format_squares
-    content = []
-    3.times { content << format("  %s  |  %s  |  %s  ", *marks.shift(3)) }
-    content
-  end
-
-  def format_squares
-    board.squares.map do |key, square|
-      if square.mark == ' '
-        key
-      elsif square.mark == 'X'
-        Paint['X', '#00cc66', :bold]
-      else
-        Paint['O', '#bf0603', :bold]
-      end
-    end
-  end
 end
 
 class Board
+  EMPTY_LINE = "     |     |     "
+  MID_LINE   = "_____|_____|_____"
   WINNING_LINES = [
     [1, 5, 9],
     [3, 5, 7],
@@ -73,17 +43,32 @@ class Board
     [3, 6, 9]
   ]
 
-  attr_reader :squares
+  attr_accessor :squares
 
   def initialize
-    @squares = {}
-    9.times { |num| @squares[num + 1] = Square.new }
+    @squares = hash_of_squares
+  end
+
+  def draw
+    puts [
+      EMPTY_LINE, draw_line(1), MID_LINE,
+      EMPTY_LINE, draw_line(2), MID_LINE,
+      EMPTY_LINE, draw_line(3), EMPTY_LINE
+    ]
+  end
+
+  def draw_line(line_number)
+    if line_number == 1
+      format("  %s  |  %s  |  %s  ", @squares[1], @squares[2], @squares[3])
+    elsif line_number == 2
+      format("  %s  |  %s  |  %s  ", @squares[4], @squares[5], @squares[6])
+    elsif line_number == 3
+      format("  %s  |  %s  |  %s  ", @squares[7], @squares[8], @squares[9])
+    end
   end
 
   def reset
-    @squares = {}
-    9.times { |num| @squares[num + 1] = Square.new }
-    system('clear')
+    @squares = hash_of_squares
   end
 
   def full?
@@ -103,10 +88,10 @@ class Board
   end
 
   def winner?
-    !!detect_winner
+    !!winning_marker
   end
 
-  def detect_winner
+  def winning_marker
     WINNING_LINES.each do |keys|
       line = keys.map { |key| @squares[key] }
       return 'X' if line.all? { |square| square.mark == 'X' }
@@ -114,30 +99,40 @@ class Board
     end
     nil
   end
+
+  private
+
+  def hash_of_squares
+    hash_of_squares = {}
+    9.times { |num| hash_of_squares[num + 1] = Square.new(num + 1) }
+    hash_of_squares
+  end
 end
 
 class Square
   attr_accessor :mark
 
-  def initialize
-    @mark = ' '
+  def initialize(position)
+    @position = position
   end
 
   def available?
-    @mark == ' '
+    !@mark
   end
 
   def to_s
-    @mark
+    if @mark == 'X'
+      Paint['X', '#00cc66', :bold]
+    elsif @mark == 'O'
+      Paint['O', '#bf0603', :bold]
+    else
+      @position.to_s
+    end
   end
 end
 
 class Player
   attr_reader :name, :marker
-
-  def initialize
-    # maybe a "marker" to keep track of this player's symbol (ie, 'X' or 'O')
-  end
 end
 
 class Computer < Player
@@ -166,11 +161,11 @@ class TTTGame
   attr_reader :board, :human, :computer
 
   def initialize
-    system('clear')
+    clear
     @board = Board.new
     @human = Human.new
     @computer = Computer.new
-    system('clear')
+    clear
   end
 
   def play
@@ -179,11 +174,11 @@ class TTTGame
     loop do
       play_turns
 
-      system('clear')
-      display_board_with_choices
+      clear
+      display_board
       display_result
 
-      play_again? ? reset_board : break
+      play_again? ? reset : break
     end
 
     display_goodbye_message
@@ -191,22 +186,16 @@ class TTTGame
 
   private
 
-  def reset_board
-    system('clear')
-    puts "Great!, let's play again!"
-    board.reset
-  end
-
   def play_turns
     loop do
       puts 'Here are the available choices:'
-      display_board_with_choices
+      display_board
       human_turn
       break if board.full? || board.winner?
 
       computer_turn
       break if board.full? || board.winner?
-      system('clear')
+      clear
     end
   end
 
@@ -215,7 +204,7 @@ class TTTGame
     loop do
       puts "Please select an available square:"
       choice = gets.chomp.to_i
-      break if choice.between?(1, 9) && board.get_square_at(choice).available?
+      break if choice.between?(1, 9) && board.squares[choice].available?
       puts "Invalid choice, try again."
     end
     board.set_square_at(choice, human.marker)
@@ -232,14 +221,20 @@ class TTTGame
       puts "Would you like to play again?"
       puts "(y)es/(n)o"
       response = gets.chomp
-      break if valid_response?(response, ['yes', 'y', 'n', 'no'])
+      break if ['yes', 'y', 'n', 'no'].include?(response)
       puts "Invalid response, try again."
     end
     ['yes', 'y'].include?(response)
   end
 
-  def valid_response?(response, valid_responses)
-    valid_responses.include?(response)
+  def reset
+    clear
+    puts "Great!, let's play again!"
+    board.reset
+  end
+
+  def clear
+    system 'clear'
   end
 end
 
