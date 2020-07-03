@@ -127,29 +127,35 @@ class Square
   end
 end
 
-class Player
-  attr_reader :name, :marker
-end
+class Computer
+  attr_reader :marker
 
-class Computer < Player
   def initialize
     @marker = 'O'
-    @name = 'R2D2'
   end
 end
 
-class Human < Player
+class Human
+  attr_accessor :name
+  attr_reader :marker
+
   def initialize
-    @name = set_name
     @marker = 'X'
+    set_name
   end
 
   private
 
   def set_name
-    puts "What's your name?"
-    @name = gets.chomp
-    puts "Welcome to Tic Tac Toe, #{@name}!"
+    puts "Welcome to Tic-Tac-Toe!"
+    name = nil
+    loop do
+      puts "What's your name?"
+      name = gets.chomp
+      break if /[A-Za-z]/ =~ name
+      puts "Your name must contain at least one character, try again."
+    end
+    @name = name
   end
 end
 
@@ -165,7 +171,6 @@ class TTTGame
   end
 
   def play
-    clear
     loop do
       loop do
       player_turn
@@ -211,7 +216,8 @@ class TTTGame
       break if choice.between?(1, 9) && board.squares[choice].available?
       puts "Invalid choice, try again."
     end
-    board.set_square_at(choice, human.marker)
+    square = board.squares[choice]
+    square.mark = human.marker
     @current_player = computer
     clear
   end
