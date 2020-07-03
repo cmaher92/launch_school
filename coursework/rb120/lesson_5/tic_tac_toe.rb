@@ -4,10 +4,6 @@ require 'paint'
 module Displayable
   EMPTY_SPACE = ""
 
-  def display_welcome_message
-    puts "Welcome to Tic Tac Toe, #{human.name}"
-  end
-
   def display_goodbye_message
     puts EMPTY_SPACE
     puts "Thank you for playing!"
@@ -153,26 +149,28 @@ class Human < Player
   def set_name
     puts "What's your name?"
     @name = gets.chomp
+    puts "Welcome to Tic Tac Toe, #{@name}!"
   end
 end
 
 class TTTGame
   include Displayable
   attr_reader :board, :human, :computer
+  STARTING_PLAYER = 'Human' # Other option is 'Computer'
 
   def initialize
-    clear
     @board = Board.new
     @human = Human.new
     @computer = Computer.new
-    clear
   end
 
   def play
-    display_welcome_message
-
+    clear
     loop do
-      play_turns
+      loop do
+      player_turn
+      break if board.full? || board.winner?
+      end
 
       clear
       display_board
@@ -186,20 +184,26 @@ class TTTGame
 
   private
 
-  def play_turns
-    loop do
-      puts 'Here are the available choices:'
-      display_board
-      human_turn
-      break if board.full? || board.winner?
+  def current_player
+    if STARTING_PLAYER == 'Human'
+      @current_player = human
+    else
+      @current_player = computer
+    end
+  end
 
+  def player_turn
+    current_player if @current_player.nil?
+    if @current_player.is_a?(Human)
+      human_turn
+    else
       computer_turn
-      break if board.full? || board.winner?
-      clear
     end
   end
 
   def human_turn
+    puts "Here are the available options:"
+    display_board
     choice = nil
     loop do
       puts "Please select an available square:"
@@ -208,11 +212,14 @@ class TTTGame
       puts "Invalid choice, try again."
     end
     board.set_square_at(choice, human.marker)
+    @current_player = computer
+    clear
   end
 
   def computer_turn
     square = board.available_squares.sample
     square.mark = computer.marker
+    @current_player = human
   end
 
   def play_again?
@@ -230,6 +237,7 @@ class TTTGame
   def reset
     clear
     puts "Great!, let's play again!"
+    player_turn
     board.reset
   end
 
