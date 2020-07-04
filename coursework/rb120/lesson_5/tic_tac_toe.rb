@@ -4,21 +4,26 @@ require 'paint'
 module Displayable
   EMPTY_SPACE = ""
 
+  def display_welcome_message
+    puts "Welcome to Tic-Tac-Toe!"
+  end
+
   def display_goodbye_message
+    clear
     puts EMPTY_SPACE
-    puts "Thank you for playing!"
+    puts "Thanks for playing!"
   end
 
   def display_board
     puts EMPTY_SPACE
-    board.draw
+    @board.draw
     puts EMPTY_SPACE
   end
 
   def display_result
-    case board.winning_marker
+    case @board.winning_marker
     when 'X'
-      puts "Congratulations #{human.name}, you won!"
+      puts "Congratulations, you won!"
     when 'O'
       puts "Sorry, you lost!"
     else
@@ -120,57 +125,26 @@ class Square
   end
 end
 
-class Computer
-  attr_reader :marker
-
-  def initialize
-    @marker = 'O'
-  end
-end
-
-class Human
-  attr_accessor :name
-  attr_reader :marker
-
-  def initialize
-    @marker = 'X'
-    set_name
-  end
-
-  private
-
-  def set_name
-    puts "Welcome to Tic-Tac-Toe!"
-    name = nil
-    loop do
-      puts "What's your name?"
-      name = gets.chomp
-      break if /[A-Za-z]/ =~ name
-      puts "Your name must contain at least one character, try again."
-    end
-    @name = name
-  end
-end
+Player = Struct.new(:marker)
 
 class TTTGame
   include Displayable
-  attr_reader :board, :human, :computer
   STARTING_PLAYER = 'Human' # Other option is 'Computer'
 
   def initialize
-    clear
     @board = Board.new
-    @human = Human.new
-    @computer = Computer.new
+    @human = Player.new('X')
+    @computer = Player.new('O')
   end
 
   def play
-    # TODO: clear screen here, then request player name here
+    clear
+    display_welcome_message
     loop do
 
       loop do
       player_turn
-      break if board.full? || board.winner?
+      break if @board.full? || @board.winner?
       end
 
       clear
@@ -187,15 +161,15 @@ class TTTGame
 
   def current_player
     if STARTING_PLAYER == 'Human'
-      @current_player = human
+      @current_player = @human
     else
-      @current_player = computer
+      @current_player = @computer
     end
   end
 
   def player_turn
     current_player if @current_player.nil?
-    if @current_player.is_a?(Human)
+    if @current_player.marker == 'X'
       human_turn
     else
       computer_turn
@@ -206,19 +180,19 @@ class TTTGame
     display_board
     choice = nil
     loop do
-      puts "Please choose a square (#{board.unmarked_positions.join(', ')}):"
+      puts "Please choose a square (#{@board.unmarked_positions.join(', ')}):"
       choice = gets.chomp.to_i
-      break if board.unmarked_positions.include?(choice)
+      break if @board.unmarked_positions.include?(choice)
       puts "Invalid choice, try again."
     end
     clear
-    board[choice] = human.marker
-    @current_player = computer
+    @board[choice] = @human.marker
+    @current_player = @computer
   end
 
   def computer_turn
-    board[board.unmarked_positions.sample] = computer.marker
-    @current_player = human
+    @board[@board.unmarked_positions.sample] = @computer.marker
+    @current_player = @human
   end
 
   def play_again?
@@ -237,7 +211,7 @@ class TTTGame
     clear
     puts "Great!, let's play again!"
     player_turn
-    board.reset
+    @board.reset
   end
 
   def clear
