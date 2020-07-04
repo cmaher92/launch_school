@@ -10,7 +10,9 @@ module Displayable
   end
 
   def display_board
+    puts EMPTY_SPACE
     board.draw
+    puts EMPTY_SPACE
   end
 
   def display_result
@@ -39,12 +41,13 @@ class Board
     [3, 6, 9]
   ]
 
-  # TODO: we don't want to provide access to squares, only the board should be aware of the Square class
-  attr_accessor :squares
-
   def initialize
     @squares = {}
     reset
+  end
+
+  def []=(num, marker)
+    @squares[num].mark = marker
   end
 
   def draw
@@ -70,11 +73,11 @@ class Board
   end
 
   def full?
-    available_squares.empty?
+    unmarked_positions.count == 0
   end
 
-  def available_squares
-    squares.select { |_, square| square.available? }.values
+  def unmarked_positions
+    @squares.keys.select { |key| @squares[key].unmarked? }
   end
 
   def winner?
@@ -98,9 +101,12 @@ class Square
     @position = position
   end
 
-  # change to #marked?, also add #unmarked?
-  def available?
-    !@mark
+  def marked?
+    !!@mark
+  end
+
+  def unmarked?
+    @mark.nil?
   end
 
   def to_s
@@ -160,9 +166,8 @@ class TTTGame
 
   def play
     # TODO: clear screen here, then request player name here
-    # TODO: differentiate between displaying board and displaying board and clearing screen
     loop do
-      
+
       loop do
       player_turn
       break if board.full? || board.winner?
@@ -198,29 +203,21 @@ class TTTGame
   end
 
   def human_turn
-    puts "Here are the available options:"
     display_board
     choice = nil
     loop do
-      puts "Please select an available square:"
+      puts "Please choose a square (#{board.unmarked_positions.join(', ')}):"
       choice = gets.chomp.to_i
-      # TODO: Compare this to how LS used Board#unmarked_keys followed by a called to #include?
-      break if choice.between?(1, 9) && board.squares[choice].available?
+      break if board.unmarked_positions.include?(choice)
       puts "Invalid choice, try again."
     end
-    square = board.squares[choice]
-    # TODO: Use the #[]= method that LS defines in their Board class as it seems to be less dependent on knowing
-    #              what a square is
-    square.mark = human.marker
-    @current_player = computer
-    # TODO: keep clear out of methods, it should only be in the game loop
     clear
+    board[choice] = human.marker
+    @current_player = computer
   end
 
   def computer_turn
-    square = board.available_squares.sample
-    # TODO: Use the #[]= method
-    square.mark = computer.marker
+    board[board.unmarked_positions.sample] = computer.marker
     @current_player = human
   end
 
