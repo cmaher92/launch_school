@@ -39,10 +39,12 @@ class Board
     [3, 6, 9]
   ]
 
+  # TODO: we don't want to provide access to squares, only the board should be aware of the Square class
   attr_accessor :squares
 
   def initialize
-    @squares = hash_of_squares
+    @squares = {}
+    reset
   end
 
   def draw
@@ -64,19 +66,11 @@ class Board
   end
 
   def reset
-    @squares = hash_of_squares
+    (1..9).each { |position| @squares[position] = Square.new(position) }
   end
 
   def full?
     available_squares.empty?
-  end
-
-  def get_square_at(key)
-    @squares[key]
-  end
-
-  def set_square_at(key, marker)
-    @squares[key].mark = marker
   end
 
   def available_squares
@@ -95,14 +89,6 @@ class Board
     end
     nil
   end
-
-  private
-
-  def hash_of_squares
-    hash_of_squares = {}
-    9.times { |num| hash_of_squares[num + 1] = Square.new(num + 1) }
-    hash_of_squares
-  end
 end
 
 class Square
@@ -112,6 +98,7 @@ class Square
     @position = position
   end
 
+  # change to #marked?, also add #unmarked?
   def available?
     !@mark
   end
@@ -165,13 +152,17 @@ class TTTGame
   STARTING_PLAYER = 'Human' # Other option is 'Computer'
 
   def initialize
+    clear
     @board = Board.new
     @human = Human.new
     @computer = Computer.new
   end
 
   def play
+    # TODO: clear screen here, then request player name here
+    # TODO: differentiate between displaying board and displaying board and clearing screen
     loop do
+      
       loop do
       player_turn
       break if board.full? || board.winner?
@@ -213,17 +204,22 @@ class TTTGame
     loop do
       puts "Please select an available square:"
       choice = gets.chomp.to_i
+      # TODO: Compare this to how LS used Board#unmarked_keys followed by a called to #include?
       break if choice.between?(1, 9) && board.squares[choice].available?
       puts "Invalid choice, try again."
     end
     square = board.squares[choice]
+    # TODO: Use the #[]= method that LS defines in their Board class as it seems to be less dependent on knowing
+    #              what a square is
     square.mark = human.marker
     @current_player = computer
+    # TODO: keep clear out of methods, it should only be in the game loop
     clear
   end
 
   def computer_turn
     square = board.available_squares.sample
+    # TODO: Use the #[]= method
     square.mark = computer.marker
     @current_player = human
   end
@@ -231,15 +227,15 @@ class TTTGame
   def play_again?
     response = nil
     loop do
-      puts "Would you like to play again?"
-      puts "(y)es/(n)o"
-      response = gets.chomp
+      puts "Would you like to play again? (y/n)"
+      response = gets.chomp.downcase
       break if ['yes', 'y', 'n', 'no'].include?(response)
       puts "Invalid response, try again."
     end
     ['yes', 'y'].include?(response)
   end
 
+  # TODO: adjust player_turn to reflect how LS sets who goes first, it makes more sense
   def reset
     clear
     puts "Great!, let's play again!"
