@@ -141,30 +141,28 @@ class TTTGame
     clear
     display_welcome_message
     loop do
-
       loop do
-      player_turn
-      break if @board.full? || @board.winner?
+        player_turn
+        break if @board.full? || @board.winner?
       end
-
       clear
       display_board
       display_result
 
       play_again? ? reset : break
     end
-
     display_goodbye_message
   end
 
   private
 
   def current_player
-    if STARTING_PLAYER == 'Human'
-      @current_player = @human
-    else
-      @current_player = @computer
-    end
+    @current_player =
+      if STARTING_PLAYER == 'Human'
+        @human
+      else
+        @computer
+      end
   end
 
   def player_turn
