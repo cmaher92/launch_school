@@ -1,4 +1,5 @@
 require 'paint'
+require 'pry'
 
 module Displayable
   EMPTY_SPACE = ""
@@ -128,14 +129,15 @@ Player = Struct.new(:marker)
 
 class TTTGame
   include Displayable
-  STARTING_PLAYER = 'Human' # Other option is 'Computer'
   HUMAN_MARKER = 'X'
   COMPUTER_MARKER = 'O'
+  FIRST_TO_MOVE = HUMAN_MARKER
 
   def initialize
     @board = Board.new
     @human = Player.new(HUMAN_MARKER)
     @computer = Player.new(COMPUTER_MARKER)
+    @current_marker = FIRST_TO_MOVE
   end
 
   def play
@@ -144,7 +146,7 @@ class TTTGame
     loop do
 
       loop do
-      player_turn
+      current_player_moves
       break if @board.full? || @board.winner?
       end
 
@@ -160,24 +162,21 @@ class TTTGame
 
   private
 
-  def current_player
-    if STARTING_PLAYER == 'Human'
-      @current_player = @human
+  def human_turn?
+    @current_marker == HUMAN_MARKER
+  end
+
+  def current_player_moves
+    if human_turn?
+      human_moves
+      @current_marker = COMPUTER_MARKER
     else
-      @current_player = @computer
+      computer_moves
+      @current_marker = HUMAN_MARKER
     end
   end
 
-  def player_turn
-    current_player if @current_player.nil?
-    if @current_player.marker == HUMAN_MARKER
-      human_turn
-    else
-      computer_turn
-    end
-  end
-
-  def human_turn
+  def human_moves
     display_board
     choice = nil
     loop do
@@ -188,12 +187,10 @@ class TTTGame
     end
     clear
     @board[choice] = @human.marker
-    @current_player = @computer
   end
 
-  def computer_turn
+  def computer_moves
     @board[@board.unmarked_positions.sample] = @computer.marker
-    @current_player = @human
   end
 
   def play_again?
@@ -207,11 +204,10 @@ class TTTGame
     ['yes', 'y'].include?(response)
   end
 
-  # TODO: adjust player_turn to reflect how LS sets who goes first, it makes more sense
   def reset
     clear
     puts "Great!, let's play again!"
-    player_turn
+    @current_marker = FIRST_TO_MOVE
     @board.reset
   end
 
