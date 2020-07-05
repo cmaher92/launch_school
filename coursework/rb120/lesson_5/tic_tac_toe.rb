@@ -1,5 +1,4 @@
 require 'paint'
-require 'pry'
 
 module Displayable
   EMPTY_SPACE = ""
@@ -68,7 +67,6 @@ class Board
       EMPTY_LINE, draw_line(3), EMPTY_LINE
     ]
   end
-
 
   def reset
     (1..9).each { |position| @squares[position] = Square.new(position) }
@@ -151,20 +149,27 @@ class TTTGame
 
   def play
     display_welcome_message
-    loop do
-      loop do
-        current_player_moves
-        break if @board.full? || @board.winner?
-      end
-      display_board_and_clear
-      display_result
-
-      play_again? ? reset : break
-    end
+    main_game
     display_goodbye_message
   end
 
   private
+
+  def main_game
+    loop do
+      player_move
+      display_board_and_clear
+      display_result
+      play_again? ? reset : break
+    end
+  end
+
+  def player_move
+    loop do
+      current_player_moves
+      break if @board.full? || @board.winner?
+    end
+  end
 
   def human_turn?
     @current_marker == HUMAN_MARKER
