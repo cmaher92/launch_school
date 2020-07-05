@@ -4,7 +4,13 @@ require 'pry'
 module Displayable
   EMPTY_SPACE = ""
 
+  def display_board_and_clear
+    clear
+    display_board
+  end
+
   def display_welcome_message
+    clear
     puts "Welcome to Tic-Tac-Toe!"
   end
 
@@ -63,15 +69,6 @@ class Board
     ]
   end
 
-  def draw_line(line_number)
-    if line_number == 1
-      format("  %s  |  %s  |  %s  ", @squares[1], @squares[2], @squares[3])
-    elsif line_number == 2
-      format("  %s  |  %s  |  %s  ", @squares[4], @squares[5], @squares[6])
-    elsif line_number == 3
-      format("  %s  |  %s  |  %s  ", @squares[7], @squares[8], @squares[9])
-    end
-  end
 
   def reset
     (1..9).each { |position| @squares[position] = Square.new(position) }
@@ -96,6 +93,18 @@ class Board
       return marks.first if marks.all? { |mark| marks.first == mark }
     end
     nil
+  end
+
+  private
+
+  def draw_line(line_number)
+    if line_number == 1
+      format("  %s  |  %s  |  %s  ", @squares[1], @squares[2], @squares[3])
+    elsif line_number == 2
+      format("  %s  |  %s  |  %s  ", @squares[4], @squares[5], @squares[6])
+    elsif line_number == 3
+      format("  %s  |  %s  |  %s  ", @squares[7], @squares[8], @squares[9])
+    end
   end
 end
 
@@ -141,22 +150,17 @@ class TTTGame
   end
 
   def play
-    clear
     display_welcome_message
     loop do
-
       loop do
-      current_player_moves
-      break if @board.full? || @board.winner?
+        current_player_moves
+        break if @board.full? || @board.winner?
       end
-
-      clear
-      display_board
+      display_board_and_clear
       display_result
 
       play_again? ? reset : break
     end
-
     display_goodbye_message
   end
 
