@@ -1,4 +1,5 @@
 require 'paint'
+require 'pry'
 
 module Displayable
   EMPTY_SPACE = ""
@@ -155,6 +156,14 @@ class TTTGame
 
   private
 
+  def joiner(arr, seperator)
+    return arr[0].to_s if arr.size == 1
+    return "#{arr[0]} or #{arr[1]}" if arr.size == 2
+    arr.insert(-2, 'or').map do |e|
+      arr[-2..-1].include?(e) ? e : "#{e}#{seperator}"
+    end.join(' ')
+  end
+
   def main_game
     loop do
       player_move
@@ -189,7 +198,7 @@ class TTTGame
     display_board
     choice = nil
     loop do
-      puts "Please choose a square (#{@board.unmarked_positions.join(', ')}):"
+      puts "Please choose a square (#{joiner(@board.unmarked_positions, ',')}):"
       choice = gets.chomp.to_i
       break if @board.unmarked_positions.include?(choice)
       puts "Invalid choice, try again."
