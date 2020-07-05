@@ -21,9 +21,9 @@ module Displayable
 
   def display_result
     case @board.winning_marker
-    when 'X'
+    when TTTGame::HUMAN_MARKER
       puts "Congratulations, you won!"
-    when 'O'
+    when TTTGame::COMPUTER_MARKER
       puts "Sorry, you lost!"
     else
       puts "It looks like it was a tie!"
@@ -89,10 +89,10 @@ class Board
   end
 
   def winning_marker
-    WINNING_LINES.each do |keys|
-      line = keys.map { |key| @squares[key] }
-      return 'X' if line.all? { |square| square.mark == 'X' }
-      return 'O' if line.all? { |square| square.mark == 'O' }
+    WINNING_LINES.each do |line|
+      marks = @squares.values_at(*line).select(&:marked?).map(&:mark)
+      next if marks.size != 3
+      return marks.first if marks.all? { |mark| marks.first == mark }
     end
     nil
   end
@@ -129,11 +129,13 @@ Player = Struct.new(:marker)
 class TTTGame
   include Displayable
   STARTING_PLAYER = 'Human' # Other option is 'Computer'
+  HUMAN_MARKER = 'X'
+  COMPUTER_MARKER = 'O'
 
   def initialize
     @board = Board.new
-    @human = Player.new('X')
-    @computer = Player.new('O')
+    @human = Player.new(HUMAN_MARKER)
+    @computer = Player.new(COMPUTER_MARKER)
   end
 
   def play
@@ -168,7 +170,7 @@ class TTTGame
 
   def player_turn
     current_player if @current_player.nil?
-    if @current_player.marker == 'X'
+    if @current_player.marker == HUMAN_MARKER
       human_turn
     else
       computer_turn
