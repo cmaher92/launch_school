@@ -4,6 +4,10 @@ require 'pry'
 module Displayable
   EMPTY_SPACE = ""
 
+  def display_score
+    puts "You have #{@human.wins} wins. Computer has #{@computer.wins} wins."
+  end
+
   def display_board_and_clear
     clear
     display_board
@@ -30,8 +34,10 @@ module Displayable
     case @board.winning_marker
     when TTTGame::HUMAN_MARKER
       puts "Congratulations, you won!"
+      display_score
     when TTTGame::COMPUTER_MARKER
       puts "Sorry, you lost!"
+      display_score
     else
       puts "It looks like it was a tie!"
     end
@@ -133,7 +139,7 @@ class Square
   end
 end
 
-Player = Struct.new(:marker)
+Player = Struct.new(:marker, :wins)
 
 class TTTGame
   include Displayable
@@ -143,8 +149,8 @@ class TTTGame
 
   def initialize
     @board = Board.new
-    @human = Player.new(HUMAN_MARKER)
-    @computer = Player.new(COMPUTER_MARKER)
+    @human = Player.new(HUMAN_MARKER, 0)
+    @computer = Player.new(COMPUTER_MARKER, 0)
     @current_marker = FIRST_TO_MOVE
   end
 
@@ -174,9 +180,19 @@ class TTTGame
   end
 
   def player_move
+    display_score
     loop do
       current_player_moves
       break if @board.full? || @board.winner?
+    end
+    add_win if @board.winner?
+  end
+
+  def add_win
+    if @human.marker == @board.winning_marker
+      @human.wins += 1
+    else
+      @computer.wins += 1
     end
   end
 
