@@ -1,5 +1,4 @@
 require 'paint'
-require 'pry'
 
 module Displayable
   EMPTY_SPACE = ""
