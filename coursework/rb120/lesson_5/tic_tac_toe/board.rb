@@ -10,7 +10,7 @@ module Tictactoe
       @number_of_squares = 9
       @number_of_marked = 0
       @number_of_unmarked = 9
-      @unmarked_square_positions = UNMARKED_POSITIONS
+      @available_moves = UNMARKED_POSITIONS
       @board = build_board
     end
 
