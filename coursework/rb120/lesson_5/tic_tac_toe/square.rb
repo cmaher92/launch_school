@@ -3,6 +3,10 @@ require 'paint'
 module Tictactoe
   class Square
     attr_accessor :marker
+    attr_reader :position
+    def initialize(position)
+      @position = position
+    end
 
     def to_s
       if marker == 'X'
@@ -12,6 +16,10 @@ module Tictactoe
       else
         " "
       end
+    end
+    
+    def marked?
+      !marker.nil?
     end
   end
 end
