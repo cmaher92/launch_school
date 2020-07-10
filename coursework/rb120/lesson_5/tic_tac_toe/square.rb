@@ -4,6 +4,7 @@ module Tictactoe
   class Square
     attr_accessor :marker
     attr_reader :position
+
     def initialize(position)
       @position = position
     end
@@ -17,9 +18,13 @@ module Tictactoe
         " "
       end
     end
-    
+
     def marked?
       !marker.nil?
+    end
+
+    def unmarked?
+      marker.nil?
     end
   end
 end
