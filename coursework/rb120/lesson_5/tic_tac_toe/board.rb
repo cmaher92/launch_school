@@ -4,8 +4,10 @@ require_relative 'square'
 module Tictactoe
   class Board
     include Drawable
-    attr_reader :number_of_marked, :number_of_unmarked, :locations_unmarked,
-                :current_player_marker, :starting_player_marker, :middle_square, :winner
+    attr_accessor :number_of_marked, :number_of_unmarked, :locations_unmarked,
+                  :current_player_marker, :starting_player_marker,
+                  :middle_square, :winner, :board
+
     LOCATIONS_UNMARKED = [
       [0, 0], [0, 1], [0, 2],
       [1, 0], [1, 1], [1, 2],
@@ -23,39 +25,50 @@ module Tictactoe
       @board = build_board
       @middle_square = [1,1]
     end
-    
+
     def winner_exists?
       !!@winner
     end
-    
-    def best_possible_move
-      # from current_player's perspective
-     @board.minimax
+
+    def active_board?
+      @active_board
     end
-    
-    def minimax()
-      return score if @board.finished?
+
+    def find_best_choice
+      minimax
+      @active_board = true
+      @choice
+    end
+
+    def minimax
+      return score if finished?
       scores = []
       moves = []
-      
+
       @locations_unmarked.each do |move|
           possible_board = get_new_state(move)
-          scores.push minimax(possible_board)
+          scores.push possible_board.minimax
           moves.push move
       end
-    # if the game is over, return the score from computer's perspective
-    # get a list of new boards for every possible move
-    # create a scores list
-    # for each of these new boards
-      # add the minimax result of that state to the scores list
-      # if it's the computer's turn, return the maximum score from the scores list
-      # if it's the human's turn, return the minimum score from the scores list
+      # binding.pry
+
+      if active_board?
+        binding.pry
+        max_score_index = scores.each_with_index.max[1]
+        @choice = moves[max_score_index]
+        return scores[max_score_index]
+      end
     end
-      
+
    def get_new_state(move)
-     @board.dup.mark_square(@current_player_marker, move)
+    board = Board.new(@human_marker, @computer_marker)
+    board.locations_unmarked = @locations_unmarked
+    board.number_of_marked = @number_of_marked
+    board.number_of_unmarked = @number_of_unmarked
+    board.board = @board.map { |row| row.map(&:dup) }
+    board.mark_square(@current_player_marker, move)
    end
-    
+
     def score
       if @winner == @computer_marker
         1
@@ -65,7 +78,7 @@ module Tictactoe
         0
       end
     end
-    
+
     def check_for_winner
       # if there is a winner, set @winner
       # check rows
@@ -117,7 +130,7 @@ module Tictactoe
     end
 
     private
-    
+
     def check_rows
       @board.size.times do |row_index|
         candidate = check_line([row_index, 0]) { |index| [row_index, index] }
@@ -125,7 +138,7 @@ module Tictactoe
       end
       nil
     end
-    
+
     def check_columns
       @board.size.times do |col_index|
         candidate = check_line([0, col_index]) { |index| [index, col_index]}
@@ -133,28 +146,28 @@ module Tictactoe
       end
       nil
     end
-    
+
     def check_diagonal
       check_line([0,0]) { |index| [index, index] }
     end
-    
+
     def check_reverse_diagonal
       max_index = @board.size - 1
       check_line([0,max_index]) { |index| [index, max_index - index] }
     end
-    
+
     def check_line(starting_location)
       # retrieve marker from given location, set as candidate
       candidate = contents_of(starting_location)
       return if candidate.nil?
-      
+
       # retrieve remaining squares from this line and check if they're the same as first
       (1..@board.size - 1).each do |index|
         square_location = yield index
         square_marker = contents_of(square_location)
         return if square_marker != candidate # if this square doesn't have same marker, its not a winning line
       end
-      
+
       # if all three markers in line were the same, return marker
       candidate
     end
@@ -171,6 +184,6 @@ module Tictactoe
         @current_player_marker = @human_marker
       end
     end
-    
+
   end
 end

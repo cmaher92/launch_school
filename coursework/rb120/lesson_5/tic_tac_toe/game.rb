@@ -38,7 +38,7 @@ module Tictactoe
     end
 
     private
-    
+
     def result
       clear
       @board.draw
@@ -92,12 +92,13 @@ module Tictactoe
         choice = @board.middle_square
       else
 #         choice = @board.locations_unmarked.sample
-        choice = @board.best_possible_move
+        choice = @board.find_best_choice
+        binding.pry
       end
       @board.mark_square(COMPUTER_MARKER,choice)
     end
   end
-  
+
 
 end
 
