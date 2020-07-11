@@ -29,14 +29,26 @@ module Tictactoe
     end
 
     def play
-      welcome
+      display_welcome
       loop do
         players_take_turns
         break if @board.finished?
       end
+      result
     end
 
     private
+    
+    def result
+      clear
+      @board.draw
+      if @board.winner_exists?
+        display_winner(HUMAN_MARKER) if @board.winner == HUMAN_MARKER
+        display_winner(COMPUTER_MARKER) if @board.winner == COMPUTER_MARKER
+      else
+        display_draw
+      end
+    end
 
     def new_game
       new_board = Board.new(HUMAN_MARKER, COMPUTER_MARKER)
@@ -79,11 +91,14 @@ module Tictactoe
       if @board.square_available?(@board.middle_square)
         choice = @board.middle_square
       else
-        choice = @board.locations_unmarked.sample
+#         choice = @board.locations_unmarked.sample
+        choice = @board.best_possible_move
       end
       @board.mark_square(COMPUTER_MARKER,choice)
     end
   end
+  
+
 end
 
 game = Tictactoe::Game.new
