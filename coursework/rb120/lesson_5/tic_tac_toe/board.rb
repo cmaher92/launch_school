@@ -1,12 +1,12 @@
 require_relative 'drawable'
 require_relative 'square'
+require 'pry'
 
 module Tictactoe
   class Board
     include Drawable
-    attr_accessor :number_of_marked, :number_of_unmarked, :locations_unmarked,
-                  :current_player_marker, :starting_player_marker,
-                  :middle_square, :winner, :board
+    attr_reader :middle_square, :winner
+    attr_accessor :locations_unmarked, :board, :current_player_marker
 
     LOCATIONS_UNMARKED = [
       [0, 0], [0, 1], [0, 2],
@@ -19,20 +19,26 @@ module Tictactoe
       @human_marker = human_marker
       @computer_marker = computer_marker
       @number_of_squares = NUMBER_OF_SQUARES
-      @number_of_marked = 0
-      @number_of_unmarked = 9
       @locations_unmarked = LOCATIONS_UNMARKED
       @board = build_board
       @middle_square = [1,1]
+    end
+
+    def number_of_unmarked
+      @board.flatten.select(&:unmarked?).size
+    end
+
+    def number_of_marked
+      @board.flatten.select(&:marked?).size
     end
 
     def winner_exists?
       !!@winner
     end
 
-    def find_best_choice
-      minimax
-      @choice
+    def find_best_move
+      minimax(number_of_unmarked)
+      @move
     end
 
     def check_for_winner
@@ -44,66 +50,70 @@ module Tictactoe
       @board.flatten.select { |square| square.unmarked? }.map { |square| square.position }
     end
 
-    def to_a
-      @board.flatten
-    end
-
     def finished?
-      @winner || draw?
+      !!@winner || draw?
     end
 
     def draw?
       number_of_unmarked == 0 && !@winner
     end
 
-    def current_player_marker=(marker)
-      @current_player_marker = marker
-      @starting_player_marker = marker if @starting_player_marker.nil?
-    end
-
     def mark_square(location)
       @board[location.first][location.last].marker = @current_player_marker
-      @number_of_unmarked -= 1
-      @number_of_marked += 1
       @locations_unmarked.delete(location)
       check_for_winner
       swap_turns
-    end
-
-    def empty?
-      number_of_squares == number_of_unmarked
-    end
-
-    def contents_of(location)
-      @board[location.first][location.last].marker
     end
 
     def square_available?(location)
       @board[location.first][location.last].unmarked?
     end
 
-    private
-
-    def minimax
-      return score if finished?
+    def minimax(depth)
+      return score if finished? || depth == 0
+      children = []
+      moves = @locations_unmarked
       scores = []
-      moves = []
 
       @locations_unmarked.each do |move|
-        possible_board = get_new_state
-        possible_board.mark_square(move)
-        scores << possible_board.minimax
-        moves << move
+        child_board = get_new_state
+        child_board.mark_square(move)
+        children << child_board
       end
 
       if @current_player_marker == @computer_marker
-        max_score_index = scores.each_with_index.max[1]
-        @choice = moves[max_score_index]
-        return scores[max_score_index]
+        children.each do |child|
+          scores << child.minimax(child.number_of_unmarked)
+        end
+        scores << -9
+        @move = moves[scores.index(scores.max)]
+        scores.max
       else
-        min_score_index = scores.each_with_index.min[1]
-        return scores[min_score_index]
+        children.each do |child|
+          scores << child.minimax(child.number_of_unmarked)
+        end
+        scores << 9
+        @move = moves[scores.index(scores.min)]
+        scores.min
       end
+    end
+
+    private
+
+    def active_board?
+      !!@active_board
+    end
+
+    def contents_of(location)
+      @board[location.first][location.last].marker
+    end
+
+    def unmarked_squares
+      @board.flatten.select(&:unmarked?)
+    end
+
+    def marked_squares
+      @board.flatten.select(&:marked?)
     end
 
     def score
@@ -120,8 +130,6 @@ module Tictactoe
      board = Board.new(@human_marker, @computer_marker)
      board.current_player_marker = @current_player_marker
      board.locations_unmarked = @locations_unmarked.map(&:dup)
-     board.number_of_marked = @number_of_marked
-     board.number_of_unmarked = @number_of_unmarked
      board.board = @board.map { |row| row.map(&:dup) }
      board
     end

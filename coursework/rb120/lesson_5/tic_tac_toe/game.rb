@@ -1,7 +1,6 @@
 require_relative 'board'
 require_relative 'player'
 require_relative 'displayable'
-require 'pry'
 
 module Tictactoe
   class Game
@@ -50,12 +49,6 @@ module Tictactoe
       end
     end
 
-    def new_game
-      new_board = Board.new(HUMAN_MARKER, COMPUTER_MARKER)
-      new_board.current_player_marker = @board.starting_player_marker
-      @board = new_board
-    end
-
     def who_goes_first
       loop do
         prompt 'Would you like to go first? (y/n)'
@@ -89,12 +82,11 @@ module Tictactoe
 
     def computer_turn
       if @board.square_available?(@board.middle_square)
-        choice = @board.middle_square
+        square_location = @board.middle_square
       else
-#         choice = @board.locations_unmarked.sample
-        choice = @board.find_best_choice
+        square_location = @board.find_best_move
       end
-      @board.mark_square(choice)
+      @board.mark_square(square_location)
     end
   end
 
