@@ -35,25 +35,27 @@ module Tictactoe
     end
 
     def find_best_choice
-      minimax
       @active_board = true
+      minimax
       @choice
     end
 
     def minimax
+      binding.pry
       return score if finished?
+      # binding.pry if finished?
       scores = []
       moves = []
 
       @locations_unmarked.each do |move|
           possible_board = get_new_state(move)
+          possible_board.mark_square(@current_player_marker, move)
           scores.push possible_board.minimax
           moves.push move
       end
       # binding.pry
 
       if active_board?
-        binding.pry
         max_score_index = scores.each_with_index.max[1]
         @choice = moves[max_score_index]
         return scores[max_score_index]
@@ -62,11 +64,11 @@ module Tictactoe
 
    def get_new_state(move)
     board = Board.new(@human_marker, @computer_marker)
-    board.locations_unmarked = @locations_unmarked
+    board.locations_unmarked = @locations_unmarked.map(&:dup)
     board.number_of_marked = @number_of_marked
     board.number_of_unmarked = @number_of_unmarked
     board.board = @board.map { |row| row.map(&:dup) }
-    board.mark_square(@current_player_marker, move)
+    board
    end
 
     def score
