@@ -84,7 +84,7 @@ module Tictactoe
         break if @board.positions_unmarked.include?(choice)
         prompt "Please enter a valid position"
       end
-      @board.mark_square(HUMAN_MARKER,POSITIONS_TO_LOCATIONS[choice])
+      @board.mark_square(POSITIONS_TO_LOCATIONS[choice])
     end
 
     def computer_turn
@@ -94,7 +94,7 @@ module Tictactoe
 #         choice = @board.locations_unmarked.sample
         choice = @board.find_best_choice
       end
-      @board.mark_square(COMPUTER_MARKER,choice)
+      @board.mark_square(choice)
     end
   end
 

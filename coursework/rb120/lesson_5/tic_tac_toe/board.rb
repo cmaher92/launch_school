@@ -30,60 +30,12 @@ module Tictactoe
       !!@winner
     end
 
-    def active_board?
-      @active_board
-    end
-
     def find_best_choice
-      @active_board = true
       minimax
       @choice
     end
 
-    def minimax
-      binding.pry
-      return score if finished?
-      # binding.pry if finished?
-      scores = []
-      moves = []
-
-      @locations_unmarked.each do |move|
-          possible_board = get_new_state(move)
-          possible_board.mark_square(@current_player_marker, move)
-          scores.push possible_board.minimax
-          moves.push move
-      end
-      # binding.pry
-
-      if active_board?
-        max_score_index = scores.each_with_index.max[1]
-        @choice = moves[max_score_index]
-        return scores[max_score_index]
-      end
-    end
-
-   def get_new_state(move)
-    board = Board.new(@human_marker, @computer_marker)
-    board.locations_unmarked = @locations_unmarked.map(&:dup)
-    board.number_of_marked = @number_of_marked
-    board.number_of_unmarked = @number_of_unmarked
-    board.board = @board.map { |row| row.map(&:dup) }
-    board
-   end
-
-    def score
-      if @winner == @computer_marker
-        1
-      elsif @winner == @human_marker
-        -1
-      else
-        0
-      end
-    end
-
     def check_for_winner
-      # if there is a winner, set @winner
-      # check rows
       return if number_of_marked < 5
       @winner = check_rows || check_columns || check_diagonal || check_reverse_diagonal
     end
@@ -109,14 +61,13 @@ module Tictactoe
       @starting_player_marker = marker if @starting_player_marker.nil?
     end
 
-    def mark_square(marker, location)
-      @board[location.first][location.last].marker = marker
+    def mark_square(location)
+      @board[location.first][location.last].marker = @current_player_marker
       @number_of_unmarked -= 1
       @number_of_marked += 1
       @locations_unmarked.delete(location)
       check_for_winner
       swap_turns
-      self
     end
 
     def empty?
@@ -132,6 +83,48 @@ module Tictactoe
     end
 
     private
+
+    def minimax
+      return score if finished?
+      scores = []
+      moves = []
+
+      @locations_unmarked.each do |move|
+        possible_board = get_new_state
+        possible_board.mark_square(move)
+        scores << possible_board.minimax
+        moves << move
+      end
+
+      if @current_player_marker == @computer_marker
+        max_score_index = scores.each_with_index.max[1]
+        @choice = moves[max_score_index]
+        return scores[max_score_index]
+      else
+        min_score_index = scores.each_with_index.min[1]
+        return scores[min_score_index]
+      end
+    end
+
+    def score
+      if @winner == @computer_marker
+        1
+      elsif @winner == @human_marker
+        -1
+      else
+        0
+      end
+    end
+
+    def get_new_state
+     board = Board.new(@human_marker, @computer_marker)
+     board.current_player_marker = @current_player_marker
+     board.locations_unmarked = @locations_unmarked.map(&:dup)
+     board.number_of_marked = @number_of_marked
+     board.number_of_unmarked = @number_of_unmarked
+     board.board = @board.map { |row| row.map(&:dup) }
+     board
+    end
 
     def check_rows
       @board.size.times do |row_index|
