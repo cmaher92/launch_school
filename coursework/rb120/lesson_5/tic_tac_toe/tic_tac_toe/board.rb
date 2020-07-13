@@ -19,9 +19,9 @@ module Tictactoe
       @human_marker = human_marker
       @computer_marker = computer_marker
       @number_of_squares = NUMBER_OF_SQUARES
-      @locations_unmarked = LOCATIONS_UNMARKED
+      @locations_unmarked = build_locations
       @board = build_board
-      @middle_square = [1,1]
+      @middle_square = [1, 1]
     end
 
     def number_of_unmarked
@@ -43,11 +43,12 @@ module Tictactoe
 
     def check_for_winner
       return if number_of_marked < 5
-      @winner = check_rows || check_columns || check_diagonal || check_reverse_diagonal
+      @winner = check_rows || check_columns ||
+                check_diagonal || check_reverse_diagonal
     end
 
     def positions_unmarked
-      @board.flatten.select { |square| square.unmarked? }.map { |square| square.position }
+      @board.flatten.select(&:unmarked?).map(&:position)
     end
 
     def finished?
@@ -69,43 +70,49 @@ module Tictactoe
       @board[location.first][location.last].unmarked?
     end
 
+    protected
+
     def minimax(depth)
       return score if finished? || depth == 0
-      children = []
-      moves = @locations_unmarked
-      scores = []
-
-      @locations_unmarked.each do |move|
-        child_board = get_new_state
-        child_board.mark_square(move)
-        children << child_board
-      end
-
+      children = generate_child_boards
+      scores = get_scores_of_children(children)
       if @current_player_marker == @computer_marker
-        children.each do |child|
-          scores << child.minimax(child.number_of_unmarked)
-        end
-        scores << -9
-        @move = moves[scores.index(scores.max)]
+        @move = @locations_unmarked[scores.index(scores.max)]
         scores.max
       else
-        children.each do |child|
-          scores << child.minimax(child.number_of_unmarked)
-        end
-        scores << 9
-        @move = moves[scores.index(scores.min)]
+        @move = @locations_unmarked[scores.index(scores.min)]
         scores.min
       end
     end
 
     private
 
-    def active_board?
-      !!@active_board
+    def get_scores_of_children(children)
+      scores = []
+      children.each do |child|
+        scores << child.minimax(child.number_of_unmarked)
+      end
+      scores << -9 if @current_player_marker == @computer_marker
+      scores << 9 if @current_player_marker == @human_marker
+      scores
     end
 
-    def contents_of(location)
-      @board[location.first][location.last].marker
+    def generate_child_boards
+      children = []
+      @locations_unmarked.each do |move|
+        child_board = new_state
+        child_board.mark_square(move)
+        children << child_board
+      end
+      children
+    end
+
+    def build_locations
+      LOCATIONS_UNMARKED.map(&:dup)
+    end
+
+    def active_board?
+      !!@active_board
     end
 
     def unmarked_squares
@@ -126,12 +133,12 @@ module Tictactoe
       end
     end
 
-    def get_new_state
-     board = Board.new(@human_marker, @computer_marker)
-     board.current_player_marker = @current_player_marker
-     board.locations_unmarked = @locations_unmarked.map(&:dup)
-     board.board = @board.map { |row| row.map(&:dup) }
-     board
+    def new_state
+      board = Board.new(@human_marker, @computer_marker)
+      board.current_player_marker = @current_player_marker
+      board.locations_unmarked = @locations_unmarked.map(&:dup)
+      board.board = @board.map { |row| row.map(&:dup) }
+      board
     end
 
     def check_rows
@@ -144,35 +151,36 @@ module Tictactoe
 
     def check_columns
       @board.size.times do |col_index|
-        candidate = check_line([0, col_index]) { |index| [index, col_index]}
+        candidate = check_line([0, col_index]) { |index| [index, col_index] }
         return candidate if candidate
       end
       nil
     end
 
     def check_diagonal
-      check_line([0,0]) { |index| [index, index] }
+      check_line([0, 0]) { |index| [index, index] }
     end
 
     def check_reverse_diagonal
       max_index = @board.size - 1
-      check_line([0,max_index]) { |index| [index, max_index - index] }
+      check_line([0, max_index]) { |index| [index, max_index - index] }
     end
 
     def check_line(starting_location)
-      # retrieve marker from given location, set as candidate
-      candidate = contents_of(starting_location)
-      return if candidate.nil?
+      squares = [starting_location]
 
-      # retrieve remaining squares from this line and check if they're the same as first
       (1..@board.size - 1).each do |index|
-        square_location = yield index
-        square_marker = contents_of(square_location)
-        return if square_marker != candidate # if this square doesn't have same marker, its not a winning line
+        squares << yield(index)
       end
 
-      # if all three markers in line were the same, return marker
-      candidate
+      squares.map! { |location| @board[location.first][location.last] }
+      return squares.first.marker if winning_line?(squares)
+    end
+
+    def winning_line?(squares)
+      squares.all? do |square|
+        square.marked? && squares.first.marker == square.marker
+      end
     end
 
     def build_board
@@ -181,12 +189,11 @@ module Tictactoe
     end
 
     def swap_turns
-      if @current_player_marker == @human_marker
-        @current_player_marker = @computer_marker
-      else
-        @current_player_marker = @human_marker
-      end
+      @current_player_marker = if @current_player_marker == @human_marker
+                                 @computer_marker
+                               else
+                                 @human_marker
+                               end
     end
-
   end
 end

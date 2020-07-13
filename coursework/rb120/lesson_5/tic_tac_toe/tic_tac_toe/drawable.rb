@@ -16,7 +16,7 @@ module Tictactoe
     end
 
     def draw_with_positions
-      board = @board.flatten.map { |square| square.marked? ? square : square.position }
+      board = markers_and_positions
       puts EMPTY_LINE
       puts format("  %s  |  %s  |  %s  ", *board[0, 3])
       puts MID_LINE
@@ -26,6 +26,10 @@ module Tictactoe
       puts EMPTY_LINE
       puts format("  %s  |  %s  |  %s  ", *board[6, 3])
       puts EMPTY_LINE
+    end
+
+    def markers_and_positions
+      @board.flatten.map { |square| square.marked? ? square : square.position }
     end
   end
 end
