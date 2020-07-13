@@ -1,6 +1,5 @@
 require_relative 'drawable'
 require_relative 'square'
-require 'pry'
 
 module Tictactoe
   class Board
