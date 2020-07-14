@@ -22,15 +22,19 @@ module Twenty_one
     end
 
     def displayable
-      [
-      ["┌────────┐"],
-      ["│#{@face.ljust(2)}      │"],
-      ["│        │"],
-      ["│   #{emojify_suit}    │"],
-      ["│        │"],
-      ["│      #{@face.rjust(2)}│"],
-      ["└────────┘"]
-      ]
+      if !hidden?
+        [
+        ["┌────────┐"],
+        ["│#{@face.ljust(2)}      │"],
+        ["│        │"],
+        ["│   #{emojify_suit}    │"],
+        ["│        │"],
+        ["│      #{@face.rjust(2)}│"],
+        ["└────────┘"]
+        ]
+      else
+        ['┌','│','│','│','│','│','└']
+      end
     end
 
     private

@@ -17,10 +17,14 @@ module Twenty_one
 
     def to_s
       puts displayable_hand
-      "Hand value: #{@value}".center(displayable_hand.last.length)
+      "Showing: #{display_value}"
     end
 
     private
+
+    def display_value
+      @hand.reject { |card| card.hidden? }.reduce { |card| card.value }
+    end
 
     def displayable_hand
       cards = @hand.map { |card| card.displayable }
@@ -30,7 +34,7 @@ module Twenty_one
         cards.each do |card|
           row << card.shift
         end
-        displayable_hand << row.join(' ')
+        displayable_hand << row.join('')
       end
       displayable_hand
     end

@@ -16,12 +16,8 @@ module Twenty_one
       system 'clear'
       deal_starting_hand
       puts ""
-      puts ""
       puts "Dealers hand"
       display_hand(@dealer)
-      puts ""
-      puts ""
-      puts ""
       puts ""
       puts "Your hand"
       display_hand(@player)
@@ -46,7 +42,7 @@ module Twenty_one
     private
 
     def deal_starting_hand
-      puts "Dealer is dealing a new hand..."
+      puts "Blackjack - Written by Connor Maher"
       @player.hand << @deck.deal
       @dealer.hand << @deck.deal.hide
       @player.hand << @deck.deal
