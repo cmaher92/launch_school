@@ -16,6 +16,11 @@ module Twenty_one
       @hidden = true
       self
     end
+    
+    def reveal
+      @hidden = false
+      self
+    end
 
     def hidden?
       !!@hidden

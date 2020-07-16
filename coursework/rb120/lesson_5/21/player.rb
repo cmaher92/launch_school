@@ -17,9 +17,11 @@ module Twenty_one
       end
       %w(y yes).include?(response) ? true : false
     end
-
-    def to_s
-      "You"
+    
+    def display_hand
+      puts ""
+      puts "Your hand"
+      puts @hand
     end
   end
 end

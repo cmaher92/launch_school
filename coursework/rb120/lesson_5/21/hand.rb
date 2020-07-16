@@ -9,6 +9,10 @@ module Twenty_one
       @hand = []
       @value = 0
     end
+    
+    def reveal_hand
+      @hand.each { |card| card.reveal }
+    end
 
     def <<(card)
       @hand << card

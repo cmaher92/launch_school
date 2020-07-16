@@ -13,18 +13,10 @@ module Twenty_one
     end
 
     def start
-      system 'clear'
       deal_starting_hand
-      puts ""
-      puts "Dealers hand"
-      display_hand(@dealer)
-      puts ""
-      puts "Your hand"
-      display_hand(@player)
-      puts ""
+      player_turn
+      player_busts if @player.bust?
       # player_turn
-        # display player.hand
-        # display player.hand_total
         # player.hit_or_stay
           # hit
             # display hit
@@ -42,15 +34,41 @@ module Twenty_one
     private
 
     def deal_starting_hand
+      system 'clear'
       puts "Blackjack - Written by Connor Maher"
       @player.hand << @deck.deal
       @dealer.hand << @deck.deal.hide
       @player.hand << @deck.deal
       @dealer.hand << @deck.deal
+      display_hands
     end
 
-    def display_hand(participant)
-      puts participant.hand
+    def display_hands
+      @dealer.display_hand
+      @player.display_hand
+    end
+    
+    def player_turn
+      loop do
+        if @player.hit?
+          puts "Player hits"
+          @player.hand << @deck.deal
+          system 'clear'
+          display_hands
+          break if @player.bust?
+        else
+          puts "Player stays"
+          break
+        end
+      end
+    end
+   
+    def player_busts
+      system 'clear'
+      puts "Player busts, dealer wins."
+      @dealer.reveal_hand
+      @dealer.display_hand
+      @player.display_hand
     end
 
   end
