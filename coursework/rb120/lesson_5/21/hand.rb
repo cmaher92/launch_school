@@ -15,6 +15,10 @@ module Twenty_one
       @value += card.value
     end
 
+    def <
+      # to do
+    end
+
     def to_s
       puts displayable_hand
       "Showing: #{display_value}"
