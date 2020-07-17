@@ -1,6 +1,6 @@
 module Twenty_one
   class Card
-    attr_reader :value
+    attr_accessor :value
 
     def initialize(face, suit)
       @face = face
@@ -8,8 +8,8 @@ module Twenty_one
       @value = calc_value
     end
 
-    def high_ace?
-      @face == 'A'
+    def ace?
+      @value == 11
     end
 
     def hide
@@ -62,7 +62,3 @@ module Twenty_one
     end
   end
 end
-
-# card1 = Twenty_one::Card.new('10', 'Hearts')
-# card2 = Twenty_one::Card.new('A', 'Diamonds')
-# puts "#{card1.to_s} #{card2.to_s}"

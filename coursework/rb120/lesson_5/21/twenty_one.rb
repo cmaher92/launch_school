@@ -13,22 +13,35 @@ module Twenty_one
     end
 
     def start
-      deal_starting_hand
-      player_turn
-      player_busts if @player.bust?
-      # player_turn
-        # player.hit_or_stay
-          # hit
-            # display hit
-            # player.hand << deck.deal(1)
-            # display card
-            # display player.hand_total
-          # bust
-
-          # display player.total > 21
-      # dealer_turn
-        # hit or stay
-        # busts
+      loop do
+        deal_starting_hand
+        player_turn
+        if @player.bust?
+          player_busts
+          break
+        end
+        dealer_turn
+        if @dealer.bust?
+          dealer_busts
+          break
+        end
+        if @player.hand == @dealer.hand
+          puts "Draw"
+          display_hands
+          break
+        end
+        if @player.hand > @dealer.hand
+          system 'clear'
+          display_hands
+          puts "Player wins!"
+          break
+        else
+          system 'clear'
+          display_hands
+          puts "Dealer wins"
+          break
+        end
+      end
     end
 
     private
@@ -53,8 +66,7 @@ module Twenty_one
         if @player.hit?
           puts "Player hits"
           @player.hand << @deck.deal
-          system 'clear'
-          display_hands
+          @player.display_hand
           break if @player.bust?
         else
           puts "Player stays"
@@ -62,15 +74,36 @@ module Twenty_one
         end
       end
     end
+    
+    def dealer_turn
+      system 'clear'
+      puts "Dealers turn"
+      loop do
+        @dealer.reveal_hand
+        if @dealer.hit?
+          puts "Dealer hits"
+          @dealer.hand << @deck.deal
+          @dealer.display_hand
+          break if @dealer.bust?
+        else
+          puts "Dealer stays"
+          break
+        end
+      end
+    end 
    
     def player_busts
       system 'clear'
       puts "Player busts, dealer wins."
       @dealer.reveal_hand
-      @dealer.display_hand
-      @player.display_hand
+      display_hands
     end
-
+    
+    def dealer_busts
+      system 'clear'
+      puts "Dealer busts, player wins."
+      display_hands
+    end
   end
 end
 

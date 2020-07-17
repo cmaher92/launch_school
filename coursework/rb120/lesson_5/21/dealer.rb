@@ -8,15 +8,14 @@ module Twenty_one
     end
 
     def hit?
-      @hand.value < 17
+      @hand.value < 17 && @hand.value < 22
     end
     
     def reveal_hand
-      @hand.reveal_hand
+      @hand.reveal
     end
     
     def display_hand
-      puts "" 
       puts "Dealer's hand"
       puts @hand
     end

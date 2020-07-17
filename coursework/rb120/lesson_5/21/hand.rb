@@ -8,19 +8,30 @@ module Twenty_one
     def initialize
       @hand = []
       @value = 0
+      @busted = false
     end
     
-    def reveal_hand
+    def busted?
+      @busted
+    end
+    
+    def reveal
       @hand.each { |card| card.reveal }
     end
 
     def <<(card)
       @hand << card
       @value += card.value
+      calc_value_for_ace if ace?
+      @busted = true if @value > 21
     end
 
-    def <
-      # to do
+    def >(other_hand)
+      @value > other_hand.value
+    end
+    
+    def ==(other_hand)
+      @value == other_hand.value
     end
 
     def to_s
@@ -29,9 +40,16 @@ module Twenty_one
     end
 
     private
-
-    def display_value
-      @hand.reject { |card| card.hidden? }.reduce { |card| card.value }
+    
+    def ace?
+      @hand.any?(&:ace?)
+    end
+    
+    def calc_value_for_ace
+      if @value > 21
+        @hand.select(&:ace?).first.value = 1 # set aces value to 1
+        @value -= 10
+      end
     end
 
     def displayable_hand
@@ -55,11 +73,10 @@ end
 
 # card = Twenty_one::Card.new('J', 'Hearts')
 # card2 = Twenty_one::Card.new('7', 'Spades')
+# card3 = Twenty_one::Card.new('A', 'Spades')
 # hand = Twenty_one::Hand.new
 # hand << card
 # hand << card2
-# hand << card2
-# hand << card2
-# hand << card2
+# binding.pry
 # puts hand
-# card3 = Twenty_one::Card.new('2', 'Clubs')
+
