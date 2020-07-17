@@ -17,11 +17,15 @@ module Twenty_one
       end
       %w(y yes).include?(response) ? true : false
     end
-    
+
     def display_hand
       puts ""
       puts "Your hand"
       puts @hand
+    end
+
+    def display_hit
+      @hand.display_hit
     end
   end
 end

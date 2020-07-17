@@ -21,19 +21,18 @@ module Twenty_one
           break if draw?
           display_winner
         end
-        display_hands
         play_again? ? reset : break
       end
       puts 'Thank you for playing!'
     end
 
     private
-    
+
     def reset
       @player.new_hand
       @dealer.new_hand
     end
-    
+
     def play_again?
       answer = nil
       puts "Would you like to play again? (y/n)"
@@ -42,21 +41,19 @@ module Twenty_one
         break if ['y', 'n', 'yes', 'no'].include?(answer)
         puts "Invalid response, please try again."
       end
-      ['y', 'yes'].include?(answer) ? true : false 
+      ['y', 'yes'].include?(answer) ? true : false
     end
-    
+
     def display_winner
+      system 'clear'
+      display_hands
       if @player.hand > @dealer.hand
-          system 'clear'
-          display_hands
-          puts "Player wins!"
-        else
-          system 'clear'
-          display_hands
-          puts "Dealer wins"
-        end
-    end 
-      
+        puts "Player wins!"
+      else
+        puts "Dealer wins"
+      end
+    end
+
     def draw?
       if @player.hand == @dealer.hand
         puts "Draw"
@@ -80,13 +77,16 @@ module Twenty_one
       @dealer.display_hand
       @player.display_hand
     end
-    
+
     def player_turn
+      system 'clear'
+      display_hands
       loop do
         if @player.hit?
-          puts "Player hits"
+          system 'clear'
           @player.hand << @deck.deal
-          @player.display_hand
+          @dealer.display_hand
+          @player.display_hit
           player_busts if @player.bust?
           break if @player.bust?
         else
@@ -95,7 +95,7 @@ module Twenty_one
         end
       end
     end
-    
+
     def dealer_turn
       system 'clear'
       puts "Dealers turn"
@@ -112,15 +112,15 @@ module Twenty_one
           break
         end
       end
-    end 
-   
+    end
+
     def player_busts
       system 'clear'
       puts "Player busts, dealer wins."
       @dealer.reveal_hand
       display_hands
     end
-    
+
     def dealer_busts
       system 'clear'
       puts "Dealer busts, player wins."

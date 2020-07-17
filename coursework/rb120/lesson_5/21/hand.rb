@@ -3,6 +3,7 @@ require 'pry'
 
 module Twenty_one
   class Hand
+    HIT = [' ' * 8, ' ' * 8, ' ' * 8, 'HIT'.center(8), ' ' * 8, ' ' * 8, ' ' * 8]
     attr_reader :hand, :value
 
     def initialize
@@ -10,11 +11,11 @@ module Twenty_one
       @value = 0
       @busted = false
     end
-    
+
     def busted?
       @busted
     end
-    
+
     def reveal
       @hand.each { |card| card.reveal }
     end
@@ -29,22 +30,25 @@ module Twenty_one
     def >(other_hand)
       @value > other_hand.value
     end
-    
+
     def ==(other_hand)
       @value == other_hand.value
     end
 
     def to_s
-      puts displayable_hand
-      "Showing: #{display_value}"
+      displayable_hand.join("\n")
+    end
+
+    def display_hit
+      puts displayable_move_and_hand
     end
 
     private
-    
+
     def ace?
       @hand.any?(&:ace?)
     end
-    
+
     def calc_value_for_ace
       if @value > 21
         @hand.select(&:ace?).first.value = 1 # set aces value to 1
@@ -53,7 +57,7 @@ module Twenty_one
     end
 
     def displayable_hand
-      cards = @hand.map { |card| card.displayable }
+      cards = @hand.map(&:displayable)
       displayable_hand = []
       7.times do
         row = []
@@ -62,6 +66,19 @@ module Twenty_one
         end
         displayable_hand << row.join('')
       end
+      displayable_hand
+    end
+
+    def displayable_move_and_hand
+      cards = @hand.map(&:displayable)
+      cards.insert(-2, HIT)
+      displayable_hand = []
+      7.times do
+        row = []
+        cards.each { |card| row << card.shift }
+        displayable_hand << row.join('')
+      end
+      # binding.pry
       displayable_hand
     end
 
@@ -77,6 +94,9 @@ end
 # hand = Twenty_one::Hand.new
 # hand << card
 # hand << card2
+# hand << card3
+# hand.display_hit
+# puts hand
 # binding.pry
 # puts hand
 
