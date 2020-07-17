@@ -13,5 +13,9 @@ module Twenty_one
       # handle case where there is an Ace in the hand
       @hand.value > 21
     end
+    
+    def new_hand
+      @hand = Hand.new
+    end
   end
 end

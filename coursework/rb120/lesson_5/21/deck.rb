@@ -9,6 +9,9 @@ module Twenty_one
     end
 
     def deal
+      if @deck.empty?
+        @deck = build_deck.shuffle
+      end
       @deck.shift
     end
 

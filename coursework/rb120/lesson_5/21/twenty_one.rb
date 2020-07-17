@@ -16,35 +16,55 @@ module Twenty_one
       loop do
         deal_starting_hand
         player_turn
-        if @player.bust?
-          player_busts
-          break
+        dealer_turn if !@player.bust?
+        if !@dealer.bust? && !@player.bust?
+          break if draw?
+          display_winner
         end
-        dealer_turn
-        if @dealer.bust?
-          dealer_busts
-          break
-        end
-        if @player.hand == @dealer.hand
-          puts "Draw"
-          display_hands
-          break
-        end
-        if @player.hand > @dealer.hand
+        display_hands
+        play_again? ? reset : break
+      end
+      puts 'Thank you for playing!'
+    end
+
+    private
+    
+    def reset
+      @player.new_hand
+      @dealer.new_hand
+    end
+    
+    def play_again?
+      answer = nil
+      puts "Would you like to play again? (y/n)"
+      loop do
+        answer = gets.chomp.downcase
+        break if ['y', 'n', 'yes', 'no'].include?(answer)
+        puts "Invalid response, please try again."
+      end
+      ['y', 'yes'].include?(answer) ? true : false 
+    end
+    
+    def display_winner
+      if @player.hand > @dealer.hand
           system 'clear'
           display_hands
           puts "Player wins!"
-          break
         else
           system 'clear'
           display_hands
           puts "Dealer wins"
-          break
         end
+    end 
+      
+    def draw?
+      if @player.hand == @dealer.hand
+        puts "Draw"
+        display_hands
+        return true
       end
+      false
     end
-
-    private
 
     def deal_starting_hand
       system 'clear'
@@ -67,6 +87,7 @@ module Twenty_one
           puts "Player hits"
           @player.hand << @deck.deal
           @player.display_hand
+          player_busts if @player.bust?
           break if @player.bust?
         else
           puts "Player stays"
@@ -78,12 +99,13 @@ module Twenty_one
     def dealer_turn
       system 'clear'
       puts "Dealers turn"
+      @dealer.reveal_hand
       loop do
-        @dealer.reveal_hand
         if @dealer.hit?
           puts "Dealer hits"
           @dealer.hand << @deck.deal
           @dealer.display_hand
+          dealer_busts if @dealer.bust?
           break if @dealer.bust?
         else
           puts "Dealer stays"
