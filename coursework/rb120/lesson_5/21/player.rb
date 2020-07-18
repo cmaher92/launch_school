@@ -8,15 +8,16 @@ module Twenty_one
     end
 
     def hit?
+      return false if @hand.value == 21
       response = nil
       puts "-"
-      puts "Would you like to hit? (y/n)"
+      puts "Would you like to hit or stay? (h/s)"
       loop do
         response = gets.chomp.downcase
-        break if %w(y yes n no).include?(response)
+        break if %w(h hit s stay).include?(response)
         puts "Invalid response, please try again."
       end
-      %w(y yes).include?(response) ? true : false
+      %w(h hit).include?(response) ? true : false
     end
 
     def display_hand

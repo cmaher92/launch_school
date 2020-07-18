@@ -10,8 +10,11 @@ module Twenty_one
     end
 
     def bust?
-      # handle case where there is an Ace in the hand
       @hand.value > 21
+    end
+    
+    def blackjack?
+      @hand.blackjack?
     end
     
     def new_hand

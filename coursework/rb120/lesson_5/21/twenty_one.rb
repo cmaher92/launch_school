@@ -14,19 +14,46 @@ module Twenty_one
 
     def start
       loop do
-        deal_starting_hand
-        player_turn
-        dealer_turn if !@player.bust?
-        if !@dealer.bust? && !@player.bust?
-          break if draw?
-          display_winner
-        end
+        play_hand
+        display_result
         play_again? ? reset : break
       end
       puts 'Thank you for playing!'
     end
 
     private
+    
+    def play_hand
+      loop do
+        deal_starting_hand
+        break if @player.blackjack? || @dealer.blackjack?
+        player_turn
+        break if @player.bust?
+        dealer_turn
+        break
+      end
+    end
+    
+    def display_result
+      @dealer.reveal_hand
+      display_hands
+      case
+      when @player.blackjack?
+        puts "Winner winner chicken dinner! Player has TWENTY-ONE"
+      when @dealer.blackjack?
+        puts "Dealer has Twenty-one, dealer wins."
+      when @player.bust?
+        puts "Player busts, dealer wins."
+      when @dealer.bust?
+        puts "Dealer busts, player wins."
+      when @dealer.hand == @player.hand
+        puts "Push."
+      when @player.hand > @dealer.hand
+        puts "Player wins."
+      when @dealer.hand > @player.hand
+        puts "Dealer wins."
+      end
+    end
 
     def reset
       @player.new_hand
@@ -45,28 +72,7 @@ module Twenty_one
       ['y', 'yes'].include?(answer) ? true : false
     end
 
-    def display_winner
-      system 'clear'
-      display_hands
-      if @player.hand > @dealer.hand
-        puts "Player wins"
-      else
-        puts "Dealer wins"
-      end
-    end
-
-    def draw?
-      if @player.hand == @dealer.hand
-        system 'clear'
-        display_hands
-        puts "Result is a push"
-        return true
-      end
-      false
-    end
-
     def deal_starting_hand
-      system 'clear'
       @player.hand << @deck.deal
       @dealer.hand << @deck.deal.hide
       @player.hand << @deck.deal
@@ -75,6 +81,7 @@ module Twenty_one
     end
 
     def display_hands
+      system 'clear'
       puts "TWENTY-ONE"
       puts "by Connor Maher"
       puts ""
@@ -83,14 +90,10 @@ module Twenty_one
     end
 
     def player_turn
-      system 'clear'
-      display_hands
       loop do
         if @player.hit?
-          system 'clear'
           @player.hand << @deck.deal
           display_hands
-          player_busts if @player.bust?
           break if @player.bust?
         else
           break
@@ -99,32 +102,16 @@ module Twenty_one
     end
 
     def dealer_turn
-      system 'clear'
       @dealer.reveal_hand
       loop do
         if @dealer.hit?
-          system 'clear'
           @dealer.hand << @deck.deal
           display_hands
-          dealer_busts if @dealer.bust?
           break if @dealer.bust?
         else
           break
         end
       end
-    end
-
-    def player_busts
-      system 'clear'
-      @dealer.reveal_hand
-      display_hands
-      puts "Player busts, dealer wins."
-    end
-
-    def dealer_busts
-      system 'clear'
-      display_hands
-      puts "Dealer busts, player wins."
     end
   end
 end

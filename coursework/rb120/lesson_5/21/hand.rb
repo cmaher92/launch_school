@@ -15,7 +15,11 @@ module Twenty_one
     def busted?
       @busted
     end
-
+    
+    def blackjack?
+      @hand.first(2).map(&:value).sum == 21
+    end
+    
     def reveal
       @hand.each { |card| card.reveal }
     end
@@ -100,3 +104,4 @@ end
 # binding.pry
 # puts hand
 
+# p hand.blackjack?
