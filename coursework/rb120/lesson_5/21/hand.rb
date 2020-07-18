@@ -3,7 +3,7 @@ require 'pry'
 
 module Twenty_one
   class Hand
-    HIT = [' ' * 8, ' ' * 8, ' ' * 8, 'HIT'.center(8), ' ' * 8, ' ' * 8, ' ' * 8]
+    HIT = [' ' * 5, ' ' * 5, ' ' * 5, 'HIT'.center(5), ' ' * 5, ' ' * 5, ' ' * 5]
     attr_reader :hand, :value
 
     def initialize
@@ -36,11 +36,7 @@ module Twenty_one
     end
 
     def to_s
-      displayable_hand.join("\n")
-    end
-
-    def display_hit
-      puts displayable_move_and_hand
+      displayable_move_and_hand.join("\n")
     end
 
     private
@@ -56,45 +52,49 @@ module Twenty_one
       end
     end
 
-    def displayable_hand
-      cards = @hand.map(&:displayable)
-      displayable_hand = []
-      7.times do
-        row = []
-        cards.each do |card|
-          row << card.shift
-        end
-        displayable_hand << row.join('')
-      end
-      displayable_hand
+    def displayable_value
+      value = @hand.reject { |card| card.hidden? }.map(&:value).sum
+      [' ', ' ', ' ', "#{"TOTAL:".center(8)}", "#{value.to_s.center(8)}", ' ', ' ']
     end
 
     def displayable_move_and_hand
       cards = @hand.map(&:displayable)
-      cards.insert(-2, HIT)
+
+      # add HITs
+      cards_and_hits = []
+      cards.each_with_index do |card, idx|
+        cards_and_hits << HIT if idx > 1
+        cards_and_hits << card
+      end
+
+      # add score
+      cards_and_hits << displayable_value
+
+      # combine cards, hits, score so they can display next to each other
       displayable_hand = []
-      7.times do
+      7.times do |row_idx|
         row = []
-        cards.each { |card| row << card.shift }
+        cards_and_hits.each { |card| row << card[row_idx] }
         displayable_hand << row.join('')
       end
       # binding.pry
       displayable_hand
     end
 
-    def display_value
-      @hand.reject { |card| card.hidden? }.map(&:value).sum
-    end
   end
 end
 
 # card = Twenty_one::Card.new('J', 'Hearts')
 # card2 = Twenty_one::Card.new('7', 'Spades')
 # card3 = Twenty_one::Card.new('A', 'Spades')
+# card4 = Twenty_one::Card.new('A', 'Hearts')
+# card5 = Twenty_one::Card.new('2', 'Diamonds')
 # hand = Twenty_one::Hand.new
 # hand << card
 # hand << card2
 # hand << card3
+# hand << card4
+# hand << card5
 # hand.display_hit
 # puts hand
 # binding.pry

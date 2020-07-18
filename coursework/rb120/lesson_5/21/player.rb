@@ -9,6 +9,7 @@ module Twenty_one
 
     def hit?
       response = nil
+      puts "-"
       puts "Would you like to hit? (y/n)"
       loop do
         response = gets.chomp.downcase
@@ -19,13 +20,9 @@ module Twenty_one
     end
 
     def display_hand
-      puts ""
       puts "Your hand"
       puts @hand
-    end
-
-    def display_hit
-      @hand.display_hit
+      puts ""
     end
   end
 end
