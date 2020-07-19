@@ -1,6 +1,6 @@
 require_relative 'card'
 
-module Twenty_one
+module TwentyOne
   class Deck
     attr_reader :deck
 
@@ -26,7 +26,3 @@ module Twenty_one
     end
   end
 end
-
-# deck = Twenty_one::Deck.new
-# binding.pry
-# puts deck

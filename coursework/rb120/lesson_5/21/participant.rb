@@ -1,7 +1,7 @@
 require_relative 'hand'
 require_relative 'card'
 
-module Twenty_one
+module TwentyOne
   class Participant
     attr_accessor :hand
 
@@ -11,6 +11,10 @@ module Twenty_one
 
     def bust?
       @hand.value > 21
+    end
+    
+    def max?
+      @hand.value == 21
     end
     
     def blackjack?

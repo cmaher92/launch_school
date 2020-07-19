@@ -1,5 +1,6 @@
-module Twenty_one
+module TwentyOne
   class Card
+    EMPTY_CARD = ['┌', '│', '│', '│', '│', '│', '└']
     attr_accessor :value
 
     def initialize(face, suit)
@@ -16,7 +17,7 @@ module Twenty_one
       @hidden = true
       self
     end
-    
+
     def reveal
       @hidden = false
       self
@@ -27,8 +28,12 @@ module Twenty_one
     end
 
     def displayable
-      if !hidden?
-        [
+      return card unless hidden?
+      EMPTY_CARD
+    end
+
+    def card
+      [
         ["┌────────┐"],
         ["│#{@face.ljust(2)}      │"],
         ["│        │"],
@@ -36,20 +41,15 @@ module Twenty_one
         ["│        │"],
         ["│      #{@face.rjust(2)}│"],
         ["└────────┘"]
-        ]
-      else
-        ['┌','│','│','│','│','│','└']
-      end
+      ]
     end
 
     private
 
     def calc_value
-      case
-      when ('2'..'10').include?(@face) then @face.to_i
-      when ['J', 'Q', 'K'].include?(@face) then 10
-      when 'A' == @face then 11
-      end
+      return 11 if @face == 'A'
+      return 10 if %w(J Q K).include?(@face)
+      @face.to_i
     end
 
     def emojify_suit

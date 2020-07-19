@@ -1,7 +1,7 @@
 require_relative 'card'
 require 'pry'
 
-module Twenty_one
+module TwentyOne
   class Hand
     HIT = [' ' * 5, ' ' * 5, ' ' * 5, 'HIT'.center(5), ' ' * 5, ' ' * 5, ' ' * 5]
     attr_reader :hand, :value
@@ -87,21 +87,3 @@ module Twenty_one
 
   end
 end
-
-# card = Twenty_one::Card.new('J', 'Hearts')
-# card2 = Twenty_one::Card.new('7', 'Spades')
-# card3 = Twenty_one::Card.new('A', 'Spades')
-# card4 = Twenty_one::Card.new('A', 'Hearts')
-# card5 = Twenty_one::Card.new('2', 'Diamonds')
-# hand = Twenty_one::Hand.new
-# hand << card
-# hand << card2
-# hand << card3
-# hand << card4
-# hand << card5
-# hand.display_hit
-# puts hand
-# binding.pry
-# puts hand
-
-# p hand.blackjack?

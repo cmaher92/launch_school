@@ -1,23 +1,23 @@
 require_relative 'participant'
 require_relative 'hand'
 
-module Twenty_one
+module TwentyOne
   class Player < Participant
     def initialize
       super
     end
-
+    
     def hit?
-      return false if @hand.value == 21
+      return false if self.max? || self.bust?
       response = nil
-      puts "-"
-      puts "Would you like to hit or stay? (h/s)"
       loop do
+        puts "--"
+        puts "Would you like to hit or stay? (h/s)"
         response = gets.chomp.downcase
         break if %w(h hit s stay).include?(response)
-        puts "Invalid response, please try again."
+        puts "'#{response}' is an invalid response, please try again."
       end
-      %w(h hit).include?(response) ? true : false
+      %w(h hit).include?(response)
     end
 
     def display_hand

@@ -4,7 +4,7 @@ require_relative 'deck'
 require_relative 'hand'
 require 'pry'
 
-module Twenty_one
+module TwentyOne
   class Game
     def initialize
       @dealer = Dealer.new
@@ -22,7 +22,7 @@ module Twenty_one
     end
 
     private
-    
+
     def play_hand
       loop do
         deal_starting_hand
@@ -33,25 +33,45 @@ module Twenty_one
         break
       end
     end
-    
+
     def display_result
       @dealer.reveal_hand
       display_hands
-      case
-      when @player.blackjack?
-        puts "Winner winner chicken dinner! Player has TWENTY-ONE"
-      when @dealer.blackjack?
-        puts "Dealer has Twenty-one, dealer wins."
-      when @player.bust?
-        puts "Player busts, dealer wins."
-      when @dealer.bust?
-        puts "Dealer busts, player wins."
-      when @dealer.hand == @player.hand
-        puts "Push."
-      when @player.hand > @dealer.hand
-        puts "Player wins."
-      when @dealer.hand > @player.hand
-        puts "Dealer wins."
+
+      if @player.blackjack? || @dealer.blackjack?
+        puts display_blackjack
+      elsif @player.bust? || @dealer.bust?
+        puts display_bust
+      else
+        puts display_winner
+      end
+    end
+
+    def display_blackjack
+      if @player.blackjack? && @dealer.blackjack?
+        'Both player and dealer have twenty-one, push.'
+      elsif @player.blackjack?
+        'Winner winner chicken dinner. Player has twenty-one!'
+      else
+        "Dealer has blackjack, dealer wins."
+      end
+    end
+
+    def display_bust
+      if @player.bust?
+        "Player busts. Dealer wins."
+      else
+        "Dealer busts. Player wins."
+      end
+    end
+
+    def display_winner
+      if @player.hand == @dealer.hand
+        "Push."
+      elsif @player.hand > @dealer.hand
+        "Player wins."
+      else
+        "Dealer wins."
       end
     end
 
@@ -91,29 +111,21 @@ module Twenty_one
 
     def player_turn
       loop do
-        if @player.hit?
-          @player.hand << @deck.deal
-          display_hands
-          break if @player.bust?
-        else
-          break
-        end
+        break unless @player.hit?
+        @player.hand << @deck.deal
+        display_hands
       end
     end
 
     def dealer_turn
       @dealer.reveal_hand
       loop do
-        if @dealer.hit?
-          @dealer.hand << @deck.deal
-          display_hands
-          break if @dealer.bust?
-        else
-          break
-        end
+        break unless @dealer.hit?
+        @dealer.hand << @deck.deal
+        display_hands
       end
     end
   end
 end
 
-Twenty_one::Game.new.start
+TwentyOne::Game.new.start

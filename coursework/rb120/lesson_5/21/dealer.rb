@@ -1,14 +1,14 @@
 require_relative 'participant'
 require_relative 'hand'
 
-module Twenty_one
+module TwentyOne
   class Dealer < Participant
     def initialize
       super
     end
 
     def hit?
-      @hand.value < 17 && @hand.value < 22
+      @hand.value < 17
     end
 
     def reveal_hand
