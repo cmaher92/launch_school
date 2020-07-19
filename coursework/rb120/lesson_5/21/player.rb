@@ -6,9 +6,9 @@ module TwentyOne
     def initialize
       super
     end
-    
+
     def hit?
-      return false if self.max? || self.bust?
+      return false if max? || bust?
       response = nil
       loop do
         puts "--"
