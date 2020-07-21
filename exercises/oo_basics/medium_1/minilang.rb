@@ -44,13 +44,15 @@ class Minilang
   end
 
   def eval
-    @instructions.each do |instruction|
-      begin
+    begin
+      @instructions.each do |instruction|
+        validate(instruction)
         execute(instruction)
-      rescue UnexpectedStackValueError => e
-        puts e
-        break
       end
+    rescue UnexpectedStackValueError => e
+      puts e
+    rescue ValidateInstructionsError => e
+      puts e
     end
   end
 
@@ -94,31 +96,19 @@ class Minilang
 
   def execute(instruction)
     if n?(instruction)
-      self.send :n, instruction
+      send :n, instruction
     else
-      self.send instruction.downcase.to_sym
+      send instruction.downcase.to_sym
     end
   end
 
   def parse(instructions)
     instructions = instructions.split(' ')
-    validated_instructions = []
-    instructions.each do |instruction|
-      begin
-        validate(instruction)
-        validated_instructions << instruction
-      rescue ValidateInstructionsError => e
-        puts e
-        break
-      end
-    end
-    validated_instructions
   end
 
   def validate(instruction)
-    unless VALID_METHODS.include?(instruction) || n?(instruction)
-      raise ValidateInstructionsError, "Invalid token:'#{instruction}'."
-    end
+    return if VALID_METHODS.include?(instruction) || n?(instruction)
+    raise ValidateInstructionsError, "Invalid token: #{instruction}"
   end
 
   def n?(instruction)
@@ -144,13 +134,12 @@ class Stack
   private
 
   def validate_stack_populated
-    raise UnexpectedStackValueError, "Stack is empty!" if @stack.empty?
+    raise UnexpectedStackValueError, "Empty stack!" if @stack.empty?
   end
 
   def validate(value)
-    if value.to_s.to_i != value
-      raise UnexpectedStackValueError, "#{value} is not an integer."
-    end
+    return if value.to_s.to_i == value
+    raise UnexpectedStackValueError, "#{value} is not an integer."
   end
 end
 
@@ -175,5 +164,5 @@ Minilang.new('-3 PUSH 5 XSUB PRINT').eval
 Minilang.new('-3 PUSH 5 SUB PRINT').eval
 # 8
 
-Minilang.new('6 PUSH').eval
+# Minilang.new('6 PUSH').eval
 # (nothing printed; no PRINT commands)p
