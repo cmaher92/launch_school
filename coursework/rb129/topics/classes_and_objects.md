@@ -29,7 +29,7 @@
 
 ### Classes
 
-A class is a description of a group of objects with common attributes, behaviors, and relationships.
+A class is a description of a group of objects with common attributes, behaviors, and relationships. A class is a blueprint that *describes the state* and *behavior* that the objects of the class all share.
 
 When defining a class there are *two main focuses*:
 
@@ -59,18 +59,23 @@ dog = Dog.new('yellow lab')
 
 *An instance of the `Dog` class is instantiated*:
 
-* *The `new` class method is invoked and passed the `'yellow lab'` string literal*
-* *The invocation of the `new` method leads to the invocation of the `initialize` method which sets the state of the object's breed*
-  * In this instance the `breed ` variable passed in to `initialize` as an argument is `'yellow lab'` which is then assigned to the `@breed` instance variable
+* The `new` class method is invoked and passed the `'yellow lab'` string literal
+* The invocation of the `new` method leads to the invocation of the `initialize` method which sets the state of the object's breed
+* The `initialize` method is a constructor method, which is responsible for setting the initial state of an object. 
+  * A String literal `'yellow lab'` is passed as an argument to the constructor method `initialize` upon the instantiation of the object with `Dog.new('yellow lab'`. 
 * The newly instantiated `Dog` object is returned and assigned to the `dog` local variable
 
 
 
+As mentioned before classes are the blueprints or molds that will be used to describe the states and behaviors that the objects will all share. These blueprints and molds aren't created from scratch though and because they all inherit some behaviors and state from classes higher up the object hierarchy, like from `BasicObject`. 
+
+
+
+An instance variable is defined in a class and each object/instance of that class will have a distinct copy.
+
 ### Objects
 
-An object represents an entity either physical (car), conceptual (chemical process), or software (array).
-
-An object is a concept, abstraction, or thing with boundaries and meaning.
+An object is a concept, abstraction, or thing with boundaries and meaning. 
 
 Objects are created from classes. Think of classes as molds and objects as the things produced from those molds. 
 
