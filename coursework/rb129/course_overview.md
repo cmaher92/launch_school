@@ -6,9 +6,9 @@
 | ------------------------------------------------------------ | ----------- | ---------- |
 | Precision of Language                                        | In progress | 7/10       |
 | Classes and Objects (concepts, defining, initializing..)     | In progress | 8/10       |
-| Callings Setters and Getters                                 |             |            |
-| Instance Methods vs. Class Methods                           |             |            |
-| Referencing and setting instance variables vs. Referencing and setting using getters/setters |             |            |
+| Callings Setters and Getters                                 | Tomorrow    |            |
+| Instance Methods vs. Class Methods                           | Tomorrow    |            |
+| Referencing and setting instance variables vs. Referencing and setting using getters/setters | Tomorrow    |            |
 | Class inheritance                                            |             |            |
 | Encapsulation                                                |             |            |
 | Polymorphism                                                 |             |            |
