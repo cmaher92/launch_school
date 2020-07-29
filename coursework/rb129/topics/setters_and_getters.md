@@ -74,3 +74,25 @@ car.color #=> yellow
 car.color = 'black'
 car.color #=> black
 ```
+
+
+
+### When invoking setter methods, they must be denoted with `self`
+
+You must use `self` when changing an attributes value with a setter method
+
+```ruby
+class Cat
+  attr_accessor :name
+  
+  def initialize(name)
+    name = name # incorrect and will not change value
+    self.name = name # correct
+  end
+end
+```
+
+In the above example on line 5, the `name = name` attempt at using a setter method will not work as ruby will thing the `name` to the left of the `=` is a local variable initialization and not a caller to the setter method `name=`. 
+
+
+

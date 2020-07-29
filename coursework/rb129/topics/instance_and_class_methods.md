@@ -21,6 +21,12 @@
 
 ## Notes
 
+### Notable Differences
+
+Class methods are only associated with the class itself, not instances of the class. Within the class methods we're restricted from adding data specific to instances of the class.
+
+
+
 ### Instance methods
 
 Methods that pertain to an instance or object of the class.
@@ -34,6 +40,25 @@ class Car
   def color # instance method
     @color
   end
+```
+
+
+
+Instance methods are only available to be invoked when there's an instance of the class.
+
+```ruby
+class Cat
+  def initialize(name)
+    @name = name
+  end
+
+  def greet
+    puts "Hello! My name is #{@name}!"
+  end
+end
+
+Cat.greet
+# => undefined method `greet' for Cat:Class (NoMethodError)
 ```
 
 
