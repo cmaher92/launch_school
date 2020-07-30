@@ -69,7 +69,7 @@ class Chef
   end
 
   def prepare_food(guests)
-    #implementation
+    #implementation of code
   end
 end
 
@@ -79,7 +79,7 @@ class Decorator
   end
 
   def decorate_place(flowers)
-    # implementation
+    # implementation of code
   end
 end
 
@@ -89,7 +89,7 @@ class Musician
   end
 
   def prepare_performance(songs)
-    #implementation
+    #implementation of code
   end
 end
 ```
