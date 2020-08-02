@@ -22,7 +22,33 @@ Use cases:
 
 * Can be used to mix-in common behaviors into classes
 * namespacing (benefits include easily recognizing common classes and reducing likelihood of our classes colliding with similarly named classes)
-* using as a container for methods
+* container for methods
+
+
+
+mixing in behaviors (*Ruby's way of implementing multiple-inheritance*)
+
+```ruby
+module Swim
+  def swim
+    "I can swim!"
+  end
+end
+
+class Dog
+  include Swim
+end
+
+class Fish
+  include Swim
+end
+
+class Cat
+  # obv doesn't swim
+end
+```
+
+
 
 namespacing example:
 
