@@ -17,6 +17,7 @@
 | Term             | Definition                                                   |
 | ---------------- | ------------------------------------------------------------ |
 | *to* instantiate | *to* create an object (a location of memory that has a value) |
+| to initialize    | setting an initial state                                     |
 | attribute        | a specification that defines a property of an object and help distinguish from other objects |
 | behavior         | determined by what objects are capable of doing              |
 | method           | an action that can be invoked from any object of the class to *affect behavior* |
@@ -26,6 +27,18 @@
 
 
 ## Notes
+
+### Differences
+
+Classes are a definition of a group of objects with attributes and shared behaviors
+
+Objects are an individual instance of a class
+
+- have access to class variables and methods
+- objects have access to instance variables that need to 
+- methods accessible to class are `::` and to an object are `#` 
+
+
 
 ### Classes
 
@@ -59,6 +72,7 @@ dog = Dog.new('yellow lab')
 
 *An instance of the `Dog` class is instantiated*:
 
+* the local variable `dog` is initialized and assigned to a new instance of the `Dog` class passing a single argument `'yellow lab'`
 * The `new` class method is invoked and passed the `'yellow lab'` string literal
 * The invocation of the `new` method leads to the invocation of the `initialize` method which sets the state of the object's breed
 * The `initialize` method is a constructor method, which is responsible for setting the initial state of an object. 

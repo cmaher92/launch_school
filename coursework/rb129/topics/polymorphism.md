@@ -18,6 +18,8 @@
 
 ### Polymorphism
 
+**Different types of objects being able to respond to the same message.** 
+
 **Polymorphism** refers to the ability of objects with different types to respond in different ways to the same method invocation; that is, data of different types can respond to a common interface. It's crucial to OO programming and can lead to more maintainable code.
 
 
@@ -95,6 +97,32 @@ end
 ```
 
 > We can see that there is no inheritance in this example, but we still have polymorphism. Each class must define a `prepare_wedding` method and implement it in its own way. If we must add another preparer, we can create another class and just implement `prepare_wedding` to perform the appropriate actions.
+
+
+
+```ruby
+class Wedding
+end
+
+class Chef
+  def prepare(wedding)
+  # implemententation unique to chef
+  end
+end
+
+class FlowerGuy
+  def prepare(wedding)
+    # unique implementation
+  end
+end
+
+class Baker
+  def prepare(wedding)
+  end
+end
+```
+
+
 
 
 

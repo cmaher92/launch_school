@@ -16,10 +16,10 @@
 
 Two clear use cases for `self`
 
-* use of `self` within an istance method refers to the instance itself
+* use of `self` within an instance method refers to the instance itself
 * `self`, outside of an instance method, references the class and can be used to define class methods
 
-`self` changes depending on the scope it is used in. 
+`self` changes depending on the scope it is used in.
 
 ### Callings Methods with `self`
 

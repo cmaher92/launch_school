@@ -116,8 +116,6 @@ Student.new('connor', 28)
 #  => #<Student:0x00007f8f2e39e1e8 @name="connor", @age=28> 
 ```
 
-
-
 Calling `super` with parenthesis is the safest way to invoke a method up the lookup chain that requires no arguments
 
 ```ruby

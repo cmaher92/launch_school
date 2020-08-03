@@ -62,7 +62,7 @@ bob.add_new_pet(Pet.new('fluffy'))
 bob.add_new_pet(Pet.new('spot'))
 ```
 
-This code demonstrates the use of collaborator objects, specifically with the `@pets` instance variable which is an `Array` of `Pet` objects.
+This code demonstrates the use of collaborator objects, specifically how `Person` has-a `Pet` association.
 
 * On line 19 a new `Person` class in instantiated and assigned to the local variable `bob`
 

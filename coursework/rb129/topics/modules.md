@@ -29,23 +29,36 @@ Use cases:
 mixing in behaviors (*Ruby's way of implementing multiple-inheritance*)
 
 ```ruby
-module Swim
+# modules
+# - using modules as mixins
+
+module Swimmmable
   def swim
-    "I can swim!"
   end
 end
 
-class Dog
-  include Swim
+class Animal
+  def speak
+  end
+  
 end
 
-class Fish
-  include Swim
+class Mammal < Animal
+  def walk
+  end
 end
 
-class Cat
-  # obv doesn't swim
+class Cat < Mammal
 end
+
+class Dog < Mammal
+  include Swimmable
+end
+
+class Fish < Animal
+  include Swimmable
+end
+
 ```
 
 
