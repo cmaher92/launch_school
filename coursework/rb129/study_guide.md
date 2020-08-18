@@ -9,7 +9,13 @@
 * Classes define Objects
 * Ruby defines the attributes and behaviors of its objects in classes
   * classes define behaviors, what objects are capable of doing, using instance methods
-* Classes are a basic outline of what an object should be made of and what it should do
+* **Classes are a basic outline of what an object should be made of and what it should do**
+
+#### Attribute
+
+An attribute is an instance variable **name and value**. An attribute must be accessible outside of the methods defined by the class; meaning you need either a getter/setter method, or both. If both are missing, you only have an instance variable and a value. 
+
+If an instance variable is defined, but not accessible outside of the instance than it is not an attribute.
 
 #### Class variables
 
@@ -27,7 +33,8 @@
 
 * Objects are instantiated from classes. 
 * Individual instances contain different information from other objects, yet are instances of the same class.
-* Every object's state is unique
+* Every object has state. State is the collection of all instance variables and their values defined for an object. Since state is part of the object, not the class, state is not inherited.
+* 
 
 ```ruby
 # An example of two objects of the String class
@@ -42,8 +49,16 @@
 #### Instance variable
 
 * scoped at the object/instance level
+
 * keep track of state
+
+  > [State is a tied directly to individual objects, so is not inheritable.](State is a tied directly to individual objects, so is not inheritable.)
+
 * Exist as long as the object instance exists until the object is destroyed
+
+* [Attribute names and their values are just instance variables and values, so they are not inheritable](https://launchschool.com/posts/c279b82b)
+
+  * > "... Ruby's instance variables are not inherited and have nothing to do with the inheritance mechanism. The reason that they sometimes appear to be inherited is that instance variables are created by the methods that first assign values to them, and those *methods* are often inherited or chained."
 
 #### Instance method
 
@@ -176,7 +191,7 @@ Writing *getter* and *setter* methods takes up a lot of room, so Ruby provided a
   end
 ```
 
-* Because setters use `self` to disambiguate from creating a local variable, we should use `self` to reference getters although it is not required
+* Because setters use `self` to disambiguate from creating a local variable, we should use `self` to reference getters instead of referencing the instance variable directly.
 
 ```ruby
 def speak
@@ -223,7 +238,7 @@ end
 
 ### Instance methods
 
-* methods that pertain to an instance or object of a class
+* **<u>methods that pertain to an instance or object of a class</u>**
 
 #### to_s method
 
@@ -312,7 +327,7 @@ fred = GoodCat.new('Fred', 4)
 mila == fred # => false
 ```
 
-*The code in the above example demonstrates that any instance of the class can reference a protected method from within the class. On line 11, the `==` method is overridden and takes a parameter `other`. On line 21 the `==` method is invoked passing in an instance of the `GoodCat` class which is assigned to the `fred` local variable. On line 11, `self.age` is invoked calling the protected getter method `age` and is compared to the return value of `other` which then calls `age` as well. This code works because `age` is a protected method. The comparison returns `false`.*
+*The code in the above example demonstrates that any instance of the class can reference a protected method from within the class. On line 11, the `==` instance method is overridden and defines a parameter `other`. On line 21 the `==`instance method is invoked passing in an instance of the `GoodCat` class. On line 11, `self.age` is invoked calling the protected getter method `age` and the return value is compared to the return value of `other.age` `other` being another instance of `GoodCat` which was passed in on the `==` instance method invocation on line 21. This code works because `age` is a protected method. The comparison returns `false`.*
 
 #### Private
 
@@ -781,7 +796,7 @@ In this example, we can change the name by calling the `change_name` method with
 # - Business
 # - Government
 
-def Earnable
+module Earnable
   attr_accessor :income
 end
 
@@ -793,9 +808,6 @@ end
 
 class Business < Property
   include Earnable
-end
-
-class Government < Property
 end
 
 class Rental < Residential
@@ -1091,6 +1103,25 @@ Here is another example of the `===` method being invoked to check whether the `
 
 
 ## Truthiness
+
+Usually, the notion of whether a value is 'true' or 'false' is captured in a **boolean** data type. A boolean is an object whose only purpose is to convey whether it is 'true' or 'false'.
+
+### `true` and `false` objects
+
+In Ruby, booleans are represented by `true` and `false` objects.
+
+```ruby
+true.class # => TrueClass
+true.nil?  # false
+
+false.class # => FalseClass
+false.nil?  # => false
+```
+
+### truthiness
+
+Truthiness differs from `true` in that Ruby considers more than the `true` object to be 'truthy'. Ruby is a very liberal language and considers ***everything to be truthy other than*`false` *and* `nil`**.
+
 ## Working with collaborator objects
 
 **Collaborator objects** are objects that are stored as state within another object. We call such objects collaborators because they work in collaboration with the class they are associated with.
