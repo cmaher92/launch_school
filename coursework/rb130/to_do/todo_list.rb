@@ -42,12 +42,51 @@ class TodoList
   end
   
   def item_at(index)
-    @todos[index]
+    @todos.fetch(index)
   end
   
   def mark_done_at(index)
-    item = item_at(index)
-    item.done!
+    item_at(index).done!
+  end
+  
+  def mark_undone_at(index)
+    item_at(index).undone!
+  end
+  
+  def done!
+    @todos.each(&:done!)
+  end
+  
+  def shift
+    @todos.shift
+  end
+  
+  def pop
+    @todos.pop
+  end
+  
+  def remove_at(index)
+    item = @todos.fetch(index)
+    @todos.delete(item)
+  end
+  
+  def to_s
+    text = "---- #{title} ----\n"
+    text << @todos.map(&:to_s).join("\n")
+    text
+  end
+  
+  def each
+    @todos.each { |todo| yield(todo) }
+    self
+  end
+  
+  def select
+    results = []
+    
+    each { |todo| results << todo if yield(todo) }
+    
+    results
   end
 end
 
@@ -71,4 +110,6 @@ p list.done?
 
 # list.mark_done_at               # raises ArgumentError
 list.mark_done_at(1)            # marks the 2nd item as done
-list.mark_done_at(100)          # raises IndexError
+# list.mark_done_at(100)          # raises IndexError
+
+# p list.select { |todo| todo.done? }
