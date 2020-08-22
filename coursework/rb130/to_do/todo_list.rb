@@ -82,11 +82,37 @@ class TodoList
   end
   
   def select
-    results = []
+    list = TodoList.new(self.title)
     
-    each { |todo| results << todo if yield(todo) }
+    self.each do |todo| 
+      list.add(todo) if yield(todo)
+    end
     
-    results
+    list
+  end
+  
+  def find_by_title(str)
+    selected = self.select { |todo| todo.title == str }.first
+  end
+  
+  def all_done
+    self.select(&:done?)
+  end
+  
+  def all_not_done
+    self.select { |todo| !todo.done? }
+  end
+  
+  def mark_done(str)
+    find_by_title(str).done! if find_by_title(str)
+  end
+  
+  def mark_all_done
+    self.each(&:done!)
+  end
+  
+  def mark_all_undone
+    self.each(&:undone!)
   end
 end
 
@@ -100,16 +126,17 @@ list = TodoList.new("Today's Todos")
 list.add(todo1)                 # adds todo1 to end of list, returns list
 list.add(todo2)                 # adds todo2 to end of list, returns list
 list.add(todo3)                 # adds todo3 to end of list, returns list
-# list.add(1)                     # raises TypeError with message "Can only add Todo objects"
 
-list << (todo3)
-
-p list.size == 4
-
-p list.done?
-
-# list.mark_done_at               # raises ArgumentError
 list.mark_done_at(1)            # marks the 2nd item as done
-# list.mark_done_at(100)          # raises IndexError
 
 # p list.select { |todo| todo.done? }
+# p list.each { |todo| puts todo }
+
+# puts list.find_by_title('Buy milk')
+# puts list.all_done
+# puts list.all_not_done
+# puts list
+# list.mark_done('Go to gym')
+puts list
+list.mark_all_undone
+puts list
