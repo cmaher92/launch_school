@@ -11,12 +11,13 @@
 # algorithm/data structure:
 #   -
 
-def step(start, end_value, step)
+def step(value, end_value, step)
   loop do
-    yield(start)
-    start += step
-    break if start > end_value
+    yield(value)
+    break if value + step > end_value
+    value += step
   end
+  value
 end
 
 step(1, 10, 3) { |value| puts "value = #{value}" }

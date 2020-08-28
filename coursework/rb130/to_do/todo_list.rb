@@ -115,28 +115,3 @@ class TodoList
     self.each(&:undone!)
   end
 end
-
-# given
-todo1 = Todo.new("Buy milk")
-todo2 = Todo.new("Clean room")
-todo3 = Todo.new("Go to gym")
-list = TodoList.new("Today's Todos")
-
-# add
-list.add(todo1)                 # adds todo1 to end of list, returns list
-list.add(todo2)                 # adds todo2 to end of list, returns list
-list.add(todo3)                 # adds todo3 to end of list, returns list
-
-list.mark_done_at(1)            # marks the 2nd item as done
-
-# p list.select { |todo| todo.done? }
-# p list.each { |todo| puts todo }
-
-# puts list.find_by_title('Buy milk')
-# puts list.all_done
-# puts list.all_not_done
-# puts list
-# list.mark_done('Go to gym')
-puts list
-list.mark_all_undone
-puts list
