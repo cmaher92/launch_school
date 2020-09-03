@@ -16,3 +16,9 @@ class Student < Person
 end
 
 connor = Student.new('Connor', 28, 'UMass')
+
+# Answer
+# It wont, it'll raise an ArgumentError
+# - wrong number of arguments (given 0, expected 2) (ArgumentError)
+# It demonstrates how super interacts with methods in the method lookup path
+# in this case, super is invoked explicity with parenthesis
