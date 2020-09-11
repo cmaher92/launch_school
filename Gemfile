@@ -6,5 +6,8 @@ source "https://rubygems.org" do
   gem 'pry', require: 'pry'
   gem 'pry-byebug'
   gem 'minitest'
+  gem 'stam-
+
+  gem 'irbtools', require: 'irbtools/binding'
 
 end
