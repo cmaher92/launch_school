@@ -12,7 +12,7 @@ class Phrase
 
   def find_word_count
     word_counts = Hash.new(0)
-    @phrase.downcase.scan(/[a-zA-Z'1-9]+/).each { |word| word_counts[word] += 1 }
+    @phrase.downcase.scan(/\b[\w']+\b/).each { |word| word_counts[word] += 1 }
     word_counts
   end
 end
