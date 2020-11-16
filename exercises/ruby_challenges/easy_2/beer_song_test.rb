@@ -1,7 +1,9 @@
+#!/Users/cmaher/.rbenv/shims/ruby -w
 # beer_song_test.rb
 # 10/15/2020
 
 require 'minitest/autorun'
+require 'minitest/reporters'
 require_relative 'beer_song'
 
 # rubocop:disable Metrics/LineLength
