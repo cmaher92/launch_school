@@ -1,0 +1,9 @@
+<div class="edit-container">
+  <div class="editor">
+    <form action="/<%= @params[:filename] %>" method="post">
+      <label class="edit" for="content">Edit content of <%= @params[:filename] %></label>
+      <textarea autofocus name="content" id="content"><%= @content %></textarea>
+      <button type="submit">Save</button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+body {
+  font: normal 20px "PT Sans", Helvetica, Arial, sans-serif;
+  background: #ffffff;
+  max-width: 800px; 
+  margin: 0 auto;
+}
+
+body > header {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+header h1 {
+  font-size: 30px;
+  color: #000;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+/* Container for List of files and Link */
+div.content {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* Styles for list */
+.files > ul {
+  list-style-type: "\1F4DD";
+}
+
+div.button {
+  float: right;
+  margin-right: 45px;
+}
+
+li.list-item {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+div.alert {
+  width: max-content;
+  margin: 0 auto;
+  margin-bottom: 10px;
+  padding: 0 100px;
+  background-color:#fffd96;
+  border-radius: 2px;
+}
+
+p.alert-msg {
+  text-align: center;
+}
+
+div.md {
+  margin-left: 20px;
+}
+
+.edit-container {
+  margin: 0 auto;
+  max-width: 660px;
+  min-height: 360px;
+}
+
+.editor {
+  box-sizing: border-box;
+  padding: 1.5em 0;
+}
+
+label.edit {
+  display: block;
+  margin: .5em 0 .25em 0;
+}
+
+button {
+  box-sizing: border-box;
+  font-size: .75em;
+  padding: 1px 6px;
+}
+
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 360px;
+  height: min-content;
+  outline: 1px solid transparent;
+  border: none;
+  font: inherit;
+  font-size: .75em;
+  background-color: #f1f3f4;
+  padding: .5em;
+}

@@ -1,0 +1,23 @@
+<% if session[:message] %>
+  <div class="alert">
+    <p class="alert-msg"><%= session.delete(:message) %></p>
+  </div>
+<% end %>
+<section class="files">
+  <div class="content">
+    <ul>
+    <% @files.each do |file| %>
+        <li class="list-item">
+          <a href="/<%= file %>"><%= file %></a>
+          <div class="button">
+            <form class="edit" action="/<%= file %>/edit" method="get">
+              <button type="submit">edit</button>
+            </form>
+          </div>
+        </li>
+    <% end %>
+    </ul>
+
+    <a href="/new">Create New Document</a>
+  </div>
+</section>
