@@ -4,9 +4,11 @@ ruby "2.7.1"
 
 gem "erubis"
 gem "minitest"
+gem "minitest-reporters", group: :development
 gem "pry"
 gem "rack-test"
 gem "redcarpet"
+gem "simplecov", group: :development
 gem "sinatra"
 gem "sinatra-contrib", "~> 2.1"
-gem "solargraph"
+gem 'solargraph', group: :development

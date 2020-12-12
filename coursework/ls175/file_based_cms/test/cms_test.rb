@@ -2,9 +2,11 @@
 # start web server
 ENV['RACK_ENV'] = 'test'
 
-require "minitest/autorun"
+require 'minitest/autorun'
 require 'rack/test'
 require 'fileutils'
+require "minitest/reporters"
+Minitest::Reporters.use!
 
 require_relative '../cms'
 
@@ -17,14 +19,18 @@ class CMSTest < Minitest::Test
     Sinatra::Application
   end
 
+  # creates a directory for testing
   def setup
     FileUtils.mkdir_p(data_path)
   end
 
+  # removes directory used for testing
   def teardown
     FileUtils.rm_rf(data_path)
   end
 
+  # create a file in the test/data/ directory
+  # optionally write to file
   def create_document(name, content = "")
     File.open(File.join(data_path, name), "w") do |file|
       file.write(content)
@@ -131,5 +137,20 @@ class CMSTest < Minitest::Test
     get "/changes.txt"
     assert_equal 200, last_response.status
     assert_includes last_response.body, "new content"
+  end
+
+  def test_deleting_document
+    create_document 'test.txt'
+    post "/test.txt/delete"
+
+    assert_equal last_response.status, 302
+    follow_redirect!
+    assert_equal last_response.status, 200
+    assert_includes last_response.body, "test.txt was deleted"
+    refute_includes last_response.body, "test.txt</a>"
+
+    get "/"
+    refute_includes last_response.body,
+                    "<p class=\"alert-msg\">test.txt was deleted.</p>"
   end
 end

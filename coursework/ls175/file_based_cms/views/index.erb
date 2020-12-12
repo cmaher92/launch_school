@@ -9,7 +9,12 @@
     <% @files.each do |file| %>
         <li class="list-item">
           <a href="/<%= file %>"><%= file %></a>
-          <div class="button">
+          <div class="delete-button">
+            <form class="delete" action="/<%= file %>/delete" method="post">
+                <button type="submit">Delete</button>
+            </form>
+          </div>
+          <div class="edit-button">
             <form class="edit" action="/<%= file %>/edit" method="get">
               <button type="submit">edit</button>
             </form>

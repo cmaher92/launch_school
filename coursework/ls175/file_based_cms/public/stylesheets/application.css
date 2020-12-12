@@ -1,7 +1,7 @@
 body {
   font: normal 20px "PT Sans", Helvetica, Arial, sans-serif;
   background: #ffffff;
-  max-width: 800px; 
+  max-width: 800px;
   margin: 0 auto;
 }
 
@@ -29,7 +29,13 @@ div.content {
   list-style-type: "\1F4DD";
 }
 
-div.button {
+div.edit-button {
+  float: right;
+  margin-right: 5px;
+}
+
+div.delete-button {
+  display: inline-block;
   float: right;
   margin-right: 45px;
 }

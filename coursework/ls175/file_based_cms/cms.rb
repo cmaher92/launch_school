@@ -1,8 +1,9 @@
 require 'sinatra'
-require "sinatra/reloader" if development?
+require 'sinatra/reloader' if development?
 require 'tilt/erubis'
 require 'pry'
 require 'redcarpet'
+require 'fileutils'
 
 configure do
   enable :sessions
@@ -18,6 +19,7 @@ def render_markdown(text)
   md.render(text)
 end
 
+# loads a file based on file ext
 def load_file_content(path)
   content = File.read(path)
   case File.extname(path)
@@ -28,10 +30,6 @@ def load_file_content(path)
     @md = render_markdown(content)
     erb :md
   end
-end
-
-def file_path(file)
-  File.expand_path('..', __FILE__) + "/data/" + file
 end
 
 def data_path
@@ -103,5 +101,14 @@ post "/:filename" do
   File.write(file_path, params[:content])
 
   session[:message] = "#{params[:filename]} has been updated."
+  redirect "/"
+end
+
+# delete a file
+post "/:filename/delete" do
+  file_path = File.join(data_path, params[:filename])
+  File.delete(file_path)
+
+  session[:message] = "#{params[:filename]} was deleted."
   redirect "/"
 end
