@@ -1,13 +1,20 @@
 require 'sinatra'
 require 'sinatra/reloader' if development?
+require 'sinatra/content_for'
 require 'tilt/erubis'
-require 'pry'
+require 'pry' if development?
 require 'redcarpet'
 require 'fileutils'
 
 configure do
   enable :sessions
-  set :session_secret, 'super secret'
+  set    :session_secret, 'super secret'
+end
+
+def valid?(username, password)
+  user, pass = File.open('users.txt') { |file| file.readlines.map(&:chomp) }
+  return true if user == username && pass == password
+  false
 end
 
 def render_markdown(text)
@@ -111,4 +118,26 @@ post "/:filename/delete" do
 
   session[:message] = "#{params[:filename]} was deleted."
   redirect "/"
+end
+
+get '/users/login' do
+  erb :login
+end
+
+post '/users/login' do
+  if valid?(params[:username], params[:password])
+    session[:username] = params[:username]
+    session[:message] = "You have successfully logged in."
+    redirect '/'
+  else
+    session[:message] = "Invalid credentials."
+    status 422
+    erb :login
+  end
+end
+
+post '/users/logout' do
+  session.delete(:username)
+  session[:message] = "You have been logged out."
+  redirect '/'
 end

@@ -1,8 +1,3 @@
-<% if session[:message] %>
-  <div class="alert">
-    <p class="alert-msg"><%= session.delete(:message) %></p>
-  </div>
-<% end %>
 <section class="files">
   <div class="content">
     <ul>
@@ -26,3 +21,16 @@
     <a href="/new">Create New Document</a>
   </div>
 </section>
+<div class="content">
+<div class="profile">
+  <% if session[:username] %>
+    <p>You are logged in as <%= session[:username] %></p>
+    <form action="/users/logout" method="post">
+      <button type="submit">Logout</button>
+    </form>
+  <% else %>
+    <p class="user-status"><a href="/users/login">Sign In</a></p>
+  <% end %>  
+</div>
+
+</div>
