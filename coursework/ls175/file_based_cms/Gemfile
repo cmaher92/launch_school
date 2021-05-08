@@ -2,6 +2,7 @@ source "https://rubygems.org"
 
 ruby "2.7.1"
 
+gem "bcrypt"
 gem "erubis"
 gem "minitest"
 gem "minitest-reporters", group: :development
