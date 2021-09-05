@@ -4,9 +4,9 @@ require "pry"
 def parse_request_line(request_line)
   http_method, path = request_line.split(' ')
   params = {}
-  
+
   path, query_str = path.split('?')
-  
+
   if query_str
     query_str = query_str.split('&')
     query_str.each do |pair|
@@ -28,21 +28,28 @@ loop do
 
   http_method, path, params = parse_request_line(request_line)
 
-  client.puts "HTTP/1.1 200 OK"
-  client.puts "Content-Type: text/plain"
+  client.puts "HTTP/1.1 200 OK" # status-line
+  client.puts "Content-Type: text/html" # optional headers
   client.puts "" # need a blank link between body and headers
-  client.puts "Method: #{http_method}"
-  client.puts "Path: #{path}"
-  client.puts "Parameters: #{params}"
+  client.puts "<html>"
+  client.puts "<body>"
+  client.puts "<pre>"
+  client.puts http_method
+  client.puts path
+  client.puts params
+  client.puts "</pre>"
 
-  if params.any? # if params contains values roll dice
-    rolls = params["rolls"].to_i
-    sides = params["sides"].to_i
+  client.puts "<h1>Counter</h1>"
 
-    rolls.times { client.puts (rand(sides) + 1) }
-  else
-    client.puts "You need to specify the number of dice and the number of sides"
-  end
+  number = params["number"].to_i
+  client.puts "<p>The current number is #{number}.</p>"
+
+  # demonstrates that you can use params within url to store basic data
+  # in this case, the value for number
+  client.puts "<a href='?number=#{number + 1}'>Add one</a>"
+  client.puts "<a href='?number=#{number - 1}'>Subtract one</a>"
+  client.puts "</body>"
+  client.puts "</html>"
 
   client.close # IO#close; closes stream
 end

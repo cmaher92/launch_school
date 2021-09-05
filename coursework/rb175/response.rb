@@ -28,21 +28,24 @@ loop do
 
   http_method, path, params = parse_request_line(request_line)
 
-  client.puts "HTTP/1.1 200 OK"
-  client.puts "Content-Type: text/plain"
+  client.puts "HTTP/1.1 200 OK" # status-line
+  client.puts "Content-Type: text/html" # optional headers
   client.puts "" # need a blank link between body and headers
-  client.puts "Method: #{http_method}"
-  client.puts "Path: #{path}"
-  client.puts "Parameters: #{params}"
-
+  client.puts "<html>"
+  client.puts "<body>"
+  client.puts "<pre>"
   if params.any? # if params contains values roll dice
+    client.puts "<h1>Rolls</h1>"
     rolls = params["rolls"].to_i
     sides = params["sides"].to_i
 
-    rolls.times { client.puts (rand(sides) + 1) }
+    rolls.times { client.puts "<p>#{(rand(sides) + 1)}</p>" }
   else
     client.puts "You need to specify the number of dice and the number of sides"
   end
+  client.puts "</pre>"
+  client.puts "</body>"
+  client.puts "</html>"
 
   client.close # IO#close; closes stream
 end

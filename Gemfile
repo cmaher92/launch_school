@@ -2,15 +2,15 @@
 
 source "https://rubygems.org" do
 
-  ruby '2.7.1'
+  ruby '3.0.0'
 
-  gem 'minitest', '~> 5.13'
-  gem 'minitest-reporters', '~> 1.4'
-  gem 'stamp', '~> 0.6'
+  gem 'minitest'
+  gem 'minitest-reporters'
+  gem 'stamp'
   gem 'rake'
-  gem 'pry', require: 'pry'
+  gem 'pry'
   gem 'pry-byebug'
-  gem 'irbtools', require: 'irbtools/binding'
-  gem 'rubocop', '0.85'
+  gem 'rubocop'
+  gem 'solargraph'
 
 end
