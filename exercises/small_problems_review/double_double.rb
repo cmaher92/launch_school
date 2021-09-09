@@ -9,10 +9,10 @@
 # - check if a given integer is a double-number, return boolean
 # algo
 # - covert to a string
-# - find the size
-#   - if size is less than two or is odd return false
-# - find the middle index
-#   - if it were a length of 4, divide by 2 and save to variable 'mid'
+# - find the middle
+#   - size / 2
+# - handle size of 1 or empty (middle index is 0)
+#   - if mid is 0, assign left to an empty str, otherwise assign from 0 index to mid exclusive
 # - compare first half of string to second half
 #   - slice string in half using element accessor method, #[]
 #     - first_half will be from 0...mid, second_half from mid..-1
@@ -20,15 +20,12 @@
 
 def double_num?(n)
   num_str = n.to_s
-  
-  size = num_str.size
-  
-  return false if size.odd? || size < 2
+  mid     = num_str.size / 2
 
-  mid = size / 2
-
-  return false unless num_str[0...mid] == num_str[mid..-1]
-  true
+  left  = mid.zero? ? '' : num_str[0...mid]
+  right = num_str[mid..-1]
+  
+  left == right ? true : false
 end
 
 def twice(n)
