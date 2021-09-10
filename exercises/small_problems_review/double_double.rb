@@ -2,7 +2,8 @@
 
 # double-number
 # - must be an even number
-# - when split in half, left side of digits is exactly the same as right side of digits
+# - when split in half, left side of digits is exactly the same as right side of
+#   digits
 # - must be at least 2 digits
 
 # double_num?
@@ -12,7 +13,8 @@
 # - find the middle
 #   - size / 2
 # - handle size of 1 or empty (middle index is 0)
-#   - if mid is 0, assign left to an empty str, otherwise assign from 0 index to mid exclusive
+#   - if mid is 0, assign left to an empty str, otherwise assign from 0 index
+#     to mid exclusive
 # - compare first half of string to second half
 #   - slice string in half using element accessor method, #[]
 #     - first_half will be from 0...mid, second_half from mid..-1
@@ -24,13 +26,13 @@ def double_num?(n)
 
   left  = mid.zero? ? '' : num_str[0...mid]
   right = num_str[mid..-1]
-  
-  left == right ? true : false
+
+  left == right
 end
 
 def twice(n)
   return n * 2 unless double_num?(n)
-  n
+
 end
 
 # p double_num?(37) == false
