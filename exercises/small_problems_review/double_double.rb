@@ -20,8 +20,8 @@
 #     - first_half will be from 0...mid, second_half from mid..-1
 #     - if equivalent, return true else return false
 
-def double_num?(n)
-  num_str = n.to_s
+def double_num?(num)
+  num_str = num.to_s
   mid     = num_str.size / 2
 
   left  = mid.zero? ? '' : num_str[0...mid]
@@ -30,8 +30,8 @@ def double_num?(n)
   left == right
 end
 
-def twice(n)
-  return n * 2 unless double_num?(n)
+def twice(num)
+  return num * 2 unless double_num?(num)
 
 end
 
@@ -43,10 +43,10 @@ end
 
 p twice(37) == 74
 p twice(44) == 44
-p twice(334433) == 668866
+p twice(334_433) == 668_866
 p twice(444) == 888
 p twice(107) == 214
-p twice(103103) == 103103
+p twice(103_103) == 103_103
 p twice(3333) == 3333
 p twice(7676) == 7676
 p twice(123_456_789_123_456_789) == 123_456_789_123_456_789
