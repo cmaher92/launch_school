@@ -46,12 +46,10 @@ def rotate_rightmost_digits(digits, n)
     negative = true
   end
 
-  digits = digits.to_s.chars
-  to_rotate = []
-  n.times { to_rotate.unshift(digits.pop) }
+  all_digits = digits.to_s.chars
+  all_digits[-n..-1] = rotate_array(all_digits[-n..-1])
 
-  rotated = (digits + rotate_array(to_rotate)).join('')
-  negative ? -(rotated.to_i) : rotated.to_i
+  negative ? -(all_digits.join.to_i) : all_digits.join.to_i
 end
 
 
@@ -62,3 +60,4 @@ p rotate_rightmost_digits(735291, 3) == 735912
 p rotate_rightmost_digits(735291, 4) == 732915
 p rotate_rightmost_digits(735291, 5) == 752913
 p rotate_rightmost_digits(735291, 6) == 352917
+p rotate_rightmost_digits(-735291, 6) == -352917
