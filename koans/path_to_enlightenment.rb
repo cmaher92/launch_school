@@ -1,5 +1,5 @@
 # The path to Ruby Enlightenment starts with the following:
-
+# Adds current directory to $LOAD_PATH
 $LOAD_PATH << File.dirname(__FILE__)
 
 require 'about_asserts'
