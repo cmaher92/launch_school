@@ -34,7 +34,7 @@ def to_int(digits)
 
     counter += 1
   end
-  
+
   result
 end
 
