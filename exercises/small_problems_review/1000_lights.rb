@@ -1,5 +1,5 @@
 require 'pry'
-
+require 'minitest/autorun'
 # PROBLEM
 # - switches, numbered from 1 to 'n'
 # - each switch connect to one light that is initially off
@@ -52,38 +52,21 @@ def flippin_switches(n)
   lights.select { |_, state| state == true }.keys
 end
 
-remaining = [
-  1,
-  4,
-  9,
-  16,
-  25,
-  36,
-  49,
-  64,
-  81,
-  100,
-  121,
-  144,
-  169,
-  196,
-  225,
-  256,
-  289,
-  324,
-  361,
-  400,
-  441,
-  484,
-  529,
-  576,
-  625,
-  676,
-  729,
-  784,
-  841,
-  900,
-  961
-]
-p flippin_switches(1000).count
-p remaining.count
+class TestLights < Minitest::Test
+  def setup
+    @lights = { 1 => true, 2 => true, 3 => true }
+  end
+
+  def test_toggle_switch_on
+    result = toggle_switch(@lights, 1)
+    expected = { 1 => false, 2 => true, 3 => true }
+    assert_equal(expected, result)
+  end
+
+  def test_toggle_switch_off
+    expected = { 1 => true, 2 => true, 3 => true }
+    result = toggle_switch(@lights, 1)
+    resutl = toggle_switch(@lights, 1)
+    assert_equal(expected, result)
+  end
+end
