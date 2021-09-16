@@ -20,53 +20,57 @@ require 'minitest/autorun'
 # Requirements:
 
 # EXAMPLES
-# var: 9 --> 11
+# 1: { 1 => true, 2 => true, 3 => true, 4 => true, 5 => true }
+# 2: { 1 => true, 2 => false, 3 => true, 4 => false, 5 => true }
+# 3: { 1 => true, 2 => false, 3 => false, 4 => false, 5 => true }
+# 4: { 1 => true, 2 => false, 3 => false, 4 => true, 5 => true }
+# 5: { 1 => true, 2 => false, 3 => false, 4 => true, 5 => false }
 
 # DATA STRUCTURE
 
 # ALGORITHM
 # 1. create an empty hash to hold the lights
-# 2. walk down the row of lights 'n' number of times
-# 3. if it's pass 1, toggle every lights
-# 4. if it's pass 2, toggle even lights
-# 5. if it's pass 3. toggle odd lights
+# 2. create a multi-dimensional array
+#   - the size of the array is based on 'n'
+#   - the inner arrays are multiples of their position + 1
+#     - [[1, 2, 3, 4, 5], [2, 4], [3], [4], [5]]
 
-def toggle_switch(lights, num)
-  lights[num] = !lights[num]
+def toggle_switches(lights, nums)
+  nums.each do |num|
+    lights[num] = !lights[num]
+  end
   lights
 end
 
-def flippin_switches(n)
+def flippin_switches(passes)
   lights = {}
-  n.times do |i|
-    pass = i + 1
-    case
-    when pass == 1
-      (1..n).each { |light_num| toggle_switch(lights, light_num) }
-    when pass.odd?
-      (1..n).select(&:odd?).each { |light_num| toggle_switch(lights, light_num) }
-    when pass.even?
-      (1..n).select(&:even?).each { |light_num| toggle_switch(lights, light_num) }
-    end
+  (1..passes).map do |pass|
+    toggle_switches(lights, (1..passes).select { |light| light % pass == 0 })
   end
-  lights.select { |_, state| state == true }.keys
+  lights.select { |light, state| state }.keys
 end
 
 class TestLights < Minitest::Test
   def setup
-    @lights = { 1 => true, 2 => true, 3 => true }
+    @lights = {}
   end
 
-  def test_toggle_switch_on
-    result = toggle_switch(@lights, 1)
-    expected = { 1 => false, 2 => true, 3 => true }
-    assert_equal(expected, result)
-  end
-
-  def test_toggle_switch_off
+  def test_toggle_switches
+    result = toggle_switches(@lights, [1, 2, 3])
     expected = { 1 => true, 2 => true, 3 => true }
-    result = toggle_switch(@lights, 1)
-    resutl = toggle_switch(@lights, 1)
     assert_equal(expected, result)
+  end
+
+  def test_flippin_switches_5
+    expected = [1, 4]
+    result = flippin_switches(5)
+    assert_equal expected, result
+  end
+
+  def test_flippin_switches_1000
+    expected = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 324, 361, 400, 441, 484, 529,
+              576, 625, 676, 729, 784, 841, 900, 961]
+    result = flippin_switches(1000)
+    assert_equal expected, result
   end
 end
