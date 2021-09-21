@@ -68,6 +68,14 @@ def minilang(instructions)
       register += stack.pop
     when 'SUB'
       register -= stack.pop
+    when 'MULT'
+      register *= stack.pop
+    when 'DIV'
+      register /= stack.pop
+    when 'MOD'
+      register %= stack.pop
+    when 'POP'
+      register = stack.pop
     end
   end
 end
@@ -124,6 +132,33 @@ class TestStackMachine < Minitest::Test
   def test_minilang_push_and_subtract
     instructions = '9 PUSH 10 SUB PRINT'
     assert_output("1\n") { minilang(instructions) }
+  end
+
+  def test_minilang_div
+    instructions = '10 PUSH 100 DIV PRINT'
+    assert_output("10\n") { minilang(instructions) }
+  end
+
+  def test_minilang_mod
+    instructions = '10 PUSH 100 MOD PRINT'
+    assert_output("0\n") { minilang(instructions) }
+  end
+
+  def test_minilang_pop
+    instructions = '10 PUSH 9 PUSH 8 PUSH 7 PUSH POP POP POP PRINT'
+    assert_output("9\n") { minilang(instructions) }
+  end
+
+  def test_cases
+    assert_output("0\n") { minilang('PRINT') }
+    assert_output("15\n") { minilang('5 PUSH 3 MULT PRINT') }
+    assert_output("5\n3\n8\n") { minilang('5 PRINT PUSH 3 PRINT ADD PRINT') }
+    assert_output("5\n") { minilang('5 PUSH POP PRINT') }
+    assert_output("5\n10\n4\n7\n") { minilang('3 PUSH 4 PUSH 5 PUSH PRINT ADD PRINT POP PRINT ADD PRINT')}
+    assert_output("6\n") { minilang('3 PUSH PUSH 7 DIV MULT PRINT ') }
+    assert_output("12\n") { minilang('4 PUSH PUSH 7 MOD MULT PRINT ') }
+    assert_output("8\n") { minilang('-3 PUSH 5 SUB PRINT') }
+    assert_output(nil) { minilang('6 PUSH') }
   end
 
 end
