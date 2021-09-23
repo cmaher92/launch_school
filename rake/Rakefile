@@ -1,0 +1,45 @@
+# - imagine we have a directory full of .md files that we want to convert to .html files
+#   using pandoc.
+
+# Example as a regular script:
+# %W[ch1.md ch2.md ch3.md].each do |md_file|
+#   html_file = File.basename(md_file, ".md") + ".html"
+#   system("pandoc -o #{html_file} #{md_file}")
+# end
+require 'pry'
+
+# to invoke the below example:
+# `$ rake ch1.html`
+
+# Here's how the above script would be written as a Rake task:
+['ch1.md', 'ch2.md', 'ch3.md'].each do |md_file|
+  html_file = File.basename(md_file, '.md') + '.html'
+  file html_file => md_file do # file is a method provided by rake
+    sh "pandoc -o #{html_file} #{md_file}"
+  end
+end
+
+# Rake::DSL#file(*args, &block)
+# - declares a file task
+# file method's block argument
+# - tells rake how to get an html file from a markdown file (pandoc)
+
+# benefits:
+# - rake shows the command being run
+# - rake will not build file again if the file has not been modified
+# -
+
+#Rake::DSL#task
+# - declare a basic task.
+# 'task_name' is always the first argument
+#   - if 'task_name' contains a ':' it is defined in that namespace
+# 'dependencies'
+# - may be a single task name
+# - or an array of task names
+
+# 'argument' (single task name) 'arguments' array of task names
+# - define the arguments provided to the task
+
+task(task_name)
+task(task_name: dependencies)
+task(task_name, arguments -> dependencies)
