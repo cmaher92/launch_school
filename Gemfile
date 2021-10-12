@@ -11,3 +11,5 @@ gem "pry", "~> 0.14.1"
 gem "minitest", "~> 5.14"
 
 gem "minitest-reporters", "~> 1.4"
+
+gem "solargraph", group: :development

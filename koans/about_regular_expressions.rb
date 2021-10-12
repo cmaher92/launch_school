@@ -81,6 +81,8 @@ class AboutRegularExpressions < Neo::Koan
     assert_equal __, "the number is 42"[/[^0-9]+/]
   end
 
+  attr_reader :site, :label, :metadata
+
   def test_shortcut_character_classes_are_negated_with_capitals
     assert_equal __, "the number is 42"[/\D+/]
     assert_equal __, "space: \t\n"[/\S+/]
