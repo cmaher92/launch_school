@@ -7,22 +7,14 @@ matrix = [
 ]
 
 # Details:
-# - transpose means to flip a matrix on it's diagonal
+# - transpose means to flip a matrix on it's diagonal (a row becomes a column)
 # - the current columns become rows in the new matrix
 
 # Requirements:
-# - create a new object do not mutate
-# - do not use Matrix class or Array#transpose method
+# - modify transpose to work with any matrix of at least 1 row and 1 column
 
 # Steps:
-# - Create an empty array that will hold the new matrix' rows
-# - Create a new array for each column in existing matrix
-#   - Calculate the number of columns
-#   - Calculate the number of rows
-#   - Iterate over each column of the matrix (outer loop)
-#     -Iterate over each row of the matrix accessing each element at column_idx
-#       - add that item to the new row array
-# - Add that column to newly created array in step 1
+
 
 def transpose(matrix)
   new_matrix = []
@@ -36,7 +28,8 @@ def transpose(matrix)
   new_matrix
 end
 
-new_matrix = transpose(matrix)
-
-p new_matrix == [[1, 4, 3], [5, 7, 9], [8, 2, 6]]
-p matrix == [[1, 5, 8], [4, 7, 2], [3, 9, 6]]
+p transpose([[1, 2, 3, 4]]) == [[1], [2], [3], [4]]
+p transpose([[1], [2], [3], [4]]) == [[1, 2, 3, 4]]
+p transpose([[1, 2, 3, 4, 5], [4, 3, 2, 1, 0], [3, 7, 8, 6, 2]]) ==
+  [[1, 4, 3], [2, 3, 7], [3, 2, 8], [4, 1, 6], [5, 0, 2]]
+p transpose([[1]]) == [[1]]
