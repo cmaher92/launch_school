@@ -11,5 +11,5 @@ gem "rack-test"
 gem "redcarpet"
 gem "simplecov", group: :development
 gem "sinatra"
-gem "sinatra-contrib", "~> 2.1"
+gem "sinatra-contrib", "~> 2.2"
 gem 'solargraph', group: :development
